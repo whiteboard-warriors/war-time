@@ -3,6 +3,8 @@
 ## Prerequisites
 
 -   [node js](https://nodejs.org/en/)
+-   [Robo 3T -formerly Robomongo](https://robomongo.org/download)
+-   [mongo db](https://docs.mongodb.com/manual/installation/)
 -   npm
 
 ## Installation
