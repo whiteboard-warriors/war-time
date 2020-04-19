@@ -11,7 +11,7 @@ const db = require('../models');
 // @route   POST api/users
 // @desc - Sign up
 router.post(
-	'/',
+	'/signup',
 	[
 		check('firstName', 'Please add your first name.').not().isEmpty(),
 		check('lastName', 'Please add your last name.').not().isEmpty(),
@@ -30,11 +30,22 @@ router.post(
 			return res.status(400).json({ errors: errors.array() });
 		}
 
-		const { firstName, lastName, email, password, admin } = req.body;
+		const {
+			firstName,
+			lastName,
+			email,
+			password,
+			slackUsername,
+			linkedIn,
+			primaryLanguage,
+			secondaryLanguage,
+			admin,
+		} = req.body;
 
-		if (!admin) {
-			admin = false;
-		}
+		if (!admin) admin = false;
+		if (!slackUsername) slackUsername = '';
+		if (!linkedIn) linkedIn = '';
+		if (!admin) admin = false;
 
 		try {
 			let user = await db.User.findOne({ email });
@@ -47,6 +58,10 @@ router.post(
 				lastName,
 				email,
 				password,
+				slackUsername,
+				linkedIn,
+				primaryLanguage,
+				secondaryLanguage,
 				admin,
 			});
 

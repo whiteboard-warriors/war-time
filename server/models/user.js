@@ -33,6 +33,13 @@ const UserSchema = new Schema({
 	linkedIn: {
 		type: String,
 	},
+	primaryLanguage: {
+		type: String,
+		required: 'Primary language is Required',
+	},
+	secondaryLanguage: {
+		type: String,
+	},
 	admin: {
 		type: Boolean,
 		required: 'You must confirm you are an Admin',
