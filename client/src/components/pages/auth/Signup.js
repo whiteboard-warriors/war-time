@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import Navbar from '../Navbar';
+import Navbar from '../../Navbar';
 
 const Signup = () => {
 	return (
