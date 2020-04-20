@@ -5,12 +5,13 @@ import { Navbar, Nav } from 'react-bootstrap';
 
 // import moduleName from 'module';
 import './style.scss';
+import logo from './ww-logo.svg';
 
 const Index = () => {
 	return (
 		<Navbar expand='lg'>
 			<Link className='navbar-brand' to='/'>
-				War Time
+				War <img className='nav-logo' src={logo}></img> Time
 			</Link>
 			<Navbar.Toggle aria-controls='basic-navbar-nav' />
 			<Navbar.Collapse id='basic-navbar-nav'>
