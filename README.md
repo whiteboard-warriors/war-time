@@ -14,6 +14,7 @@ On your command line run:
 -   `git clone https://github.com/whiteboard-warriors/war-time-app.git`
 -   cd war-time-app
 -   npm install
+-   git checkout -b <- Branch Name ->
 
 ## Running the app
 
@@ -33,6 +34,6 @@ On your terminal run, on the root folder:
 
 ### Frontend and Backend:
 
-On your terminal run, on the root folder:
+On your terminal, on the root folder, run:
 
 -   `npm start`
