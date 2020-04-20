@@ -1,23 +1,61 @@
 import React from 'react';
-import './style.scss';
-
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+import { Navbar, Nav } from 'react-bootstrap';
+
+// import moduleName from 'module';
+import './style.scss';
+
+const Index = () => {
 	return (
-		<div>
-			<h3>NAVBAR</h3>
-			<p>
-				<Link to='/'> -Home -</Link>
-				<Link to='/landing'>Landing -</Link>
-				<Link to='/login'>Login -</Link>
-				<Link to='/signup'>Signup -</Link>
-			</p>
-		</div>
+		<Navbar expand='lg'>
+			<Link className='navbar-brand' to='/'>
+				War Time
+			</Link>
+			<Navbar.Toggle aria-controls='basic-navbar-nav' />
+			<Navbar.Collapse id='basic-navbar-nav'>
+				<Nav className='ml-auto'>
+					<Link data-rb-event-key='/' className='nav-link' to='/'>
+						{' '}
+						Home
+					</Link>
+					<Link
+						data-rb-event-key='/landing'
+						className='nav-link'
+						to='/landing'
+					>
+						Landing
+					</Link>
+					<Link
+						data-rb-event-key='/login'
+						className='nav-link'
+						to='/login'
+					>
+						Login
+					</Link>
+					<Link
+						data-rb-event-key='/signup'
+						className='nav-link'
+						to='/signup'
+					>
+						Signup
+					</Link>
+				</Nav>
+			</Navbar.Collapse>
+		</Navbar>
+		// <div>
+		// 	<p>
+		// 		<Link to='/'> -Home -</Link>
+		// 		<Link to='/landing'>Landing -</Link>
+		// 		<Link to='/login'>Login -</Link>
+		// 		<Link to='/signup'>Signup -</Link>
+		// 	</p>
+
+		// </div>
 	);
 };
 
-export default Navbar;
+export default Index;
 
 // import React, { Fragment, useContext } from 'react';
 // import PropTypes from 'prop-types';

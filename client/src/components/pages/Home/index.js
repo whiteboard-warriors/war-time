@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment } from 'react';
 
 import Navbar from '../../Navbar';
 
@@ -15,10 +15,10 @@ const Home = () => {
 	// }, []);
 
 	return (
-		<div className='m-auto'>
+		<Fragment>
 			<Navbar></Navbar>
-			<h1>Home Page</h1>
-		</div>
+			<h1 className='mt-5'>Home Page</h1>
+		</Fragment>
 	);
 };
 

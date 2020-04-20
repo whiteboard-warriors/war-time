@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Navbar from '../Navbar';
 
 const Signup = () => {
 	return (
-		<div>
+		<Fragment>
 			<Navbar></Navbar>
-			<h1>Signup</h1>
-		</div>
+			<h1 className='mt-5'>Signup</h1>
+		</Fragment>
 	);
 };
 
