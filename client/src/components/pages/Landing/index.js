@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Navbar from '../../Navbar';
 
@@ -14,10 +14,10 @@ import './style.scss';
 
 const Landing = () => {
 	return (
-		<div className='m-auto'>
+		<Fragment>
 			<Navbar></Navbar>
-			<h1>Landing Page</h1>
-		</div>
+			<h1 className='mt-5'>Landing Page</h1>
+		</Fragment>
 	);
 };
 
