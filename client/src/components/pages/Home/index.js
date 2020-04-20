@@ -1,6 +1,6 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React from 'react';
 
-import Navbar from '../../Navbar';
+import NavBar from '../../NavBar';
 
 import './style.scss';
 
@@ -16,7 +16,7 @@ const Home = () => {
 
 	return (
 		<div className='m-auto'>
-			<Navbar></Navbar>
+			<NavBar></NavBar>
 			<h1>Home Page</h1>
 		</div>
 	);
