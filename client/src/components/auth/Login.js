@@ -1,11 +1,11 @@
 import React from 'react';
 
-import NavBar from '../NavBar';
+import Navbar from '../Navbar';
 
 const Login = () => {
 	return (
 		<div>
-			<NavBar></NavBar>
+			<Navbar></Navbar>
 			<h1>Login</h1>
 		</div>
 	);

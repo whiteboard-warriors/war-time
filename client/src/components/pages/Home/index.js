@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NavBar from '../../NavBar';
+import Navbar from '../../Navbar';
 
 import './style.scss';
 
@@ -16,7 +16,7 @@ const Home = () => {
 
 	return (
 		<div className='m-auto'>
-			<NavBar></NavBar>
+			<Navbar></Navbar>
 			<h1>Home Page</h1>
 		</div>
 	);

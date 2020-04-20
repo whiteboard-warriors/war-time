@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NavBar from '../../NavBar';
+import Navbar from '../../Navbar';
 
 import './style.scss';
 
@@ -15,7 +15,7 @@ import './style.scss';
 const Landing = () => {
 	return (
 		<div className='m-auto'>
-			<NavBar></NavBar>
+			<Navbar></Navbar>
 			<h1>Landing Page</h1>
 		</div>
 	);

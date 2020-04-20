@@ -1,53 +1,48 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {
-	Navbar,
-	Nav,
-	NavDropdown,
-	Form,
-	FormControl,
-	Button,
-} from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 // import moduleName from 'module';
 import './style.scss';
 
-const NavBar = () => {
+const Index = () => {
 	return (
-		<NavDropdown.Item bg='light' expand='lg'>
-			<Navbar.Brand href='#home'>React-Bootstrap</Navbar.Brand>
+		<Navbar expand='lg'>
+			<Link className='navbar-brand' to='/'>
+				War Time
+			</Link>
 			<Navbar.Toggle aria-controls='basic-navbar-nav' />
 			<Navbar.Collapse id='basic-navbar-nav'>
-				<Nav className='mr-auto'>
-					<Nav.Link href='#home'>Home</Nav.Link>
-					<Nav.Link href='#link'>Link</Nav.Link>
-					<NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-						<NavDropdown.Item href='#action/3.1'>
-							Action
-						</NavDropdown.Item>
-						<NavDropdown.Item href='#action/3.2'>
-							Another action
-						</NavDropdown.Item>
-						<NavDropdown.Item href='#action/3.3'>
-							Something
-						</NavDropdown.Item>
-						<NavDropdown.Divider />
-						<NavDropdown.Item href='#action/3.4'>
-							Separated link
-						</NavDropdown.Item>
-					</NavDropdown>
+				<Nav className='ml-auto'>
+					<Link data-rb-event-key='/' className='nav-link' to='/'>
+						{' '}
+						Home
+					</Link>
+					<Link
+						data-rb-event-key='/landing'
+						className='nav-link'
+						to='/landing'
+					>
+						Landing
+					</Link>
+					<Link
+						data-rb-event-key='/login'
+						className='nav-link'
+						to='/login'
+					>
+						Login
+					</Link>
+					<Link
+						data-rb-event-key='/signup'
+						className='nav-link'
+						to='/signup'
+					>
+						Signup
+					</Link>
 				</Nav>
-				<Form inline>
-					<FormControl
-						type='text'
-						placeholder='Search'
-						className='mr-sm-2'
-					/>
-					<Button variant='outline-success'>Search</Button>
-				</Form>
 			</Navbar.Collapse>
-		</NavDropdown.Item>
+		</Navbar>
 		// <div>
 		// 	<p>
 		// 		<Link to='/'> -Home -</Link>
@@ -60,7 +55,7 @@ const NavBar = () => {
 	);
 };
 
-export default NavBar;
+export default Index;
 
 // import React, { Fragment, useContext } from 'react';
 // import PropTypes from 'prop-types';
