@@ -28,7 +28,7 @@ On your terminal run:
 
 ### Backend only:
 
-On your terminal run, on the root folder:
+On your terminal, on the root folder, run:
 
 -   `nodemon server`
 
