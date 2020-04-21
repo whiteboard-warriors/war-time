@@ -8,17 +8,15 @@ const db = require('../models');
 // // @route   GET /
 // // @desc    Retrieves all events older than now.
 
-// router.get('/', async (req, res) => {
-// 	try {
-// 		const event = await db.Event.find({
-// 			date: { $gte: new Date() },
-// 		});
-// 		res.json(event);
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.get('/', async (req, res) => {
+	try {
+		const event = await db.Event.find();
+		res.json(event);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 // @route   POST /create
 // @desc    Admin creates an event
