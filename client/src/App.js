@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Pages
 import Home from './components/pages/Home';
 import Landing from './components/pages/Landing';
-import Login from './components/auth/Login';
-import Signup from './components/auth/Signup';
+import Login from './components/pages/auth/Login';
+import Signup from './components/pages/auth/Signup';
 
 import Alerts from './components/Alerts';
 // import PrivateRoute from './components/routing/PrivateRoute';
