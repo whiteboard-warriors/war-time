@@ -12,10 +12,6 @@ const EventSchema = new Schema({
 		type: String,
 		required: 'Event location is required',
 	},
-	date: {
-		type: Date,
-		required: true,
-	},
 	startTime: {
 		type: Date,
 		required: true,
@@ -24,11 +20,11 @@ const EventSchema = new Schema({
 		type: Date,
 		required: true,
 	},
-	languages: [
-		{
-			language: { type: String, required: true },
-		},
-	],
+	languages: {
+		type: Array,
+		required: true,
+	},
+
 	levels: [
 		{
 			type: Number,
@@ -42,10 +38,8 @@ const EventSchema = new Schema({
 	],
 	attendees: [
 		{
-			attendeeId: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'User',
-			},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
 		},
 	],
 	matches: [

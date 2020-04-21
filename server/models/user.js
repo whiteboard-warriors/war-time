@@ -42,19 +42,7 @@ const UserSchema = new Schema({
 	},
 	admin: {
 		type: Boolean,
-		required: 'You must confirm you are an Admin',
 	},
-	events: [
-		{
-			event: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Event',
-			},
-			location: {
-				type: String,
-			},
-		},
-	],
 });
 
 // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database

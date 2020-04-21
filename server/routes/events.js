@@ -20,24 +20,41 @@ const db = require('../models');
 // 	}
 // });
 
-// // @route   POST /create
-// // @desc    Admin creates an event
+// @route   POST /create
+// @desc    Admin creates an event
 
-// router.post('/create', async (req, res) => {
-// 	const {
-// 		// TODO
-// 	} = req.body;
-// 	try {
-// 		const event = new db.Event({
-// 			// TODO
-// 		});
-// 		await event.save();
-// 		res.send('Your event was created!');
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.post('/create', async (req, res) => {
+	let {
+		location,
+		startTime,
+		endTime,
+		languages,
+		levels,
+		attendees,
+		matches,
+	} = req.body;
+
+	if (!attendees) attendees = [];
+	if (!matches) matches = [];
+
+	try {
+		const event = new db.Event({
+			createdBy: req.user._id,
+			location,
+			startTime: new Date(startTime),
+			endTime: new Date(endTime),
+			languages,
+			levels,
+			attendees,
+			matches,
+		});
+		await event.save();
+		res.send('Your event was created!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 // // @route   UPDATE update/:id - [works 2/12]
 // // @desc    Allows Admin to update event

@@ -17,7 +17,6 @@ router.post(
 		check('lastName', 'Please add your last name.').not().isEmpty(),
 
 		check('email', 'Please include a valid email').isEmail(),
-		check('admin', 'Please confirm you are an Admin.').isBoolean(),
 		check(
 			'password',
 			'Please enter a password with 6 or more characters'
@@ -30,7 +29,7 @@ router.post(
 			return res.status(400).json({ errors: errors.array() });
 		}
 
-		const {
+		let {
 			firstName,
 			lastName,
 			email,
@@ -42,9 +41,9 @@ router.post(
 			admin,
 		} = req.body;
 
-		if (!admin) admin = false;
 		if (!slackUsername) slackUsername = '';
 		if (!linkedIn) linkedIn = '';
+		if (!secondaryLanguage) secondaryLanguage = false;
 		if (!admin) admin = false;
 
 		try {
