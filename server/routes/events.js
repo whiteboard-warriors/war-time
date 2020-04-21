@@ -5,19 +5,6 @@ const router = express.Router();
 const db = require('../models');
 // var isAuthenticatedData = require('../config/middleware/isAuthenticatedData');
 
-// // @route   GET /
-// // @desc    Retrieves all events older than now.
-
-router.get('/', async (req, res) => {
-	try {
-		const event = await db.Event.find();
-		res.json(event);
-	} catch (err) {
-		console.error(err.message);
-		res.status(500).send('Server Error');
-	}
-});
-
 // @route   POST /create
 // @desc    Admin creates an event
 
@@ -48,6 +35,34 @@ router.post('/create', async (req, res) => {
 		});
 		await event.save();
 		res.send('Your event was created!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   GET /
+// @desc    Retrieves all events
+
+router.get('/', async (req, res) => {
+	try {
+		const event = await db.Event.find();
+		res.json(event);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   GET /
+// @desc    Retrieves one events
+
+router.get('/:id', async (req, res) => {
+	try {
+		const event = await db.Event.find({
+			_id: req.params.id,
+		});
+		res.json(event);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
