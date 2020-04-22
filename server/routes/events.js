@@ -8,7 +8,7 @@ const db = require('../models');
 // @route   POST /create
 // @desc    Admin creates an event
 
-router.post('/create', async (req, res) => {
+router.post('/', async (req, res) => {
 	let {
 		location,
 		startTime,
@@ -23,6 +23,15 @@ router.post('/create', async (req, res) => {
 	if (!matches) matches = [];
 
 	try {
+		let user = await db.User.findOne({ _id: req.user._id });
+		console.log(user.admin);
+
+		if (user.admin !== true) {
+			return res.status(401).json({
+				msg: 'You are not authorized to edit foods in this potluck',
+			});
+		}
+
 		const event = new db.Event({
 			createdBy: req.user._id,
 			location,
@@ -55,7 +64,7 @@ router.get('/', async (req, res) => {
 });
 
 // @route   GET /
-// @desc    Retrieves one events
+// @desc    Retrieves one event
 
 router.get('/:id', async (req, res) => {
 	try {
@@ -69,38 +78,52 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-// // @route   UPDATE update/:id - [works 2/12]
-// // @desc    Allows Admin to update event
+// @route   UPDATE /:id
+// @desc    Allows Admin to update event
 
-// router.put('/update/:id', async (req, res) => {
-// 	const {
-// 		// TODO
-// 	} = req.body;
-// 	try {
-// 		const event = db.Event.findOne({
-// 			// TODO
-// 		});
-// 		await event.save();
-// 		res.send('Your event was updated!');
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.put('/:id', async (req, res) => {
+	const {
+		location,
+		startTime,
+		endTime,
+		languages,
+		levels,
+		attendees,
+		matches,
+	} = req.body;
+	try {
+		const event = {};
+		if (location) event.location = location;
+		if (startTime) event.startTime = startTime;
+		if (endTime) event.endTime = endTime;
+		if (languages) event.languages = languages;
+		if (levels) event.levels = levels;
+		if (attendees) event.attendees = attendees;
+		if (matches) event.matches = matches;
+		await db.Event.findOneAndUpdate(
+			{ _id: req.params.id },
+			{ $set: toUpdateObj }
+		);
+		res.send('Your event was updated!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
-// // @route   DELETE delete/:id - [works 2/12]
-// // @desc    Route to delete whole event if createdby user = req.user._id
+// @route   DELETE delete/:id - [works 2/12]
+// @desc    Route to delete whole event if createdby user = req.user._id
 
-// router.delete('/delete/:id', async (req, res) => {
-// 	try {
-// 		await db.Event.findOneAndDelete({
-// 			//TODO
-// 		});
-// 		res.send('Your event was deleted!');
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.delete('/:id', async (req, res) => {
+	try {
+		await db.Event.findOneAndDelete({
+			_id: req.params.id,
+		});
+		res.send('Your event was deleted!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 module.exports = router;
