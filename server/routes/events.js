@@ -24,11 +24,10 @@ router.post('/', async (req, res) => {
 
 	try {
 		let user = await db.User.findOne({ _id: req.user._id });
-		console.log(user.admin);
 
 		if (user.admin !== true) {
 			return res.status(401).json({
-				msg: 'You are not authorized to edit foods in this potluck',
+				msg: 'You are not authorized to edit foods in this event.',
 			});
 		}
 
@@ -82,15 +81,7 @@ router.get('/:id', async (req, res) => {
 // @desc    Allows Admin to update event
 
 router.put('/:id', async (req, res) => {
-	const {
-		location,
-		startTime,
-		endTime,
-		languages,
-		levels,
-		attendees,
-		matches,
-	} = req.body;
+	const { location, startTime, endTime, languages, levels } = req.body;
 	try {
 		const event = {};
 		if (location) event.location = location;
@@ -98,11 +89,18 @@ router.put('/:id', async (req, res) => {
 		if (endTime) event.endTime = endTime;
 		if (languages) event.languages = languages;
 		if (levels) event.levels = levels;
-		if (attendees) event.attendees = attendees;
-		if (matches) event.matches = matches;
+
+		let user = await db.User.findOne({ _id: req.user._id });
+
+		if (user.admin !== true) {
+			return res.status(401).json({
+				msg: 'You are not authorized to edit foods in this event.',
+			});
+		}
+
 		await db.Event.findOneAndUpdate(
 			{ _id: req.params.id },
-			{ $set: toUpdateObj }
+			{ $set: event }
 		);
 		res.send('Your event was updated!');
 	} catch (err) {
@@ -110,6 +108,31 @@ router.put('/:id', async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+// @route   UPDATE /attendees/:id
+// @desc    Allows Admin to update event
+router.put('/attendees/:id', async (req, res) => {
+	const { attendees } = req.body;
+	try {
+		let user = await db.User.findOne({ _id: req.user._id });
+
+		if (user.admin !== true) {
+			return res.status(401).json({
+				msg: 'You are not authorized to edit foods in this event.',
+			});
+		}
+
+		await db.Event.findOneAndUpdate(
+			{ _id: req.params.id },
+			{ $push: attendees }
+		);
+		res.send('Your event was updated!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+// @route   UPDATE /matches/:id
+// @desc    Allows Admin to update event
 
 // @route   DELETE delete/:id - [works 2/12]
 // @desc    Route to delete whole event if createdby user = req.user._id

@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(
 	session({
 		secret: 'war time',
-		// resave: tarue,
-		// saveUninitialized: true
+		resave: true,
+		saveUninitialized: true,
 		// cookie: { secure: true }
 	})
 );
@@ -35,6 +35,7 @@ app.use('/api/languages', require('./routes/languages'));
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/war-time', {
 	useNewUrlParser: true,
+	useFindAndModify: false,
 });
 
 // Start the API server
