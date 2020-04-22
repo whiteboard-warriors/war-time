@@ -12,6 +12,10 @@ const EventSchema = new Schema({
 		type: String,
 		required: 'Event location is required',
 	},
+	date: {
+		type: Date,
+		required: true,
+	},
 	startTime: {
 		type: Date,
 		required: true,
