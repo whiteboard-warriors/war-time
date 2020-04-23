@@ -5,6 +5,10 @@ const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+	createdAt: {
+		type: Date,
+		default: Date.now(),
+	},
 	email: {
 		type: String,
 		match: [/.+@.+\..+/, 'Please enter a valid e-mail address'],
