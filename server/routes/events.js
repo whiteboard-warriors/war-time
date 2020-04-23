@@ -23,8 +23,8 @@ router.post('/', async (req, res) => {
 	if (!matches) matches = [];
 
 	try {
+		// check to make sure user making updates has admin rights.
 		let user = await db.User.findOne({ _id: req.user._id });
-
 		if (user.admin !== true) {
 			return res.status(401).json({
 				msg: 'You are not authorized to edit foods in this event.',
@@ -99,8 +99,8 @@ router.put('/:id', async (req, res) => {
 		if (languages) event.languages = languages;
 		if (levels) event.levels = levels;
 
+		// check to make sure user making updates has admin rights.
 		let user = await db.User.findOne({ _id: req.user._id });
-
 		if (user.admin !== true) {
 			return res.status(401).json({
 				msg: 'You are not authorized to edit this event.',
