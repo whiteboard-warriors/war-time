@@ -56,7 +56,12 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 	try {
-		const event = await db.Event.find().populate('attendees');
+		const event = await db.Event.find()
+			.populate('attendees.attendee')
+			.populate('matches.user1')
+			.populate('matches.user2')
+			.populate('matches.user3')
+			.populate('matches.user4');
 		res.json(event);
 	} catch (err) {
 		console.error(err.message);
@@ -177,6 +182,13 @@ router.put('/matches/:eventId', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
 	try {
+		// check to make sure user making updates has admin rights.
+		let user = await db.User.findOne({ _id: req.user._id });
+		if (user.admin !== true) {
+			return res.status(401).json({
+				msg: 'You are not authorized to edit this event.',
+			});
+		}
 		await db.Event.findOneAndDelete({
 			_id: req.params.id,
 		});
