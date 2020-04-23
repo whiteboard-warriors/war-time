@@ -8,6 +8,10 @@ const LocationSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 	},
+	createdAt: {
+		type: Date,
+		default: Date.now(),
+	},
 	name: {
 		type: String,
 		required: 'Location name is required',

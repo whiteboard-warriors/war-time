@@ -18,24 +18,45 @@ const db = require('../models');
 // 	}
 // });
 
-// // @route   POST /add
-// // @desc    Admin creates an location
+// @route   POST /
+// @desc    Admin creates an location
 
-// router.post('/add', async (req, res) => {
-// 	const {
-// 		// TODO
-// 	} = req.body;
-// 	try {
-// 		const location = new db.Location({
-// 			// TODO
-// 		});
-// 		await location.save();
-// 		res.send('Your location was added!');
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.post('/', async (req, res) => {
+	const {
+		createdBy,
+		name,
+		street,
+		unit,
+		city,
+		state,
+		zipCode,
+		onlinePlatform,
+	} = req.body;
+	try {
+		// check to make sure user making updates has admin rights.
+		let user = await db.User.findOne({ _id: req.user._id });
+		if (user.admin !== true) {
+			return res.status(401).json({
+				msg: 'You are not authorized to make changes.',
+			});
+		}
+		const location = new db.Location({
+			createdBy,
+			name,
+			street,
+			unit,
+			city,
+			state,
+			zipCode,
+			onlinePlatform,
+		});
+		await location.save();
+		res.send('Your location was added!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 // // @route   UPDATE update/:id - [works 2/12]
 // // @desc    Allows Admin to update location
