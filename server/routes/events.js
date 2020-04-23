@@ -7,7 +7,6 @@ const db = require('../models');
 
 // @route   POST /create
 // @desc    Admin creates an event
-
 router.post('/', async (req, res) => {
 	let {
 		location,
@@ -53,7 +52,6 @@ router.post('/', async (req, res) => {
 
 // @route   GET /
 // @desc    Retrieves all events
-
 router.get('/', async (req, res) => {
 	try {
 		const event = await db.Event.find()
@@ -71,7 +69,6 @@ router.get('/', async (req, res) => {
 
 // @route   GET /
 // @desc    Retrieves one event
-
 router.get('/:id', async (req, res) => {
 	try {
 		const event = await db.Event.find({
@@ -91,7 +88,6 @@ router.get('/:id', async (req, res) => {
 
 // @route   UPDATE /:id
 // @desc    Allows Admin to update event
-
 router.put('/:id', async (req, res) => {
 	const { location, date, startTime, endTime, languages, levels } = req.body;
 	try {
@@ -121,6 +117,7 @@ router.put('/:id', async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+
 // @route   UPDATE attendees/:userId/:eventId
 // @desc    Adds attendees to event once they sign in.
 router.put('/attendees/:userId/:eventId', async (req, res) => {
@@ -149,6 +146,7 @@ router.put('/attendees/:userId/:eventId', async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+
 // @route   UPDATE /matches/:eventId
 // @desc    Allows Admin to update event
 router.put('/matches/:eventId', async (req, res) => {
@@ -180,7 +178,6 @@ router.put('/matches/:eventId', async (req, res) => {
 
 // @route   DELETE delete/:id - [works 2/12]
 // @desc    Route to delete whole event if createdby user = req.user._id
-
 router.delete('/:id', async (req, res) => {
 	try {
 		// check to make sure user making updates has admin rights.
