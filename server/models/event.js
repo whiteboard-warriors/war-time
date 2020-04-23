@@ -42,8 +42,14 @@ const EventSchema = new Schema({
 	],
 	attendees: [
 		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			attendee: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User',
+			},
+			isMatched: {
+				type: Boolean,
+				default: false,
+			},
 		},
 	],
 	matches: [

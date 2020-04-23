@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
 		const event = await db.Event.find({
 			_id: req.params.id,
 		})
-			.populate('attendees')
+			.populate('attendees.attendee')
 			.populate('matches.user1')
 			.populate('matches.user2')
 			.populate('matches.user3')
@@ -118,7 +118,7 @@ router.put('/:id', async (req, res) => {
 });
 // @route   UPDATE attendees/:userId/:eventId
 // @desc    Adds attendees to event once they sign in.
-router.put('attendees/:userId/:eventId', async (req, res) => {
+router.put('/attendees/:userId/:eventId', async (req, res) => {
 	try {
 		// check to make sure user making updates has admin rights.
 		let user = await db.User.findOne({ _id: req.user._id });
@@ -133,7 +133,7 @@ router.put('attendees/:userId/:eventId', async (req, res) => {
 			{ _id: req.params.eventId },
 			{
 				$push: {
-					attendees: attendee,
+					attendees: { attendee },
 				},
 			}
 		);
