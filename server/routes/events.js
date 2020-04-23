@@ -56,9 +56,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 	try {
-		const event = await db.Event.find()
-			.populate('attendees')
-			.populate('matches');
+		const event = await db.Event.find().populate('attendees');
 		res.json(event);
 	} catch (err) {
 		console.error(err.message);
@@ -75,7 +73,10 @@ router.get('/:id', async (req, res) => {
 			_id: req.params.id,
 		})
 			.populate('attendees')
-			.populate('matches');
+			.populate('matches.user1')
+			.populate('matches.user2')
+			.populate('matches.user3')
+			.populate('matches.user4');
 		res.json(event);
 	} catch (err) {
 		console.error(err.message);
@@ -142,8 +143,34 @@ router.put('attendees/:userId/:eventId', async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
-// @route   UPDATE /matches/:id
+// @route   UPDATE /matches/:eventId
 // @desc    Allows Admin to update event
+router.put('/matches/:eventId', async (req, res) => {
+	const { matches } = req.body;
+	// console.log(matches);
+	// console.log(req.params.eventId);
+	try {
+		// check to make sure user making updates has admin rights.
+		let user = await db.User.findOne({ _id: req.user._id });
+		if (user.admin !== true) {
+			return res.status(401).json({
+				msg: 'You are not authorized to edit this event.',
+			});
+		}
+		await db.Event.findOneAndUpdate(
+			{ _id: req.params.eventId },
+			{
+				$push: {
+					matches: matches,
+				},
+			}
+		);
+		res.send('Your event was updated!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 // @route   DELETE delete/:id - [works 2/12]
 // @desc    Route to delete whole event if createdby user = req.user._id
