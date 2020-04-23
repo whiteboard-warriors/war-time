@@ -12,6 +12,10 @@ const EventSchema = new Schema({
 		type: String,
 		required: 'Event location is required',
 	},
+	date: {
+		type: Date,
+		required: true,
+	},
 	startTime: {
 		type: Date,
 		required: true,
@@ -38,8 +42,14 @@ const EventSchema = new Schema({
 	],
 	attendees: [
 		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			attendee: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User',
+			},
+			isMatched: {
+				type: Boolean,
+				default: false,
+			},
 		},
 	],
 	matches: [
