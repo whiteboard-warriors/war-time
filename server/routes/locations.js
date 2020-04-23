@@ -5,18 +5,25 @@ const router = express.Router();
 const db = require('../models');
 // var isAuthenticatedData = require('../config/middleware/isAuthenticatedData');
 
-// // @route   GET /
-// // @desc    Retrieves all locations.
+// @route   GET /
+// @desc    Retrieves all locations.
 
-// router.get('/', async (req, res) => {
-// 	try {
-// 		const location = await db.Location.find();
-// 		res.json(location);
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.get('/', async (req, res) => {
+	// check to make sure user making updates has admin rights.
+	let user = await db.User.findOne({ _id: req.user._id });
+	if (user.admin !== true) {
+		return res.status(401).json({
+			msg: 'You are not authorized to make changes.',
+		});
+	}
+	try {
+		const locations = await db.Location.find();
+		res.json(locations);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 // @route   POST /
 // @desc    Admin creates an location
