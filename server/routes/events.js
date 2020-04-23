@@ -124,6 +124,7 @@ router.put('/:id', async (req, res) => {
 // @route   UPDATE attendees/:userId/:eventId
 // @desc    Adds attendees to event once they sign in.
 router.put('/attendees/:userId/:eventId', async (req, res) => {
+	const { level } = req.body;
 	try {
 		// check to make sure user making updates has admin rights.
 		let user = await db.User.findOne({ _id: req.user._id });
@@ -138,7 +139,7 @@ router.put('/attendees/:userId/:eventId', async (req, res) => {
 			{ _id: req.params.eventId },
 			{
 				$push: {
-					attendees: { attendee },
+					attendees: { attendee, level },
 				},
 			}
 		);

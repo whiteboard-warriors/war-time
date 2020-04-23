@@ -50,6 +50,10 @@ const EventSchema = new Schema({
 				type: Boolean,
 				default: false,
 			},
+			level: {
+				type: Number,
+				required: 'You must enter problem level',
+			},
 		},
 	],
 	matches: [
