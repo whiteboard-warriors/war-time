@@ -60,8 +60,8 @@ router.post(
 			});
 
 			await user.save();
-			res.status(200).end('User Saved');
-			res.redirect(307, 'api/auth/login'); // api login
+			res.status(200).send('User Saved');
+			// res.redirect(307, 'api/auth/login'); // api login
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send('Server Error');
