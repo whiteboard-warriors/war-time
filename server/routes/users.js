@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('../config/passport');
+// const passport = require('../config/passport');
 
 const { check, validationResult } = require('express-validator');
 
-const isAuthenticated = require('../config/middleware/isAuthenticated');
+// const isAuthenticated = require('../config/middleware/isAuthenticated');
 
 const db = require('../models');
 
@@ -69,7 +69,48 @@ router.post(
 	}
 );
 
-// @route   PUT api/users
+// @route   PUT /api/users
+// @desc - Update user's info except password
+router.put('/:id', async (req, res) => {
+	const {
+		email,
+		firstName,
+		lastName,
+		slackUsername,
+		linkedIn,
+		primaryLanguage,
+		secondaryLanguage,
+		active,
+	} = req.body;
+	try {
+		if (req.user._id !== req.params.id) {
+			return res.status(401).json({
+				msg: 'You are not authorized to perform this action.',
+			});
+		}
+		const updatedUser = {};
+		if (email) updatedUser.email = email;
+		if (firstName) updatedUser.firstName = firstName;
+		if (lastName) updatedUser.lastName = lastName;
+		if (slackUsername) updatedUser.slackUsername = slackUsername;
+		if (linkedIn) updatedUser.linkedIn = linkedIn;
+		if (primaryLanguage) updatedUser.primaryLanguage = primaryLanguage;
+		if (secondaryLanguage)
+			updatedUser.secondaryLanguage = secondaryLanguage;
+		if (active) updatedUser.active = active;
+
+		await db.User.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{ $set: updatedUser }
+		);
+		res.status(200).send('Your account has been updated.');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   PUT /api/users
 // @desc - Delete User
 router.put('/delete/:id', async (req, res) => {
 	try {
