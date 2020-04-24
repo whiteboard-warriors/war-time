@@ -4,7 +4,7 @@ const passport = require('../config/passport');
 
 const { check, validationResult } = require('express-validator');
 
-// const isAuthenticated = require('../config/middleware/isAuthenticated');
+const isAuthenticated = require('../config/middleware/isAuthenticated');
 
 const db = require('../models');
 
@@ -41,11 +41,6 @@ router.post(
 			admin,
 		} = req.body;
 
-		if (!slackUsername) slackUsername = '';
-		if (!linkedIn) linkedIn = '';
-		if (!secondaryLanguage) secondaryLanguage = false;
-		if (!admin) admin = false;
-
 		try {
 			let user = await db.User.findOne({ email });
 
@@ -76,47 +71,26 @@ router.post(
 
 // @route   PUT api/users
 // @desc - Delete User
-// router.put('/admin/:userId', async (req, res) => {
-// 	try {
-// 		const isFriend = await db.User.findOne({ _id: req.user._id });
-// 		// res.send(isFriend.friends)
-// 		for (let i = 0; i < isFriend.friends.length; i++) {
-// 			if (
-// 				isFriend.friends[i].user == req.params.friendId &&
-// 				isFriend.friends[i].status === 0
-// 			) {
-// 				return res.status(500).send('You are already not friends');
-// 			}
-// 		}
-// 		await db.User.findByIdAndUpdate(
-// 			{ _id: req.user._id },
-// 			{
-// 				$set: {
-// 					'friends.$[item].status': 0, // unfriend.
-// 				},
-// 			},
-// 			{
-// 				arrayFilters: [{ 'item.user': req.params.friendId }],
-// 				new: true,
-// 			}
-// 		);
-// 		await db.User.findByIdAndUpdate(
-// 			{ _id: req.params.friendId },
-// 			{
-// 				$set: {
-// 					'friends.$[item2].status': 0, // unfriends
-// 				},
-// 			},
-// 			{
-// 				arrayFilters: [{ 'item2.user': req.user._id }],
-// 				new: true,
-// 			}
-// 		);
-// 		res.status(200).send('You are no longer friends.');
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.put('/delete/:id', async (req, res) => {
+	try {
+		if (req.user._id !== req.params.id) {
+			return res.status(401).json({
+				msg: 'You are not authorized to perform this action.',
+			});
+		}
+		await db.User.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{
+				$set: {
+					active: false,
+				},
+			}
+		);
+		res.status(200).send('Your account has been deleted.');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 module.exports = router;

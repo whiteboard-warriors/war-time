@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
 		let user = await db.User.findOne({ _id: req.user._id });
 		if (user.admin !== true) {
 			return res.status(401).json({
-				msg: 'You are not authorized to edit foods in this event.',
+				msg: 'You are not authorized to edit this event.',
 			});
 		}
 

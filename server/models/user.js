@@ -46,6 +46,11 @@ const UserSchema = new Schema({
 	},
 	admin: {
 		type: Boolean,
+		default: false,
+	},
+	active: {
+		type: Boolean,
+		default: true,
 	},
 });
 
