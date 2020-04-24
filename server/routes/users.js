@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('../config/passport');
+// const passport = require('../config/passport');
 
 const { check, validationResult } = require('express-validator');
 
@@ -41,11 +41,6 @@ router.post(
 			admin,
 		} = req.body;
 
-		if (!slackUsername) slackUsername = '';
-		if (!linkedIn) linkedIn = '';
-		if (!secondaryLanguage) secondaryLanguage = false;
-		if (!admin) admin = false;
-
 		try {
 			let user = await db.User.findOne({ email });
 
@@ -65,8 +60,8 @@ router.post(
 			});
 
 			await user.save();
-			res.status(200).end('User Saved');
-			res.redirect(307, 'api/auth/login'); // api login
+			res.status(200).send('User Saved');
+			// res.redirect(307, 'api/auth/login'); // api login
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send('Server Error');
@@ -74,49 +69,69 @@ router.post(
 	}
 );
 
-// @route   PUT api/users
+// @route   PUT /api/users
+// @desc - Update user's info except password
+router.put('/:id', async (req, res) => {
+	const {
+		email,
+		firstName,
+		lastName,
+		slackUsername,
+		linkedIn,
+		primaryLanguage,
+		secondaryLanguage,
+		active,
+	} = req.body;
+	try {
+		if (req.user._id !== req.params.id) {
+			return res.status(401).json({
+				msg: 'You are not authorized to perform this action.',
+			});
+		}
+		const updatedUser = {};
+		if (email) updatedUser.email = email;
+		if (firstName) updatedUser.firstName = firstName;
+		if (lastName) updatedUser.lastName = lastName;
+		if (slackUsername) updatedUser.slackUsername = slackUsername;
+		if (linkedIn) updatedUser.linkedIn = linkedIn;
+		if (primaryLanguage) updatedUser.primaryLanguage = primaryLanguage;
+		if (secondaryLanguage)
+			updatedUser.secondaryLanguage = secondaryLanguage;
+		if (active) updatedUser.active = active;
+
+		await db.User.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{ $set: updatedUser }
+		);
+		res.status(200).send('Your account has been updated.');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   PUT /api/users
 // @desc - Delete User
-// router.put('/admin/:userId', async (req, res) => {
-// 	try {
-// 		const isFriend = await db.User.findOne({ _id: req.user._id });
-// 		// res.send(isFriend.friends)
-// 		for (let i = 0; i < isFriend.friends.length; i++) {
-// 			if (
-// 				isFriend.friends[i].user == req.params.friendId &&
-// 				isFriend.friends[i].status === 0
-// 			) {
-// 				return res.status(500).send('You are already not friends');
-// 			}
-// 		}
-// 		await db.User.findByIdAndUpdate(
-// 			{ _id: req.user._id },
-// 			{
-// 				$set: {
-// 					'friends.$[item].status': 0, // unfriend.
-// 				},
-// 			},
-// 			{
-// 				arrayFilters: [{ 'item.user': req.params.friendId }],
-// 				new: true,
-// 			}
-// 		);
-// 		await db.User.findByIdAndUpdate(
-// 			{ _id: req.params.friendId },
-// 			{
-// 				$set: {
-// 					'friends.$[item2].status': 0, // unfriends
-// 				},
-// 			},
-// 			{
-// 				arrayFilters: [{ 'item2.user': req.user._id }],
-// 				new: true,
-// 			}
-// 		);
-// 		res.status(200).send('You are no longer friends.');
-// 	} catch (err) {
-// 		console.error(err.message);
-// 		res.status(500).send('Server Error');
-// 	}
-// });
+router.put('/delete/:id', async (req, res) => {
+	try {
+		if (req.user._id !== req.params.id) {
+			return res.status(401).json({
+				msg: 'You are not authorized to perform this action.',
+			});
+		}
+		await db.User.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{
+				$set: {
+					active: false,
+				},
+			}
+		);
+		res.status(200).send('Your account has been deleted.');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 
 module.exports = router;

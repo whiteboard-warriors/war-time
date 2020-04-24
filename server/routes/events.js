@@ -5,7 +5,7 @@ const router = express.Router();
 const db = require('../models');
 // var isAuthenticatedData = require('../config/middleware/isAuthenticatedData');
 
-// @route   POST /create
+// @route   POST /api/events
 // @desc    Admin creates an event
 router.post('/', async (req, res) => {
 	let {
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
 		let user = await db.User.findOne({ _id: req.user._id });
 		if (user.admin !== true) {
 			return res.status(401).json({
-				msg: 'You are not authorized to edit foods in this event.',
+				msg: 'You are not authorized to edit this event.',
 			});
 		}
 
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 	}
 });
 
-// @route   GET /
+// @route   GET /api/events
 // @desc    Retrieves all events
 router.get('/', async (req, res) => {
 	try {
@@ -67,7 +67,7 @@ router.get('/', async (req, res) => {
 	}
 });
 
-// @route   GET /
+// @route   GET /api/events
 // @desc    Retrieves one event
 router.get('/:id', async (req, res) => {
 	try {
@@ -86,7 +86,7 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-// @route   UPDATE /:id
+// @route   PUT /api/events
 // @desc    Allows Admin to update event
 router.put('/:id', async (req, res) => {
 	const { location, date, startTime, endTime, languages, levels } = req.body;
@@ -118,7 +118,7 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
-// @route   UPDATE attendees/:userId/:eventId
+// @route   PUT /api/events
 // @desc    Adds attendees to event once they sign in.
 router.put('/attendees/:userId/:eventId', async (req, res) => {
 	const { level } = req.body;
@@ -147,8 +147,8 @@ router.put('/attendees/:userId/:eventId', async (req, res) => {
 	}
 });
 
-// @route   UPDATE /matches/:eventId
-// @desc    Allows Admin to update event
+// @route   PUT /api/events
+// @desc    Adds matches to event.
 router.put('/matches/:eventId', async (req, res) => {
 	const { matches } = req.body;
 	// console.log(matches);
@@ -176,8 +176,8 @@ router.put('/matches/:eventId', async (req, res) => {
 	}
 });
 
-// @route   DELETE delete/:id - [works 2/12]
-// @desc    Route to delete whole event if createdby user = req.user._id
+// @route   DELETE /api/events
+// @desc    Delete event if user is admin.
 router.delete('/:id', async (req, res) => {
 	try {
 		// check to make sure user making updates has admin rights.
