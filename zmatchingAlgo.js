@@ -191,7 +191,7 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 3,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'hhhhhhhhhhhhhhhh-attendee-id',
 		attendee: {
 			_id: '8888',
 			firstName: 'Kate',
@@ -210,7 +210,7 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 2,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'iiiiiiiiiiiiiii-attendee-id',
 		attendee: {
 			_id: '9999',
 			firstName: 'Kate',
@@ -323,3 +323,62 @@ autoMatch(attendees);
 ///////////////////
 // Pablo's Attempt
 ///////////////////
+
+////////////////////
+// Steven's Attempt
+////////////////////n
+
+let matches = [];
+
+function autoPair(arr, counter) {
+	let newArr = [];
+	newArr = arr;
+	let arrayCounter = counter;
+	let currIndex = 0;
+	let level = 0;
+	let primaryLang = '';
+
+	for (let i = 0; i < newArr.length; i++) {
+		let attendee = newArr[i];
+		if (attendee.isMatched === false) {
+			currIndex = i;
+			level = attendee.level;
+			primaryLang = attendee.attendee.primaryLanguage;
+			break;
+		}
+	}
+
+	for (let j = currIndex + 1; j < newArr.length; j++) {
+		if (
+			newArr[j].isMatched === false &&
+			level === newArr[j].level &&
+			primaryLang === newArr[j].attendee.primaryLanguage
+		) {
+			let match = {
+				user1: newArr[currIndex].attendee._id,
+				user2: newArr[j].attendee._id,
+			};
+			// db//
+			// update to event.attendees
+			newArr[j].isMatched = true;
+			newArr[currIndex].isMatched = true;
+			// update to event.matches
+			matches.push(match);
+			// db//
+		}
+	}
+
+	if (arrayCounter <= newArr.length) {
+		arrayCounter = arrayCounter + 1;
+		autoPair(newArr, arrayCounter);
+	} else {
+		return;
+	}
+}
+
+autoPair(attendees, 1);
+console.log('Paired Matches:', matches);
+
+////////////////////
+// Steven's Attempt
+////////////////////
