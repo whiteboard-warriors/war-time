@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 // const passport = require('../config/passport');
+const async = require('async');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const { check, validationResult } = require('express-validator');
 
@@ -112,7 +115,23 @@ router.put('/:id', async (req, res) => {
 
 // @route   PUT /api/users
 // @desc - Update user's password
-router.put('/update-password/:id', async (req, res) => {
+router.put('/update-password/:id', async (req, res, next) => {
+	const { email } = req.body;
+
+	try {
+		crypto.randomBytes(20, function (err, buf) {
+			let token = buf.toString('hex');
+			done(err, token);
+		});
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route  POST /api/users
+// @desc - Sends a password reset email.
+router.post('/forgot-password', async (req, res) => {
 	const { password } = req.body;
 	try {
 		if (req.user._id !== req.params.id) {
