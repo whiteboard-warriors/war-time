@@ -111,6 +111,27 @@ router.put('/:id', async (req, res) => {
 });
 
 // @route   PUT /api/users
+// @desc - Update user's password
+router.put('/update-password/:id', async (req, res) => {
+	const { password } = req.body;
+	try {
+		if (req.user._id !== req.params.id) {
+			return res.status(401).json({
+				msg: 'You are not authorized to perform this action.',
+			});
+		}
+		const user = await db.User.findById(req.params.id);
+		user.password = password;
+
+		await user.save();
+		res.status(200).send('Your password has been updated.');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   PUT /api/users
 // @desc - Delete User
 router.put('/delete/:id', async (req, res) => {
 	try {

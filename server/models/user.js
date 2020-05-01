@@ -23,6 +23,9 @@ const UserSchema = new Schema({
 		],
 		required: 'Password is Required',
 	},
+	avatar: {
+		type: String,
+	},
 	firstName: {
 		type: String,
 		required: 'First name is Required',
