@@ -58,9 +58,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 2,
-		_id: '5ea0eb90ba9a9d80054b471a',
+		_id: 'aaaaaaaaaa-attendee-id',
 		attendee: {
-			_id: '5e9cc061c7c28c2c3a26ce33',
+			_id: '1111',
 			firstName: 'Pablo',
 			lastName: 'Motta',
 			email: 'pmotta@gmail.com',
@@ -77,9 +77,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 2,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'bbbbbbbbbbbbb-attendee-id',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '2222',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -96,9 +96,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 3,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'ccccccccccc-attendee-id',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '3333',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -115,9 +115,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 3,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'ddddddddddddd-attendee-id',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '4444',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -134,9 +134,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 1,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'eeeeeeeeeeeeeeeeee-attendee-id',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '5555',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -153,9 +153,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 3,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'fffffffffffffffffff-attendee-id',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '6666',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -163,7 +163,7 @@ var attendees = [
 				'$2a$10$QRfORzlKnwyqSL5SksbOROiJmk29AVtrHydX2a2ZZIqfmwp58afPW',
 			slackUsername: '@Kate Smith',
 			linkedIn: 'linkedin.com/in/katesmith',
-			primaryLanguage: 'Javascript ',
+			primaryLanguage: 'Javascript',
 			secondaryLanguage: 'Python',
 			admin: false,
 			__v: 0,
@@ -172,9 +172,9 @@ var attendees = [
 	{
 		isMatched: false,
 		level: 1,
-		_id: '5ea0f23c983f168155d3670b',
+		_id: 'ggggggggggggggggggg-attendee-id',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '7777',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -193,7 +193,7 @@ var attendees = [
 		level: 3,
 		_id: '5ea0f23c983f168155d3670b',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '8888',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -212,7 +212,7 @@ var attendees = [
 		level: 2,
 		_id: '5ea0f23c983f168155d3670b',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '9999',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -231,7 +231,7 @@ var attendees = [
 		level: 2,
 		_id: '5ea0f23c983f168155d3670b',
 		attendee: {
-			_id: '5e9f5def12c86e55649b4c2b',
+			_id: '1010',
 			firstName: 'Kate',
 			lastName: 'Smith',
 			email: 'ksmith@gmail.com',
@@ -239,7 +239,7 @@ var attendees = [
 				'$2a$10$QRfORzlKnwyqSL5SksbOROiJmk29AVtrHydX2a2ZZIqfmwp58afPW',
 			slackUsername: '@Kate Smith',
 			linkedIn: 'linkedin.com/in/katesmith',
-			primaryLanguage: 'Python ',
+			primaryLanguage: 'Python',
 			secondaryLanguage: 'JavaScript',
 			admin: false,
 			__v: 0,
@@ -250,37 +250,75 @@ var attendees = [
 ///////////////////
 // Pablo's Attempt
 ///////////////////
-console.log('original::: ', attendees);
+// console.log('original::: ', attendees);
 // loop through the rest using case 1,
 // if there is a match, you store both in array array of matches,
 // changed users to ismatched = true
 // restart the loop to find the next unmatched user.
 // repeat.
-// let matches = {};
-// let autoMatch = (array) => {
-// 	let currentCheck = [];
-// 	// loop array of unmatched,  keep track of first attendee where isMatched = false
-// 	for (let i = 0; i < array.length; i++) {
-// 		if (array[i].isMatched === false) {
-// 			currentCheck = array[i];
-// 			// array[i].isMatched = true;
-// 			console.log(currentCheck);
-// 		}
-// 		for (let j = 1; j < array.length; j++) {
-// 			if (
-// 				currentCheck.attendee.primaryLanguage ===
-// 					array[j].attendee.primaryLanguage &&
-// 				currentCheck.level === array[j].level
-// 			) {
-// 				matches.user1 = currentCheck.attendee._id;
-// 				matches.user2 = array[j].attendee._id;
-// 				array;
-// 			}
-// 		}
-// 	}
-// 	console.log(object);
-// };
-// autoMatch(attendees);
+let matches = [];
+let autoMatch = (array) => {
+	let attendee1 = '';
+	let attendee2 = '';
+	let match = {
+		user1: null,
+		user2: null,
+	};
+	// loop array of unmatched,  keep track of first attendee where isMatched = false
+	let currentLanguage = '';
+	let currentLevel = '';
+	for (let i = 0; i < array.length; i++) {
+		if (array[i].isMatched === false) {
+			match.user1 = array[i].attendee._id;
+			attendee1 = array[i]._id;
+			currentLanguage = array[i].attendee.primaryLanguage;
+			console.log(
+				'OUTPUT: : autoMatch -> currentLanguage',
+				currentLanguage
+			);
+			currentLevel = array[i].level;
+			// console.log('OUTPUT: : autoMatch -> currentLevel', currentLevel);
+
+			array.splice(i, 1);
+			// console.log('array after splice().....', array);
+
+			break;
+		}
+	}
+	for (let j = 0; j < array.length; j++) {
+		if (array[j].isMatched === false) {
+			if (
+				array[j].level === currentLevel &&
+				array[j].attendee.primaryLanguage === currentLanguage
+			) {
+				attendee2 = array[j]._id;
+				match.user2 = array[j].attendee._id;
+
+				array.splice(j, 1);
+				// store match to db.event
+				matches.push(match);
+
+				break;
+			}
+		}
+	}
+	currentLanguage = '';
+	// console.log('OUTPUT: : autoMatch -> currentLanguage', currentLanguage);
+	currentLevel = '';
+	// console.log('OUTPUT: : autoMatch -> currentLevel', currentLevel);
+	// console.log('attendee1...... ', attendee1);
+	// console.log('attendee2...... ', attendee2);
+	// set attendee isMatched to true
+	// store match to matches in event db
+	// call function again
+	// return
+	// console.log('match....', match);
+	// console.log('currentLanguage.....', currentLanguage);
+	// console.log('currentLevel.......', currentLevel);
+	// console.log('matches....', matches);
+	// console.log('====== ARRAY ======  ', array);
+};
+autoMatch(attendees);
 
 ///////////////////
 // Pablo's Attempt
