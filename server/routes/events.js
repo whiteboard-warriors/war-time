@@ -147,6 +147,12 @@ router.put('/attendees/:userId/:eventId', async (req, res) => {
 	}
 });
 
+// @TODO 	When User signs into to event, run algo that:
+// 			-	matches new user with user that attendee.isMatched === false,
+// 				if they match primaryLanguage and problem level.
+//			-	update matched users attendee.isMatched to true by keeping track
+//				of their attendee._id
+// 			-	store new matches to db
 // @route   PUT /api/events
 // @desc    Adds matches to event.
 router.put('/matches/:eventId', async (req, res) => {
@@ -154,13 +160,6 @@ router.put('/matches/:eventId', async (req, res) => {
 	// console.log(matches);
 	// console.log(req.params.eventId);
 	try {
-		// check to make sure user making updates has admin rights.
-		let user = await db.User.findOne({ _id: req.user._id });
-		if (user.admin !== true) {
-			return res.status(401).json({
-				msg: 'You are not authorized to edit this event.',
-			});
-		}
 		await db.Event.findOneAndUpdate(
 			{ _id: req.params.eventId },
 			{
@@ -168,6 +167,29 @@ router.put('/matches/:eventId', async (req, res) => {
 					matches: matches,
 				},
 			}
+		);
+		res.send('Your event was updated!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @TODO
+// @route   PUT /api/events
+// @desc    Updates match pair by adding additional people to group.
+router.put('/matches/update/:eventId/userId', async (req, res) => {
+	// find event by id
+	// loop through event.matches
+	// const { _id, level, primaryLanguage, secondaryLanguage } = req.body;
+	try {
+		await db.Event.findOneAndUpdate(
+			{ _id: req.params.eventId }
+			// { TODO
+			// 	$push: {
+			// 		'matches.$[item].user3': req.params
+			// 	},
+			// }
 		);
 		res.send('Your event was updated!');
 	} catch (err) {
