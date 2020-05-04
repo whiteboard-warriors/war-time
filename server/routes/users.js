@@ -113,6 +113,7 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
+// @TODO
 // @route   PUT /api/users
 // @desc - Update user's password
 router.put('/update-password/:id', async (req, res, next) => {
@@ -129,6 +130,7 @@ router.put('/update-password/:id', async (req, res, next) => {
 	}
 });
 
+// @TODO
 // @route  POST /api/users
 // @desc - Sends a password reset email.
 router.post('/forgot-password', async (req, res) => {
