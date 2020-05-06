@@ -155,25 +155,140 @@ router.put('/attendees/:userId/:eventId', async (req, res) => {
 // 			-	store new matches to db
 // @route   PUT /api/events
 // @desc    Adds matches to event.
-router.put('/matches/:eventId', async (req, res) => {
+router.put('/matches/:eventId/', async (req, res) => {
 	const { matches } = req.body;
-	// console.log(matches);
-	// console.log(req.params.eventId);
 	try {
-		await db.Event.findOneAndUpdate(
-			{ _id: req.params.eventId },
-			{
-				$push: {
-					matches: matches,
-				},
+		// stores matches array from current event into variable 'matches'
+		const event = await db.Event.findOne(
+			{_id: req.params.event}
+		)
+		// runs autopair function to see if can match by lvl & 1st language
+		function autoPair(arr, counter) {
+			// stores array passed through arguments to new array & renamed 
+			// back to arr
+			let newArr = [];
+			newArr = arr;
+			let arrayCounter = counter;
+			let currIndex = 0;
+			let level = 0;
+			let primaryLang = '';
+		
+			// loops through 'matches', finds first index where isMatches=false
+			// & stores level & 1st lang into function variables as well as 
+			// current index #
+			for (let i = 0; i < newArr.length; i++) {
+				let attendee = newArr[i];
+				if (attendee.isMatched === false) {
+					currIndex = i;
+					level = attendee.level;
+					primaryLang = attendee.attendee.primaryLanguage;
+					break;
+				}
 			}
-		);
+			
+			// loops through 
+			for (let j = currIndex + 1; j < newArr.length; j++) {
+				if (
+					newArr[j].isMatched === false &&
+					level === newArr[j].level &&
+					primaryLang === newArr[j].attendee.primaryLanguage
+				) {
+					let match = {
+						user1: newArr[currIndex].attendee._id,
+						user2: newArr[j].attendee._id,
+					};
+					// db//
+					await db.Event.findByIdAndUpdate(
+						{_id: matches._id},
+						{ $set: {'attendees.$[el].isMatched': true }},
+						{
+							arrayFilters: [{ 'el._id': newArr[j]._id}],
+							new:true
+						}
+					);
+					await db.Event.findByIdAndUpdate(
+						{_id: matches._id},
+						{ $set: {'attendees.$[el].isMatched': true }},
+						{
+							arrayFilters: [{ 'el._id': newArr[currIndex]._id}],
+							new:true
+						}
+					);
+					// update to event.matches
+					await db.Event.findByIdAndUpdate(
+						{_id: matches._id},
+						{ $push: { matches: { match }}}
+					);
+				}
+			}
+			if (arrayCounter <= newArr.length) {
+				arrayCounter = arrayCounter + 1;
+				autoPair(newArr, arrayCounter);
+			} else {
+				return;
+			}
+		}
+		
+		autoPair(event.attendees, 1);
 		res.send('Your event was updated!');
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
 	}
 });
+
+////////////////////////////////////
+let matches = [];
+
+function autoPair(arr, counter) {
+	let newArr = [];
+	newArr = arr;
+	let arrayCounter = counter;
+	let currIndex = 0;
+	let level = 0;
+	let primaryLang = '';
+
+	for (let i = 0; i < newArr.length; i++) {
+		let attendee = newArr[i];
+		if (attendee.isMatched === false) {
+			currIndex = i;
+			level = attendee.level;
+			primaryLang = attendee.attendee.primaryLanguage;
+			break;
+		}
+	}
+
+	for (let j = currIndex + 1; j < newArr.length; j++) {
+		if (
+			newArr[j].isMatched === false &&
+			level === newArr[j].level &&
+			primaryLang === newArr[j].attendee.primaryLanguage
+		) {
+			let match = {
+				user1: newArr[currIndex].attendee._id,
+				user2: newArr[j].attendee._id,
+			};
+			// db//
+			// update to event.attendees
+			newArr[j].isMatched = true;
+			newArr[currIndex].isMatched = true;
+			// update to event.matches
+			matches.push(match);
+			// db//
+		}
+	}
+
+	if (arrayCounter <= newArr.length) {
+		arrayCounter = arrayCounter + 1;
+		autoPair(newArr, arrayCounter);
+	} else {
+		return;
+	}
+}
+
+autoPair(attendees, 1);
+console.log('Paired Matches:', matches);
+////////////////////////////////////////////////////////
 
 // @TODO
 // @route   PUT /api/events
