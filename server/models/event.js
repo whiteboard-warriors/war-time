@@ -74,6 +74,13 @@ const EventSchema = new Schema({
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'User',
 			},
+			docLink: {
+				type: String,
+			},
+			level: {
+				type: Number,
+				required: 'You must enter problem level',
+			},
 		},
 	],
 });

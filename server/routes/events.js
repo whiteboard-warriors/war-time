@@ -3,7 +3,7 @@ const router = express.Router();
 // const passport = require('../config/passport');
 
 const db = require('../models');
-// var isAuthenticatedData = require('../config/middleware/isAuthenticatedData');
+const isAuthenticated = require('../config/middleware/isAuthenticated');
 
 // @route   POST /api/events
 // @desc    Admin creates an event
@@ -118,25 +118,154 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
+// Currently Unnecessary
 // @route   PUT /api/events
 // @desc    Adds attendees to event once they sign in.
-router.put('/attendees/:userId/:eventId', async (req, res) => {
-	const { level } = req.body;
+// router.put('/attendees/:userId/:eventId', async (req, res) => {
+// 	const { level } = req.body;
+// 	try {
+// 		// // check to make sure user making updates has admin rights.
+// 		// let user = await db.User.findOne({ _id: req.user._id });
+// 		// if (user.admin !== true) {
+// 		// 	return res.status(401).json({
+// 		// 		msg: 'You are not authorized to edit this event.',
+// 		// 	});
+// 		// }
+
+// 		const attendee = await db.User.findOne({ _id: req.params.userId });
+// 		await db.Event.findOneAndUpdate(
+// 			{ _id: req.params.eventId },
+// 			{
+// 				$push: {
+// 					attendees: { attendee, level },
+// 				},
+// 			}
+// 		);
+// 		res.send('Your event was updated!');
+// 	} catch (err) {
+// 		console.error(err.message);
+// 		res.status(500).send('Server Error');
+// 	}
+// });
+
+// @route   PUT /api/events
+// @desc    Adds attendees to event once they sign in.
+// isAuthenticated
+router.put('/attendees/:eventId', isAuthenticated, async (req, res) => {
+	const { level, _id, docLink } = req.body;
+
 	try {
-		// check to make sure user making updates has admin rights.
-		let user = await db.User.findOne({ _id: req.user._id });
-		if (user.admin !== true) {
-			return res.status(401).json({
-				msg: 'You are not authorized to edit this event.',
-			});
+		// fetch current list of attendees
+		const event = await db.Event.findOne({ _id: req.params.eventId })
+			.populate('attendees.attendee')
+			.populate('matches.user1')
+			.populate('matches.user2')
+			.populate('matches.user3')
+			.populate('matches.user4');
+		// console.log('event......=', event);
+		const currentAttendees = event.attendees;
+		// console.log(currentAttendees.length);
+		// find user in db by _id
+		const newAttendee = await db.User.findOne({ _id });
+		for (let i = 0; i < currentAttendees.length; i++) {
+			// check if attendees match isMatch is false, if primaryLanguage matches and if levels match.
+			if (
+				currentAttendees[i].isMatched === false &&
+				currentAttendees[i].attendee.primaryLanguage ===
+					newAttendee.primaryLanguage &&
+				currentAttendees[i].level === level
+			) {
+				console.log('new attendee just added  ====', _id);
+				console.log(
+					'attendee match found ====',
+					currentAttendees[i].attendee._id
+				);
+				// store users to matches field on db.event
+				const newMatch = {
+					user1: newAttendee._id,
+					user2: currentAttendees[i].attendee._id,
+					docLink,
+					level,
+				};
+				console.log(newMatch);
+				await db.Event.findOneAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$push: {
+							matches: newMatch,
+						},
+					}
+				);
+				// add newAttendee to list of attendees
+				await db.Event.findOneAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$push: {
+							attendees: { attendee: newAttendee._id, level },
+						},
+					}
+				);
+				// set matched users' isMatched to true
+				await db.Event.findByIdAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$set: {
+							'attendees.$[item].isMatched': true,
+						},
+					},
+					{
+						arrayFilters: [{ 'item.attendee': newAttendee._id }], // user that was just added.
+						new: true,
+					}
+				);
+				await db.Event.findByIdAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$set: {
+							'attendees.$[item].isMatched': true,
+						},
+					},
+					{
+						arrayFilters: [
+							{
+								'item.attendee':
+									currentAttendees[i].attendee._id, // user which was perfectly matched to user just added.
+							},
+						], // user that was just added.
+						new: true,
+					}
+				);
+			}
+			// break out of the loop once match is found
+			break;
+			//if no match found, just store new user to
 		}
 
-		const attendee = await db.User.findOne({ _id: req.params.userId });
+		res.send('Attendee added!');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @TODO 	When User signs into to event, run algo that:
+// 			-	matches new user with user that attendee.isMatched === false,
+// 				if they match primaryLanguage and problem level.
+//			-	update matched users attendee.isMatched to true by keeping track
+//				of their attendee._id
+// 			-	store new matches to db
+// @route   PUT /api/events
+// @desc    Adds matches to event.
+router.put('/matches/:eventId', async (req, res) => {
+	const { matches } = req.body;
+	// console.log(matches);
+	// console.log(req.params.eventId);
+	try {
 		await db.Event.findOneAndUpdate(
 			{ _id: req.params.eventId },
 			{
 				$push: {
-					attendees: { attendee, level },
+					matches: matches,
 				},
 			}
 		);
@@ -147,27 +276,21 @@ router.put('/attendees/:userId/:eventId', async (req, res) => {
 	}
 });
 
+// @TODO
 // @route   PUT /api/events
-// @desc    Adds matches to event.
-router.put('/matches/:eventId', async (req, res) => {
-	const { matches } = req.body;
-	// console.log(matches);
-	// console.log(req.params.eventId);
+// @desc    Updates match pair by adding additional people to group.
+router.put('/matches/update/:eventId/userId', async (req, res) => {
+	// find event by id
+	// loop through event.matches
+	// const { _id, level, primaryLanguage, secondaryLanguage } = req.body;
 	try {
-		// check to make sure user making updates has admin rights.
-		let user = await db.User.findOne({ _id: req.user._id });
-		if (user.admin !== true) {
-			return res.status(401).json({
-				msg: 'You are not authorized to edit this event.',
-			});
-		}
 		await db.Event.findOneAndUpdate(
-			{ _id: req.params.eventId },
-			{
-				$push: {
-					matches: matches,
-				},
-			}
+			{ _id: req.params.eventId }
+			// { TODO
+			// 	$push: {
+			// 		'matches.$[item].user3': req.params
+			// 	},
+			// }
 		);
 		res.send('Your event was updated!');
 	} catch (err) {
