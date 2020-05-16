@@ -1,3 +1,28 @@
+env:
+    global:
+        - secure: ozzU6afKOoOea3IxkNciHbwm3cFGb5vZ32dh6noeAdMMYaPhDohrYe2sSFQ4AOrqECk70Ca1u6+mT91TbNZhFwNT2hviQjmgecnNRldkYzBWb442ElOB/qnxNipfH0EdPXQNEv8kNCmHcOEjpN40k/T6tTpueY+NSwK9vAOZxLOwdqEVqM05ZAI9SqeYmszEBF4qoGqs5wV/1dgwe12tcYlijO7pYgHHa4PD35lFkTBLJ7wE2ZPRQxJM0S9QZjrEsEZakAjhY6PlsubCjLJx2QnqQ+0wX8m5YRmYCIUTWvctJAX7wqXsRz0D6LV78uSlCVK+lWT243fX7puYM3Wa0XNCmnyQkKTmPNlp4jxrgKQXORMlF1mG5iiuJ9K5bh4aKt+N5KdkfjFNicIupWqRUI1eiJzu6jxva7dPR7BCFf7Uc6zbfEYmDoIECoLtHWvrSkoiohwAvcLJ7COV6i0tR4XRIlYIX1XWxLmuMuHHq3sRRhUqTME/1OR6aIhOZjJAId+bEsRKccSebHkw7yMHr+42PpS6YB2T07ON5CTzJKiUUQGE+ETjDxOE+/od4irb0q7czjKtFkqXQYNw1jF1oT3gDkSsIeBC8DYXY1FzOaQxSjpcpBQKwimcWWGmsUe4MPW1L2czUJBSBIo9IheZV0Mz7CQ4fEvpSTquiZaaNJo=
+        - secure: l7LMY+rDVT/Sg7Dd5FTjSV0xOeW8ASeQ9yOkl64z5xHqRKGY9WxCj0ej1WwzDTd1Hpm7gNluoFnvP6CjnX6YSRLwVCEwqyh7OXhaucUw1q0erCRmRu26J172oOJpJ4BeJaG2bC2/ths44LJC/7JLMcg/Th5DI75IeDEgqsEluH0nYlt7NrjWLVRyAVt8a/Ws4cXdK3+AKKFIF904K7578rErwMirDdrfsvz/xLT49EgvcZfOxzngxXU03rhaYY1m975Q5KTYzkJ8obVNQZyEKW8y8sQylLXk+vHp8YXYodhqm697n2qGL85H33KFu0eDd4/678PGd2H8C2eTvFngZ4AxD7yFJbQ5bvJYE+VraUqed3u+Qo3217IBYbq952nTSpRfZadzWENmNzRQUFhZQb6gh7Em2wXfK8lw4gE0Ijek2zCbUy4cuxMai2g32jY3aDWCgUHXKjikmsauWDRr96qYZlggqf4o+tqDBJe1qKo36RXZwlIxg8h3Mog2izhvbzRDCdTbYo8mw5P6z8vUY32uh8JxKxB9t+OdlGcEvDmhY2rQlyQNcys6pMTdcQEvhDIjzWzKOF3NHp7RboKnoqTORCC6kHwBjvABcW4IPgUydVH+wLUUu56yPAG/bcEVKcwT3cpwBARCttBkH9un7S9A7ZFrDKiUazKB29jP7Pw=
+        - secure: pfKETJDGugCz/+aewpXvmYMYFMsBN/33X0smTfGF6wpChBLMGktu7nVkKaoGpduyzcL3C39UJu4Xzqh77O6oAjHAfmJCC/n2++ru5A+4y3n04y5aSTgnE+Fx/57X4uMR2AXZNwVj/38bmlh26OW0DoIv3EJMFqrqhD5HUiY5ERLs+upcAxLLYqNTHkQJvr7Z1NmdyNsOABKdJ/fcfe/IF90DjO4x92pTu4qWx+RbmyofkMqg08snclW6ZfZgIgSujwdeSPBdZ7aSoaJt0yU303xAum59f6hZT9rrtmIpjpo4IPF/2nRsY7EeSq0r7ke0ZNx8xImYMm4E+jT7iP9zWLq1z6jPA51f3RkROFAPen762aWLUeFg/XEf8Bd8jqh/0m0Gklc6BhTW6ut7FzVa8aAH0JAxZzRkceOcq6DAigrUw+Yrv9Yz/fOI2EEIIQbOsBiE2iTl1akyf+QuNma0bj9GhOqUGqEQuALIkaOBSY0ahX2HworFCNzkc68I9NabEGNcK9Ji60Yxj0HGxzf5NTflSrMrdaFiQSVVHDvwVD5RnfOicXuBw1J9HGF/Wf6n7AAukoNYPULMf/6qx15vRD2b8Dwqv/cfDyi0dnTDiYPsHsgN4VtUtwee5b5tw9fWnGqkWM/BWLp7a3fzcelW8/JzO2Ev2numaKr5jYFfHkg=
+language: node_js
+node_js:
+    - 12
+addons:
+    ssh_known_hosts: wartime.whiteboardwarriors.org
 before_install:
-- openssl aes-256-cbc -K $encrypted_081d3a392e1a_key -iv $encrypted_081d3a392e1a_iv
-  -in deploy-key.pem.enc -out deploy-key.pem -d
+    - openssl aes-256-cbc -K $encrypted_081d3a392e1a_key -iv $encrypted_081d3a392e1a_iv
+      -in deploy-key.pem.enc -out deploy-key.pem -d
+before_script:
+    - npm install
+    - npm build
+before_deploy:
+    - openssl aes-256-cbc -K $encrypted_081d3a392e1a_key -iv $encrypted_081d3a392e1a_iv
+      -in deploy-key.pem.enc -out deploy-key.pem -d
+    - eval "$(ssh-agent -s)"
+    - chmod 600 deploy-key.pem
+    - ssh-add deploy-key.pem
+deploy:
+    provider: script
+    skip_cleanup: true
+    script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+    on:
+        branch: master
