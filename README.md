@@ -37,3 +37,21 @@ On your terminal, on the root folder, run:
 On your terminal, on the root folder, run:
 
 -   `npm start`
+
+### Notes on Deployment
+
+- Create NodeJS Bitnami instance on LightSail
+- SET ENV variables on machine like so
+```
+NODE_ENV=PROD
+export PROD
+```
+- Run `npm run-scripts build` (before so client is compiled to optimized version, otherwise returns `cannot get /`)
+- Start app with forever (setting PWD relative the app: `forever start server/index.js`)
+- Use LetsEncryptCert tool which auto re-writes the VHOSTS file in `conf/bitnami/bitnami.conf` (for apache)
+- Modify vhost file for HTTPS:
+  - Look for node directory 
+  - proxy all requests to internal `localhost:3000` app
+- Setup Travis-CI Job:
+  - Encrypt deployment key
+  - add -e command to RSync for non-interactive/host key validation
