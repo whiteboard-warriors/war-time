@@ -22,4 +22,4 @@ deploy:
     skip_cleanup: true
     script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     on:
-        branch: master
+        branch: travis-ci-job
