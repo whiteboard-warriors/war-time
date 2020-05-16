@@ -2,7 +2,8 @@ language: node_js
 node_js:
     - 12
 addons:
-    ssh_known_hosts: wartime.whiteboardwarriors.org
+    ssh_known_hosts:
+        - DEPLOY_HOST
 env:
     global:
         - secure: ozzU6afKOoOea3IxkNciHbwm3cFGb5vZ32dh6noeAdMMYaPhDohrYe2sSFQ4AOrqECk70Ca1u6+mT91TbNZhFwNT2hviQjmgecnNRldkYzBWb442ElOB/qnxNipfH0EdPXQNEv8kNCmHcOEjpN40k/T6tTpueY+NSwK9vAOZxLOwdqEVqM05ZAI9SqeYmszEBF4qoGqs5wV/1dgwe12tcYlijO7pYgHHa4PD35lFkTBLJ7wE2ZPRQxJM0S9QZjrEsEZakAjhY6PlsubCjLJx2QnqQ+0wX8m5YRmYCIUTWvctJAX7wqXsRz0D6LV78uSlCVK+lWT243fX7puYM3Wa0XNCmnyQkKTmPNlp4jxrgKQXORMlF1mG5iiuJ9K5bh4aKt+N5KdkfjFNicIupWqRUI1eiJzu6jxva7dPR7BCFf7Uc6zbfEYmDoIECoLtHWvrSkoiohwAvcLJ7COV6i0tR4XRIlYIX1XWxLmuMuHHq3sRRhUqTME/1OR6aIhOZjJAId+bEsRKccSebHkw7yMHr+42PpS6YB2T07ON5CTzJKiUUQGE+ETjDxOE+/od4irb0q7czjKtFkqXQYNw1jF1oT3gDkSsIeBC8DYXY1FzOaQxSjpcpBQKwimcWWGmsUe4MPW1L2czUJBSBIo9IheZV0Mz7CQ4fEvpSTquiZaaNJo=
