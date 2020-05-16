@@ -25,4 +25,4 @@ deploy:
         rsync -r --delete-after --quiet -e "ssh -o StrictHostKeyChecking=no" $TRAVIS_BUILD_DIR
         $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     on:
-        branch: travis-ci-job
+        branch: master
