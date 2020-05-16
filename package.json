@@ -19,7 +19,8 @@
     "uninstall-client": "cd client && npm uninstall",
     "uninstall-server": "cd server && npm uninstall",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "test": ""
   },
   "author": "",
   "license": "ISC",
