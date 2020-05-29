@@ -148,6 +148,139 @@ router.put('/:id', async (req, res) => {
 // 	}
 // });
 
+// @route   PUT /api/events
+// @desc    Adds attendees to event once they sign in and looks for match with the same level and same language. If found, new user and match are added to the matches field.
+// isAuthenticated
+router.put('/attendees/:eventId', async (req, res) => {
+	const { level, _id } = req.body;
+	const docLink = 'tempLink.toBeGeneratedByDocApiCall';
+	let matched;
+
+	try {
+		// fetch current list of attendees
+		const event = await db.Event.findOne({ _id: req.params.eventId })
+			.populate('attendees.attendee')
+			.populate('matches.user1')
+			.populate('matches.user2')
+			.populate('matches.user3')
+			.populate('matches.user4');
+		// console.log('event......=', event);
+		const currentAttendees = event.attendees;
+		// check if new attendee has already been added.
+		for (let n = 0; n < currentAttendees.length; n++) {
+			if (currentAttendees[n].attendee._id == _id) {
+				return res.status(401).json({
+					msg: 'This attendee has already been added.',
+				});
+			}
+		}
+		// console.log(currentAttendees.length);
+		// find user in db by _id
+		const newAttendee = await db.User.findOne({ _id });
+		for (let i = 0; i < currentAttendees.length; i++) {
+			// check if attendees match isMatch is false, if primaryLanguage matches and if levels match.
+			if (
+				currentAttendees[i].isMatched === false &&
+				currentAttendees[i].attendee.primaryLanguage ===
+					newAttendee.primaryLanguage &&
+				currentAttendees[i].level === level
+			) {
+				console.log(
+					currentAttendees[i].isMatched === false &&
+						currentAttendees[i].attendee.primaryLanguage ===
+							newAttendee.primaryLanguage &&
+						currentAttendees[i].level === level
+				);
+
+				console.log('new attendee just added  ====', _id);
+				console.log(
+					'attendee match found ====',
+					currentAttendees[i].attendee._id
+				);
+				// store users to matches field on db.event
+				const newMatch = {
+					user1: newAttendee._id,
+					user2: currentAttendees[i].attendee._id,
+					docLink,
+					level,
+				};
+				console.log(newMatch);
+				await db.Event.findOneAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$push: {
+							matches: newMatch,
+						},
+					}
+				);
+				// add newAttendee to list of attendees
+				await db.Event.findOneAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$push: {
+							attendees: { attendee: newAttendee._id, level },
+						},
+					}
+				);
+				// set matched users' isMatched to true
+				await db.Event.findByIdAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$set: {
+							'attendees.$[item].isMatched': true,
+						},
+					},
+					{
+						arrayFilters: [{ 'item.attendee': newAttendee._id }], // user that was just added.
+						new: true,
+					}
+				);
+				await db.Event.findByIdAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$set: {
+							'attendees.$[item].isMatched': true,
+						},
+					},
+					{
+						arrayFilters: [
+							{
+								'item.attendee':
+									currentAttendees[i].attendee._id, // user which was perfectly matched to user just added.
+							},
+						], // user that was just added.
+						new: true,
+					}
+				);
+				matched = true;
+				break;
+			} else {
+				// add newAttendee to list of attendees
+				await db.Event.findOneAndUpdate(
+					{ _id: req.params.eventId },
+					{
+						$push: {
+							attendees: { attendee: newAttendee._id, level },
+						},
+					}
+				);
+				matched = false;
+			}
+			// break out of the loop once match is found
+
+			//if no match found, just store new user to
+		}
+		if (matched) {
+			res.send('Attendee added and matched!');
+		} else {
+			res.send('Attendee added but not matched!');
+		}
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 // @TODO
 // 			-	add functionality to add unmatched users to existing matches.
 //			- 	implement google doc api to auto generate google docs
