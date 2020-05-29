@@ -27,6 +27,8 @@ if (process.env.NODE_ENV === 'production') {
 // Add routes, both API and view
 app.use('/api/users', require('./routes/users'));
 app.use('/api/events', require('./routes/events'));
+app.use('/api/events/admin', require('./routes/eventAdmin'));
+app.use('/api/events/pair', require('./routes/eventPairing'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/locations', require('./routes/locations'));
 app.use('/api/languages', require('./routes/languages'));
