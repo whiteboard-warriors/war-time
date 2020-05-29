@@ -320,6 +320,31 @@ var attendees = [
 // };
 // autoMatch(attendees);
 
+// Pair users that haven't been matched with a perfect match and add them to a group that best matches.
+
+// steps
+
+// 1. loop through attendees and find first user that isMatch === false and store it to a variable.
+
+// 2. loop through list of matches and check if user1 in the match has:
+
+//	// a. if !user3.   OR
+//	// b. if !user4.   AND
+
+//	// c. Same Language and nearest level.  OR
+
+// 	// d. Secondary language and exact level.   OR
+
+// 	// e. Secondary language and nearest level.  OR
+
+// 	// f. Primary language and any level.
+
+// 3. Add user to the best found match
+
+// 4. Update added user isMatch to true
+
+// 5. Repeat the process until all users are placed in a match.
+
 ///////////////////
 // Pablo's Attempt
 ///////////////////
@@ -357,6 +382,8 @@ function autoPair(arr, counter) {
 			let match = {
 				user1: newArr[currIndex].attendee._id,
 				user2: newArr[j].attendee._id,
+				docLink: 'sample link',
+				level: newArr[currIndex].level,
 			};
 			// db//
 			// update to event.attendees
@@ -383,3 +410,41 @@ console.log('Paired Matches:', matches);
 ////////////////////
 // Steven's Attempt
 ////////////////////
+
+//////////////////
+// new sudo code
+//////////////////
+
+// fetch attendee's array from DB
+
+// loop through array and check for a user that is not yet matched.
+
+// store user found user's data to be compared matched users
+// - id
+// - attendee id
+// - level
+// - primary language
+// - secondary language
+
+// keep track of current index
+
+// break out of the loop
+
+// loop the attendee's array again from current index
+
+// check for matching conditions following matching priorities
+
+// if match is found, store user found user's data to be compared matched users
+// - id
+// - attendee id
+// - level
+// - primary language
+// - secondary language
+
+// break out of second loop
+
+// create match object and store it to the event
+
+// update each attendee isMatch to true
+
+//
