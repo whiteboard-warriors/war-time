@@ -327,26 +327,387 @@ router.put('/trigger/:eventId', async (req, res) => {
 		}
 
 		autoPair(event.attendees, 1);
-
-		// function addToMatch()
-
-		// loop through attendees and check if isMatch === false
-
-		// store user pertinent info and break out of the look
-
-		// loop through list of matches
-
-		// check if !user3 and same primary language and same level
-		// else if same primary language and next level down
-		// else if same primary language and next level up
-		// else if same secondary language and same level
-		// else if same secondary language and next level down
-		// else if same secondary language and next level up
-		// else if same primary language.
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
 	}
 });
 
+router.put('/test/:eventId', async (req, res) => {
+	try {
+		// stores matches array from current event into variable 'matches'
+		const event = await db.Event.findOne({ _id: req.params.eventId })
+			.populate('attendees.attendee')
+			.populate('matches.user1')
+			.populate('matches.user2')
+			.populate('matches.user3')
+			.populate('matches.user4');
+		async function autoPair(attendeesArr, counter) {
+			// stores array passed through arguments to new array & renamed
+			// back to attendeesArr
+			let newArr = [];
+			newArr = attendeesArr;
+			let arrayCounter = counter;
+			let currIndex = 0;
+			let level = 0;
+			let primaryLang = '';
+			let secondaryLang = '';
+			// loops through 'matches', finds first index where isMatches=false
+			// & stores level & 1st lang into function variables as well as
+			// current index #
+			for (let i = 0; i < newArr.length; i++) {
+				if (newArr[i].isMatched === false) {
+					currIndex = i;
+					level = newArr[i].level;
+					primaryLang = newArr[i].attendee.primaryLanguage;
+					secondaryLang = newArr[i].attendee.secondaryLanguage;
+
+					break;
+				}
+			}
+
+			// loops through
+			for (let j = currIndex + 1; j < newArr.length; j++) {
+				let isMatch;
+				// Same Language and nearest level up.
+				if (
+					newArr[j].isMatched === false &&
+					level === newArr[j].level - 1 &&
+					primaryLang === newArr[j].attendee.primaryLanguage
+				) {
+					console.log('same language and nearest level down found');
+					isMatch = true;
+					// Same Language and nearest level down.
+				} else if (
+					newArr[j].isMatched === false &&
+					level === newArr[j].level + 1 &&
+					primaryLang === newArr[j].attendee.primaryLanguage
+				) {
+					console.log('same language and nearest level up found');
+					isMatch = true;
+				}
+				// Secondary language and exact level.
+				else if (
+					newArr[j].isMatched === false &&
+					level === newArr[j].level &&
+					secondaryLang === newArr[j].attendee.secondaryLanguage
+				) {
+					console.log('secondary language and exact level found');
+					isMatch = true;
+				}
+				// Secondary language and nearest level up.
+				else if (
+					newArr[j].isMatched === false &&
+					level === newArr[j].level + 1 &&
+					secondaryLang === newArr[j].attendee.secondaryLanguage
+				) {
+					console.log(
+						'secondary language and nearest level up found'
+					);
+					isMatch = true;
+					// Secondary language and nearest level down.
+				} else if (
+					newArr[j].isMatched === false &&
+					level === newArr[j].level - 1 &&
+					secondaryLang === newArr[j].attendee.secondaryLanguage
+				) {
+					console.log(
+						'secondary language and nearest level down found'
+					);
+					isMatch = true;
+					// f. Primary language and any level.
+				} else if (
+					newArr[j].isMatched === false &&
+					primaryLang === newArr[j].attendee.primaryLanguage
+				) {
+					console.log('primary language and any level found');
+					isMatch = true;
+				} else {
+					console.log('no matches found');
+					isMatch = false;
+				}
+
+				if (isMatch) {
+					// Use the lowest level between the two matches.
+					let finalLevel;
+					if (newArr[currIndex].level <= newArr[j].level) {
+						finalLevel = newArr[currIndex].level;
+					} else {
+						finalLevel = newArr[j].level;
+					}
+
+					// builds match object
+					let newMatch = {
+						user1: newArr[currIndex].attendee._id,
+						user2: newArr[j].attendee._id,
+						docLink:
+							'https://docs.google.com/document/d/1bPKYC_rSkfqZdk3vj6Esj_Amp72RVfJ87zhTkWOfPfw/edit', // temp doc link - google doc api data to replace this
+						level: finalLevel,
+					};
+
+					// updates matched users isMatched to true
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$set: {
+								'attendees.$[item].isMatched': true,
+							},
+						},
+						{
+							arrayFilters: [
+								{
+									'item.attendee':
+										newArr[currIndex].attendee._id,
+								},
+							],
+							new: true,
+						}
+					);
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$set: {
+								'attendees.$[item].isMatched': true,
+							},
+						},
+						{
+							arrayFilters: [
+								{
+									'item.attendee': newArr[j].attendee._id,
+								},
+							],
+							new: true,
+						}
+					);
+
+					// console.log('************  newMatch  ***************');
+					// console.log(newMatch);
+					// add new match to matches field
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$push: {
+								matches: newMatch,
+							},
+						}
+					);
+					break;
+				}
+			}
+			const updatedEvent = await db.Event.findOne({
+				_id: req.params.eventId,
+			})
+				.populate('attendees.attendee')
+				.populate('matches.user1')
+				.populate('matches.user2')
+				.populate('matches.user3')
+				.populate('matches.user4');
+
+			newArr = updatedEvent.attendees;
+
+			if (arrayCounter <= newArr.length) {
+				arrayCounter = arrayCounter + 1;
+				console.log('autoPair should run again');
+				autoPair(newArr, arrayCounter);
+			} else {
+				res.send('Users have been paired!');
+				console.log('recursion stopped');
+				return;
+			}
+		}
+
+		async function addToMatch(attendeesArr, matchArr, counter) {
+			let currAttendeesArr = [];
+			let currMatchesArr = [];
+			currAttendeesArr = attendeesArr;
+			currMatchesArr = matchArr;
+			let arrayCounter = counter;
+			let currIndex = 0;
+			let level = 0;
+			let primaryLang = '';
+			let secondaryLang = '';
+			let userId = '';
+
+			// loop through attendees and check if isMatch === false
+			for (let i = 0; i < currAttendeesArr.length; i++) {
+				if (currAttendeesArr[i].isMatched === false) {
+					// store user pertinent info and break out of the look
+					currIndex = i;
+					level = currAttendeesArr[i].level;
+					primaryLang = currAttendeesArr[i].attendee.primaryLanguage;
+					secondaryLang =
+						currAttendeesArr[i].attendee.secondaryLanguage;
+					userId = currAttendeesArr[i].attendee._id;
+
+					break;
+				}
+			}
+
+			// loop through list of matches
+			for (let j = 0; j < currMatchesArr.length; j++) {
+				let isMatch;
+				// Same Language and nearest level up.
+				if (
+					// check if !user3 or !user4
+					!currMatchesArr[j].user3 ||
+					!currMatchesArr[j].user4
+				) {
+					if (
+						// same primary language and same level
+						currMatchesArr[j].user2.primaryLanguage ===
+							primaryLang &&
+						currMatchesArr[j].level === level
+					) {
+						console.log(
+							'matched with same level and primary language'
+						);
+						isMatch = true;
+					} else if (
+						// else if same primary language and next level down
+						currMatchesArr[j].user2.primaryLanguage ===
+							primaryLang &&
+						currMatchesArr[j].level === level - 1
+					) {
+						console.log(
+							'matched with same primary language and next level down'
+						);
+						isMatch = true;
+					} else if (
+						// else if same primary language and next level up
+						currMatchesArr[j].user2.primaryLanguage ===
+							primaryLang &&
+						currMatchesArr[j].level === level + 1
+					) {
+						console.log(
+							'matched with same primary language and next level up'
+						);
+						isMatch = true;
+					} else if (
+						// else if same secondary language and same level
+						currMatchesArr[j].user2.secondaryLanguage ===
+							secondaryLang &&
+						currMatchesArr[j].level === level
+					) {
+						console.log(
+							'matched with same secondary language and same level'
+						);
+						isMatch = true;
+					} else if (
+						// else if same secondary language and next level down
+						currMatchesArr[j].user2.secondaryLanguage ===
+							secondaryLang &&
+						currMatchesArr[j].level === level - 1
+					) {
+						console.log(
+							'matched with same secondary language and next level down'
+						);
+						isMatch = true;
+					} else if (
+						// else if same secondary language and next level up
+						currMatchesArr[j].user2.secondaryLanguage ===
+							secondaryLang &&
+						currMatchesArr[j].level === level + 1
+					) {
+						console.log(
+							'matched with same secondary language and next level up'
+						);
+						isMatch = true;
+					} else if (
+						// else if same primary language.
+						currMatchesArr[j].user2.primaryLanguage === primaryLang
+					) {
+						console.log('matched with same primary language');
+						isMatch = true;
+					}
+				}
+
+				/* ------------------- TO DO --------------------- 
+                - add new user to match to user3 or user4
+                - figure out how to update non existing field by adding it on mongodb object. 
+                */
+
+				if (isMatch) {
+					let user;
+					if (currMatchesArr[j].user3) {
+						user = 'matches.$[item].user3';
+					} else {
+						user = 'matches.$[item].user4';
+					}
+					// add new user to match
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$push: {
+								user: true,
+							},
+						},
+						{
+							arrayFilters: [
+								{
+									'item.attendee':
+										newArr[currIndex].attendee._id,
+								},
+							],
+							new: true,
+						}
+					);
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$set: {
+								'attendees.$[item].isMatched': true,
+							},
+						},
+						{
+							arrayFilters: [
+								{
+									'item.attendee': newArr[j].attendee._id,
+								},
+							],
+							new: true,
+						}
+					);
+
+					// console.log('************  newMatch  ***************');
+					// console.log(newMatch);
+					// add new match to matches field
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$push: {
+								matches: newMatch,
+							},
+						}
+					);
+					break;
+				}
+			}
+			const updatedEvent = await db.Event.findOne({
+				_id: req.params.eventId,
+			})
+				.populate('attendees.attendee')
+				.populate('matches.user1')
+				.populate('matches.user2')
+				.populate('matches.user3')
+				.populate('matches.user4');
+
+			newArr = updatedEvent.attendees;
+
+			if (arrayCounter <= newArr.length) {
+				arrayCounter = arrayCounter + 1;
+				console.log('autoPair should run again');
+				autoPair(newArr, arrayCounter);
+			} else {
+				res.send('Users have been paired!');
+				console.log('recursion stopped');
+				return;
+			}
+		}
+
+		autoPair(event.attendees, 1);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 module.exports = router;
