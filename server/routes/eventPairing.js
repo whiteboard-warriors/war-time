@@ -333,6 +333,13 @@ router.put('/trigger/:eventId', async (req, res) => {
 	}
 });
 
+//Test Route
+//    TO DO
+// add match language to match db object and modify algos accordingly
+
+// add user on db that has Go and PL, JavaScript as SL, and level 2
+// add user on db that has C++ and PL, JavaScript as SL, and level 2
+
 router.put('/test/:eventId', async (req, res) => {
 	try {
 		// stores matches array from current event into variable 'matches'
