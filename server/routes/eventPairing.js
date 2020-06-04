@@ -5,6 +5,9 @@ const router = express.Router();
 const db = require('../models');
 const isAuthenticated = require('../config/middleware/isAuthenticated');
 
+// @issues
+// - new users added were added mutilple times, probably every single time for loop looped through item in array of attendees.
+
 // @route   PUT /api/events/pairing
 // @desc    Adds attendees to event once they sign in and looks for match with the same level and same language. If found, new user and match are added to the matches field.
 // isAuthenticated
@@ -334,11 +337,15 @@ router.put('/trigger/:eventId', async (req, res) => {
 });
 
 //Test Route
-//    TO DO
+
+//@Issues
+// - users are not being saved to match groups they match with.
+
+// @TODO
 // add match language to match db object and modify algos accordingly
 
 // add user on db that has Go and PL, JavaScript as SL, and level 2
-// add user on db that has C++ and PL, JavaScript as SL, and level 2
+// add user on db that has C++ and PL, Python as SL, and level 2
 
 router.put('/test/:eventId', async (req, res) => {
 	try {
