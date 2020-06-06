@@ -6,7 +6,6 @@ const app = express()
 
 const PORT = process.env.PORT || 5005
 
-console.log('MONGO: ' + process.env.MONGODB_URI)
 // Define middleware here
 
 app.use(express.urlencoded({ extended: true }))
@@ -31,7 +30,7 @@ app.use('/api/users', require('./routes/users'))
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/locations', require('./routes/locations'))
 app.use('/api/languages', require('./routes/languages'))
-
+app.use('/api/jobs', require('./routes/jobs'))
 // Connect to the Mongo DB
 mongoose.set('useUnifiedTopology', true)
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/war-time', {
