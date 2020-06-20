@@ -60,7 +60,6 @@ router.post(
 				linkedIn,
 				primaryLanguage,
 				secondaryLanguage,
-				admin,
 			})
 
 			await user.save()
@@ -72,6 +71,20 @@ router.post(
 		}
 	}
 )
+
+// @route   GET /api/users
+// @desc - Get the current users' info
+router.get('/', isAuthenticated, async (req, res) => {
+	try {
+		const user = await db.User.findOne({
+			_id: req.user._id,
+		})
+		res.json(user)
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server Error')
+	}
+})
 
 // @route   GET /api/users/:id
 // @desc - Get users info except password

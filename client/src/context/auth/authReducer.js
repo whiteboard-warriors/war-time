@@ -12,6 +12,7 @@ import {
 export default (state, action) => {
 	switch (action.type) {
 		case USER_LOADED:
+			localStorage.setItem('user', JSON.stringify(action.payload))
 			return {
 				...state,
 				isAuthenticated: true,
@@ -20,7 +21,7 @@ export default (state, action) => {
 			}
 		case SIGNUP_SUCCESS:
 		case LOGIN_SUCCESS:
-			// localStorage.setItem('token', action.payload.token);
+			localStorage.setItem('isAuthenticated', true)
 			return {
 				...state,
 				...action.payload,
@@ -31,7 +32,7 @@ export default (state, action) => {
 		case AUTH_ERROR:
 		case LOGIN_FAIL:
 		case LOGOUT:
-			localStorage.removeItem('token')
+			localStorage.removeItem('isAuthenticated')
 			return {
 				...state,
 				token: null,

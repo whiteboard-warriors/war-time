@@ -10,25 +10,26 @@ import AuthContext from '../../context/auth/authContext'
 
 const Index = () => {
 	const authContext = useContext(AuthContext)
-	const { isAuthenticated, logout, user } = authContext
+	const { isAuthenticated, logout } = authContext
 
 	const authLinks = (
 		<Fragment>
-			<li className="ml-1">
-				<Link to="/">Home</Link>
-			</li>
-			<li className="ml-1">
-				<Link to="/about">About</Link>
-			</li>
-			<li li className="ml-1">
-				Hello!
-			</li>
-			<li className="ml-1">
-				<a href="#1">
-					<i className="fas fa-sign-out-alt "></i>
-					<span className="hide-sm">Logout</span>
-				</a>
-			</li>
+			<Link data-rb-event-key="/" className="nav-link" to="/">
+				{' '}
+				Home
+			</Link>
+			<Link data-rb-event-key="/events" className="nav-link" to="/">
+				{' '}
+				Events
+			</Link>
+			<ul class="navbar-nav">
+				<li class="nav-item avatar">
+					<a class="nav-link p-0" href="#">
+						<img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+							alt="avatar image" height="35"></img>
+					</a>
+				</li>
+			</ul>
 		</Fragment>
 	)
 
@@ -61,18 +62,7 @@ const Index = () => {
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="ml-auto">
-					<Link data-rb-event-key="/" className="nav-link" to="/">
-						{' '}
-						Home
-					</Link>
-					<Link
-						data-rb-event-key="/landing"
-						className="nav-link"
-						to="/landing"
-					>
-						Landing
-					</Link>
-					<ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+					{isAuthenticated ? authLinks : guestLinks}
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>
@@ -80,78 +70,3 @@ const Index = () => {
 }
 
 export default Index
-
-// import React, { Fragment, useContext } from 'react';
-// import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-// import AuthContext from '../../context/auth/authContext';
-// import ContactContext from '../../context/contact/contactContext';
-
-// const Navbar = ({ title, icon }) => {
-//     const authContext = useContext(AuthContext);
-//     const contactContext = useContext(ContactContext);
-
-//     const { isAuthenticated, logout, user } = authContext;
-//     const { clearContacts } = contactContext;
-
-//     const onLogout = () => {
-//         logout();
-//         clearContacts();
-//     };
-
-//     const authLinks = (
-//         <Fragment>
-//             <li className='ml-1'>
-//                 <Link to='/'>Home</Link>
-//             </li>
-//             <li className='ml-1'>
-//                 <Link to='/about'>About</Link>
-//             </li>
-//             <li li className='ml-1'>
-//                 Hello, {user && user.name}!
-//             </li>
-//             <li className='ml-1'>
-//                 <a onClick={onLogout} href='#1'>
-//                     <i className='fas fa-sign-out-alt '></i>
-//                     <span className='hide-sm'>Logout</span>
-//                 </a>
-//             </li>
-//         </Fragment>
-//     );
-
-//     const guestLinks = (
-//         <Fragment>
-//             <li className='ml-1'>
-//                 <Link to='/about'>About</Link>
-//             </li>
-//             <li li className='ml-1'>
-//                 <Link to='/register'>Register</Link>
-//             </li>
-//             <li li className='ml-1'>
-//                 <Link to='/login'>Login</Link>
-//             </li>
-//         </Fragment>
-//     );
-
-//     return (
-//         <div className='navbar bg-primary'>
-//             <h2>
-//                 <i className={icon} />
-//                 <Link to='/'>{title}</Link>
-//             </h2>
-//             <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
-//         </div>
-//     );
-// };
-
-// Navbar.protoTypes = {
-//     title: PropTypes.string.isRequired,
-//     icon: PropTypes.string
-// };
-
-// Navbar.defaultProps = {
-//     title: 'Contact Keeper',
-//     icon: 'fas fa-id-card-alt'
-// };
-
-// export default Navbar;

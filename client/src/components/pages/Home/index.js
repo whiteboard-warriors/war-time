@@ -1,25 +1,34 @@
-import React, { Fragment } from 'react';
-
-import Navbar from '../../Navbar';
-
-import './style.scss';
-
-// import AuthContext from '../../../context/auth/authContext';
+import React, { Fragment, useContext, useState, useEffect } from 'react'
+import Navbar from '../../Navbar'
+import './style.scss'
+import { Container } from 'react-bootstrap'
+import AuthContext from '../../../context/auth/authContext'
 
 const Home = () => {
-	// const authContext = useContext(AuthContext);
+	const authContext = useContext(AuthContext)
+	const { isAuthenticated, logout, user } = authContext
 
-	// useEffect(() => {
-	// 	authContext.loadUser();
-	// 	// eslint-disable-next-line
-	// }, []);
+	const authGreeting = (
+		<Fragment>
+			Hi {user.firstName}, thanks for joining Whiteboard Warriors!!!
+		</Fragment>
+	)
+
+	const landingGreeting = (
+		<Fragment>
+			Welcome to War-Time the Whiteboard Warriors Meet-Up App!
+		</Fragment>
+	)
 
 	return (
 		<Fragment>
 			<Navbar></Navbar>
-			<h1 className='mt-5'>Home Page</h1>
+			<Container>
+				<h1 className="mt-5">Welcome</h1>
+				{isAuthenticated ? authGreeting : landingGreeting}
+			</Container>
 		</Fragment>
-	);
-};
+	)
+}
 
-export default Home;
+export default Home
