@@ -10,6 +10,7 @@ const { check, validationResult } = require('express-validator')
 // const isAuthenticated = require('../config/middleware/isAuthenticated');
 
 const db = require('../models')
+const isAuthenticated = require('../config/middleware/isAuthenticated')
 
 // @route   POST api/users
 // @desc - Sign up
@@ -71,6 +72,20 @@ router.post(
 		}
 	}
 )
+
+// @route   GET /api/users/:id
+// @desc - Get users info except password
+router.get('/:id', isAuthenticated, async (req, res) => {
+	try {
+		const user = await db.User.find({
+			_id: req.params.id,
+		})
+		res.json(user)
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server Error')
+	}
+})
 
 // @route   PUT /api/users
 // @desc - Update user's info except password
@@ -151,7 +166,7 @@ router.post('/forgot-password', async (req, res) => {
 	}
 })
 
-// @route   PUT /api/users
+// @route   DELETE /api/users
 // @desc - Delete User
 router.put('/delete/:id', async (req, res) => {
 	try {

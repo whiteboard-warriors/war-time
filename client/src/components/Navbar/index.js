@@ -1,68 +1,85 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-import { Navbar, Nav } from 'react-bootstrap';
+import React, { Fragment, useContext, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { Navbar, Nav } from 'react-bootstrap'
 
 // import moduleName from 'module';
-import './style.scss';
-import logo from './ww-logo.svg';
+import './style.scss'
+import logo from './ww-logo.svg'
+
+import AuthContext from '../../context/auth/authContext'
 
 const Index = () => {
+	const authContext = useContext(AuthContext)
+	const { isAuthenticated, logout, user } = authContext
+
+	const authLinks = (
+		<Fragment>
+			<li className="ml-1">
+				<Link to="/">Home</Link>
+			</li>
+			<li className="ml-1">
+				<Link to="/about">About</Link>
+			</li>
+			<li li className="ml-1">
+				Hello!
+			</li>
+			<li className="ml-1">
+				<a href="#1">
+					<i className="fas fa-sign-out-alt "></i>
+					<span className="hide-sm">Logout</span>
+				</a>
+			</li>
+		</Fragment>
+	)
+
+	const guestLinks = (
+		<Fragment>
+			<Link data-rb-event-key="/login" className="nav-link" to="/login">
+				Login
+			</Link>
+			<Link data-rb-event-key="/signup" className="nav-link" to="/signup">
+				Signup
+			</Link>
+		</Fragment>
+	)
+
+	const onLogout = () => {
+		logout()
+	}
+
 	return (
-		<Navbar expand='lg'>
-			<Link className='navbar-brand' to='/'>
+		<Navbar expand="lg">
+			<Link className="navbar-brand" to="/">
 				War{' '}
 				<img
-					alt='whiteboard warriors - war time'
-					className='nav-logo'
+					alt="whiteboard warriors - war time"
+					className="nav-logo"
 					src={logo}
 				></img>{' '}
 				Time
 			</Link>
-			<Navbar.Toggle aria-controls='basic-navbar-nav' />
-			<Navbar.Collapse id='basic-navbar-nav'>
-				<Nav className='ml-auto'>
-					<Link data-rb-event-key='/' className='nav-link' to='/'>
+			<Navbar.Toggle aria-controls="basic-navbar-nav" />
+			<Navbar.Collapse id="basic-navbar-nav">
+				<Nav className="ml-auto">
+					<Link data-rb-event-key="/" className="nav-link" to="/">
 						{' '}
 						Home
 					</Link>
 					<Link
-						data-rb-event-key='/landing'
-						className='nav-link'
-						to='/landing'
+						data-rb-event-key="/landing"
+						className="nav-link"
+						to="/landing"
 					>
 						Landing
 					</Link>
-					<Link
-						data-rb-event-key='/login'
-						className='nav-link'
-						to='/login'
-					>
-						Login
-					</Link>
-					<Link
-						data-rb-event-key='/signup'
-						className='nav-link'
-						to='/signup'
-					>
-						Signup
-					</Link>
+					<ul>{isAuthenticated ? authLinks : guestLinks}</ul>
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>
-		// <div>
-		// 	<p>
-		// 		<Link to='/'> -Home -</Link>
-		// 		<Link to='/landing'>Landing -</Link>
-		// 		<Link to='/login'>Login -</Link>
-		// 		<Link to='/signup'>Signup -</Link>
-		// 	</p>
+	)
+}
 
-		// </div>
-	);
-};
-
-export default Index;
+export default Index
 
 // import React, { Fragment, useContext } from 'react';
 // import PropTypes from 'prop-types';

@@ -32,7 +32,7 @@ const AuthState = (props) => {
 		// }
 
 		try {
-			const res = await axios.get('/api/auth')
+			const res = await axios.get('/api/auth/login')
 
 			dispatch({
 				type: USER_LOADED,
@@ -76,7 +76,7 @@ const AuthState = (props) => {
 		}
 
 		try {
-			const res = await axios.post('/api/auth', formData, config)
+			const res = await axios.post('/api/auth/login', formData, config)
 
 			dispatch({
 				type: LOGIN_SUCCESS,

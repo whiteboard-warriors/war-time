@@ -1,96 +1,88 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react'
+import Navbar from '../../Navbar'
+import AuthContext from '../../../context/auth/authContext'
+import AlertContext from '../../../context/alert/alertContext'
+import { Container, Form, Row, Col, Button } from 'react-bootstrap'
 
-import Navbar from '../../Navbar';
+const Login = (props) => {
+	const alertContext = useContext(AlertContext)
+	const authContext = useContext(AuthContext)
 
-const Login = () => {
+	const { setAlert } = alertContext
+	const { login, error, clearErrors, isAuthenticated } = authContext
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			props.history.push('/')
+		}
+
+		if (error === 'Invalid Credentials') {
+			setAlert(error, 'danger')
+			clearErrors()
+		}
+		// eslint-disable-next-line
+	}, [error, isAuthenticated, props.history])
+
+	const [user, setUser] = useState({
+		email: '',
+		password: '',
+	})
+
+	const { email, password } = user
+
+	const onChange = (e) =>
+		setUser({ ...user, [e.target.name]: e.target.value })
+
+	const onSubmit = (e) => {
+		e.preventDefault()
+		login({
+			email,
+			password,
+		})
+	}
+
 	return (
 		<Fragment>
 			<Navbar></Navbar>
-			<h1 className='mt-5'>Login</h1>
+			<Container>
+				<Form onSubmit={onSubmit}>
+					<Row>
+						<Col>
+							<Form.Group controlId="formEmail">
+								<Form.Label>Email</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="E-Mail"
+									name="email"
+									value={email}
+									onChange={onChange}
+									required
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Form.Group controlId="formPassword">
+								<Form.Label>Password</Form.Label>
+								<Form.Control
+									type="password"
+									placeholder="Password"
+									name="password"
+									value={password}
+									onChange={onChange}
+									required
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
+					<Button variant="primary" type="submit">
+						Sign In
+					</Button>
+				</Form>
+			</Container>
 		</Fragment>
-	);
-};
+	)
+}
 
-export default Login;
-
-// import React, { useState, useContext, useEffect } from 'react';
-// import AuthContext from '../../context/auth/authContext';
-// import AlertContext from '../../context/alert/alertContext';
-
-// const Login = props => {
-//     const alertContext = useContext(AlertContext);
-//     const authContext = useContext(AuthContext);
-
-//     const { setAlert } = alertContext;
-//     const { login, error, clearErrors, isAuthenticated } = authContext;
-
-//     useEffect(() => {
-//         if (isAuthenticated) {
-//             props.history.push('/');
-//         }
-
-//         if (error === 'Invalid Credentials') {
-//             setAlert(error, 'danger');
-//             clearErrors();
-//         }
-//         // eslint-disable-next-line
-//     }, [error, isAuthenticated, props.history]);
-
-//     const [user, setUser] = useState({
-//         email: '',
-//         password: ''
-//     });
-
-//     const { email, password } = user;
-
-//     const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
-
-//     const onSubmit = e => {
-//         e.preventDefault();
-//         if ((email === '') | (password === '')) {
-//             setAlert('Please fill in all fields', 'danger');
-//         } else {
-//             login({
-//                 email,
-//                 password
-//             });
-//         }
-//     };
-
-//     return (
-//         <div className='form-container'>
-//             <h1>
-//                 Account <span className='text-primary'>Login</span>
-//             </h1>
-//             <form onSubmit={onSubmit}>
-//                 <div className='form-group'>
-//                     <label htmlFor='email'>Email Address</label>
-//                     <input
-//                         type='email'
-//                         name='email'
-//                         value={email}
-//                         onChange={onChange}
-//                         required
-//                     />
-//                 </div>
-//                 <div className='form-group'>
-//                     <label htmlFor='password'>Password</label>
-//                     <input
-//                         type='password'
-//                         name='password'
-//                         value={password}
-//                         onChange={onChange}
-//                         required
-//                     />
-//                 </div>
-//                 <input
-//                     type='submit'
-//                     value='Login'
-//                     className='btn btn-primary btn-block'
-//                 />
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default Login;
+export default Login

@@ -1,22 +1,8 @@
-// import React, { Fragment } from 'react';
-
-import Navbar from '../../Navbar'
-
-// const Signup = () => {
-// 	return (
-// 		<Fragment>
-// 			<Navbar></Navbar>
-// 			<h1 className='mt-5'>Signup</h1>
-// 		</Fragment>
-// 	);
-// };
-
-// export default Signup;
-
 import React, { Fragment, useContext, useState, useEffect } from 'react'
 import AlertContext from '../../../context/alert/alertContext'
 import AuthContext from '../../../context/auth/authContext'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+import Navbar from '../../Navbar'
 
 const Signup = (props) => {
 	const alertContext = useContext(AlertContext)
@@ -38,41 +24,53 @@ const Signup = (props) => {
 	}, [error, isAuthenticated, props.history])
 
 	const [user, setUser] = useState({
-		name: '',
+		firstName: '',
+		lastName: '',
 		email: '',
+		slackUsername: '',
+		primaryLanguage: '',
+		secondaryLanguage: '',
+		skillLevel: '',
 		password: '',
 		password2: '',
 	})
 
-	const { name, email, password, password2 } = user
+	const {
+		firstName,
+		lastName,
+		email,
+		slackUsername,
+		primaryLanguage,
+		secondaryLanguage,
+		skillLevel,
+		password,
+		password2,
+	} = user
 
-	const onChange = (e) =>
+	const onChange = (e) => {
+		console.info(e.target.name + ' ' + e.target.value)
 		setUser({ ...user, [e.target.name]: e.target.value })
+	}
 
 	const onSubmit = (e) => {
 		e.preventDefault()
-		if (name === '' || email === '' || password === '') {
-			// setAlert('Please enter all fields', 'danger')
-		} else if (password !== password2) {
-			// setAlert('Passwords do no match', 'danger')
-		} else {
-			register({
-				name,
-				email,
-				password,
-			})
-		}
+		register({
+			firstName,
+			lastName,
+			email,
+			slackUsername,
+			primaryLanguage,
+			secondaryLanguage,
+			skillLevel,
+			password,
+		})
 	}
 
 	return (
 		<Fragment>
 			<Navbar></Navbar>
 			<Container>
-				{/* <div className="form-container">
-				<h1>
-					Account <span className="text-primary">Register</span>
-				</h1> */}
-				<Form>
+				<Form onSubmit={onSubmit}>
 					<Row>
 						<Col>
 							<Form.Group controlId="formFirstname">
@@ -80,6 +78,10 @@ const Signup = (props) => {
 								<Form.Control
 									type="text"
 									placeholder="What is your preferred name?"
+									name="firstName"
+									value={firstName}
+									onChange={onChange}
+									required
 								/>
 							</Form.Group>
 						</Col>
@@ -89,13 +91,23 @@ const Signup = (props) => {
 								<Form.Control
 									type="text"
 									placeholder="What is your family/last name?"
+									name="lastName"
+									value={lastName}
+									onChange={onChange}
+									required
 								/>
 							</Form.Group>
 						</Col>
 					</Row>
 					<Form.Group controlId="formBasicEmail">
 						<Form.Label>Email address</Form.Label>
-						<Form.Control type="email" placeholder="Enter email" />
+						<Form.Control
+							type="email"
+							placeholder="Enter email"
+							name="email"
+							value={email}
+							onChange={onChange}
+						/>
 						<Form.Text className="text-muted">
 							We'll never share your email with anyone else.
 						</Form.Text>
@@ -104,8 +116,11 @@ const Signup = (props) => {
 					<Form.Group controlId="formBasicPassword">
 						<Form.Label>Slack Username</Form.Label>
 						<Form.Control
-							type="slack"
+							type="text"
 							placeholder="Your Whiteboard Warriors Slack user"
+							onChange={onChange}
+							name="slackUsername"
+							value={slackUsername}
 						/>
 						<Form.Text className="text-muted">
 							We're using Slack to connect members for virtual
@@ -119,8 +134,15 @@ const Signup = (props) => {
 
 					<Form.Group controlId="formBasicPassword">
 						<Form.Label>Password</Form.Label>
-						<Form.Control type="password" placeholder="Password" />
+						<Form.Control
+							type="password"
+							placeholder="Password"
+							value={password}
+							onChange={onChange}
+							name="password"
+						/>
 					</Form.Group>
+
 					<Row>
 						<Col>
 							<fieldset>
@@ -128,24 +150,27 @@ const Signup = (props) => {
 									<Form.Label as="legend" column sm={2}>
 										Primary Language
 									</Form.Label>
-									<Col sm={10}>
+									<Col sm={10} onChange={onChange}>
 										<Form.Check
 											type="radio"
 											label="JavaScript"
-											name="formHorizontalRadios"
-											id="languageJavaScript"
+											value="javascript"
+											name="primaryLanguage"
+											id="primarylanguageJavaScript"
 										/>
 										<Form.Check
 											type="radio"
 											label="C/C++/Java/Go"
-											name="formHorizontalRadios"
-											id="languageCJavaGo"
+											value="c-cplusplus-java-go"
+											name="primaryLanguage"
+											id="primarylanguageCJavaGo"
 										/>
 										<Form.Check
 											type="radio"
 											label="Python/Ruby"
-											name="formHorizontalRadios"
-											id="languagePythonRuby"
+											value="python-ruby"
+											name="primaryLanguage"
+											id="primarylanguagePythonRuby"
 										/>
 									</Col>
 								</Form.Group>
@@ -158,24 +183,69 @@ const Signup = (props) => {
 									<Form.Label as="legend" column sm={2}>
 										Secondary Language
 									</Form.Label>
-									<Col sm={10}>
+									<Col sm={10} onChange={onChange}>
 										<Form.Check
 											type="radio"
 											label="JavaScript"
-											name="formHorizontalRadios"
-											id="languageJavaScript"
+											value="javascript"
+											name="secondaryLanguage"
+											id="secondarylanguageJavaScript"
 										/>
 										<Form.Check
 											type="radio"
 											label="C/C++/Java/Go"
-											name="formHorizontalRadios"
-											id="languageCJavaGo"
+											value="c-cplusplus-java-go"
+											name="secondaryLanguage"
+											id="secondarylanguageCJavaGo"
 										/>
 										<Form.Check
 											type="radio"
 											label="Python/Ruby"
-											name="formHorizontalRadios"
-											id="languagePythonRuby"
+											name="secondaryLanguage"
+											value="python-ruby"
+											id="secondarylanguagePythonRuby"
+										/>
+									</Col>
+								</Form.Group>
+							</fieldset>
+						</Col>
+					</Row>
+
+					<Row>
+						<Col>
+							<fieldset>
+								<Form.Group as={Row}>
+									<Form.Label as="legend" column sm={2}>
+										Skill Level
+									</Form.Label>
+									<Col sm={10} onChange={onChange}>
+										<Form.Check
+											type="radio"
+											label="Beginner (Less than 1-year coding) "
+											name="skillLevel"
+											id="skillLevelAdvanced"
+											value="beginner"
+										/>
+										<Form.Check
+											type="radio"
+											label="Easy (1-2 Years Coding)"
+											name="skillLevel"
+											id="skillLevelEasy"
+											value="easy"
+										/>
+										<Form.Check
+											type="radio"
+											label="Medium (2-5 years coding)"
+											name="skillLevel"
+											id="skillLevelMedium"
+											value="medium"
+										/>
+										<Form.Check
+											type="radio"
+											label="Hard (5+ years)"
+											name="skillLevel"
+											id="skillLevelHard"
+											value="hard"
 										/>
 									</Col>
 								</Form.Group>
