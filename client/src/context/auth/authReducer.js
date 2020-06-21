@@ -7,6 +7,8 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	CLEAR_ERRORS,
+	UPDATE_PROFILE_SUCCESS,
+	UPDATE_PROFILE_FAIL
 } from '../types'
 
 export default (state, action) => {
@@ -33,12 +35,15 @@ export default (state, action) => {
 		case LOGIN_FAIL:
 		case LOGOUT:
 			localStorage.removeItem('isAuthenticated')
+			localStorage.removeItem('user')
 			return {
 				...state,
 				token: null,
 				isAuthenticated: false,
 				loading: false,
-				user: null,
+				user: {
+					firstName: '',
+				},
 				error: action.payload,
 			}
 		case CLEAR_ERRORS:

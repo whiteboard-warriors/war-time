@@ -6,11 +6,11 @@ import AuthContext from '../../../context/auth/authContext'
 
 const Home = () => {
 	const authContext = useContext(AuthContext)
-	const { isAuthenticated, logout, user } = authContext
+	const { isAuthenticated, user } = authContext
 
 	const authGreeting = (
 		<Fragment>
-			Hi {user.firstName}, thanks for joining Whiteboard Warriors!!!
+			Hi {user.firstName}! Thanks for joining Whiteboard Warriors!!! 👍
 		</Fragment>
 	)
 

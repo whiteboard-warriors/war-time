@@ -12,13 +12,18 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	CLEAR_ERRORS,
+	UPDATE_PROFILE_SUCCESS,
+	UPDATE_PROFILE_FAIL
 } from '../types'
 
 const AuthState = (props) => {
 	const initialState = {
 		isAuthenticated: localStorage.getItem('isAuthenticated'),
 		loading: true,
-		user: JSON.parse(localStorage.getItem('user')),
+		user:
+			localStorage.getItem('user') != null
+				? JSON.parse(localStorage.getItem('user'))
+				: {},
 		error: null,
 	}
 
@@ -27,7 +32,7 @@ const AuthState = (props) => {
 	// Load User
 	const loadUser = async () => {
 		try {
-			const res = await axios.get('/api/users/');
+			const res = await axios.get('/api/users/')
 
 			dispatch({
 				type: USER_LOADED,
@@ -38,7 +43,10 @@ const AuthState = (props) => {
 		}
 	}
 
-	// Register User
+	/**
+	 * Register User
+	 * @param {*} formData
+	 */
 	const register = async (formData) => {
 		const config = {
 			headers: {
@@ -47,7 +55,7 @@ const AuthState = (props) => {
 		}
 
 		try {
-			const res = await axios.post('/api/users', formData, config)
+			const res = await axios.post('/api/users/', formData, config)
 
 			dispatch({
 				type: SIGNUP_SUCCESS,
@@ -62,7 +70,42 @@ const AuthState = (props) => {
 			})
 		}
 	}
-	// Login User
+	/**
+	 * Update User Profile
+	 * @param {*} formData
+	 */
+	const updateUserProfile = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+
+		try {
+			const res = await axios.put(
+				'/api/users/' + formData.id,
+				formData,
+				config
+			)
+
+			dispatch({
+				type: UPDATE_PROFILE_SUCCESS,
+				payload: res.data,
+			})
+
+			loadUser()
+		} catch (err) {
+			dispatch({
+				type: UPDATE_PROFILE_FAIL,
+				payload: err.response.data.msg,
+			})
+		}
+	}
+
+	/**
+	 * Login User
+	 * @param {*} formData
+	 */
 	const login = async (formData) => {
 		const config = {
 			headers: {
@@ -103,6 +146,7 @@ const AuthState = (props) => {
 				error: state.error,
 				register,
 				loadUser,
+				updateUserProfile,
 				login,
 				logout,
 				clearErrors,

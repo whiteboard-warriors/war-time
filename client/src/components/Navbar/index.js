@@ -1,16 +1,15 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 // import moduleName from 'module';
 import './style.scss'
 import logo from './ww-logo.svg'
-
 import AuthContext from '../../context/auth/authContext'
 
 const Index = () => {
 	const authContext = useContext(AuthContext)
-	const { isAuthenticated, logout } = authContext
+	const { isAuthenticated, logout, user } = authContext
 
 	const authLinks = (
 		<Fragment>
@@ -18,15 +17,30 @@ const Index = () => {
 				{' '}
 				Home
 			</Link>
-			<Link data-rb-event-key="/events" className="nav-link" to="/">
+			<Link data-rb-event-key="/events" className="nav-link" to="/events">
 				{' '}
 				Events
 			</Link>
-			<ul class="navbar-nav">
-				<li class="nav-item avatar">
-					<a class="nav-link p-0" href="#">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-							alt="avatar image" height="35"></img>
+			<NavDropdown title={user.firstName} id="collasible-nav-dropdown">
+				<Link
+					data-rb-event-key="/profile"
+					className="dropdown-item"
+					to="/profile"
+				>
+					Profile
+				</Link>
+				<NavDropdown.Item href="#logout" onClick={logout}>
+					Log Out
+				</NavDropdown.Item>
+			</NavDropdown>
+			<ul className="navbar-nav">
+				<li className="nav-item avatar">
+					<a className="nav-link p-0" href="#">
+						<img
+							src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+							className="profile-pic rounded-circle z-depth-0"
+							alt="avatar"
+						></img>
 					</a>
 				</li>
 			</ul>
