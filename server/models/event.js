@@ -77,6 +77,9 @@ const EventSchema = new Schema({
 			docLink: {
 				type: String,
 			},
+			language: {
+				type: String,
+			},
 			level: {
 				type: Number,
 				required: 'You must enter problem level',
