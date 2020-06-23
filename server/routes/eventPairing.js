@@ -353,6 +353,7 @@ router.put('/test/:eventId', async (req, res) => {
 		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 		async function autoPair(attendeesArr, counter) {
+			console.log('autoPair() is running');
 			let currAttendeesArr = [];
 			currAttendeesArr = attendeesArr;
 			let arrayCounter = counter;
@@ -362,12 +363,14 @@ router.put('/test/:eventId', async (req, res) => {
 			let secondaryLang = '';
 			// loops through 'matches', finds first index where isMatches=false & stores level, primary language and secondary language.
 			for (let i = 0; i < currAttendeesArr.length; i++) {
+				console.log('--- autoPair(): check if user is a match #', i);
 				if (currAttendeesArr[i].isMatched === false) {
 					currIndex = i;
 					level = currAttendeesArr[i].level;
 					primaryLang = currAttendeesArr[i].attendee.primaryLanguage;
 					secondaryLang =
 						currAttendeesArr[i].attendee.secondaryLanguage;
+					console.log('--- autoPair(): found an unmatched user...');
 					break;
 				}
 				// else {
@@ -380,6 +383,10 @@ router.put('/test/:eventId', async (req, res) => {
 			// loops through rest of attendees and finds a match
 			let finalLanguage = ''; // define language that to be used in the match group
 			for (let j = currIndex + 1; j < currAttendeesArr.length; j++) {
+				console.log(
+					'> autoPair(): loop through the rest of users to find a match, user #',
+					j
+				);
 				let isMatch;
 				// Same Language and nearest level up.
 				if (
@@ -449,6 +456,7 @@ router.put('/test/:eventId', async (req, res) => {
 				}
 
 				if (isMatch) {
+					console.log('> autoPair(): found match of index #', j);
 					// Use the lowest level between the two matches.
 					let finalLevel;
 					if (
@@ -490,6 +498,7 @@ router.put('/test/:eventId', async (req, res) => {
 							new: true,
 						}
 					);
+					console.log('> autoPair(): updated user1');
 					await db.Event.findByIdAndUpdate(
 						{ _id: req.params.eventId },
 						{
@@ -507,6 +516,7 @@ router.put('/test/:eventId', async (req, res) => {
 							new: true,
 						}
 					);
+					console.log('> autoPair(): updated user2');
 
 					// add new match to matches field
 					await db.Event.findByIdAndUpdate(
@@ -517,10 +527,15 @@ router.put('/test/:eventId', async (req, res) => {
 							},
 						}
 					);
+					console.log('autoPair(): added match to matches array');
+					console.log('autoPair(): break out of the loop.');
 					break;
 				}
 			}
 			// retrieves updated list of attendees from db
+			console.log(
+				'#### autoPair(): retrieved updated attendees list from DB'
+			);
 			const updatedEvent = await db.Event.findOne({
 				_id: req.params.eventId,
 			})
@@ -534,9 +549,15 @@ router.put('/test/:eventId', async (req, res) => {
 
 			if (arrayCounter < currAttendeesArr.length) {
 				arrayCounter++;
-				console.log('autoPair should run again');
+				console.log('>>> autoPair(): runs again');
 				autoPair(currAttendeesArr, arrayCounter);
 			} else {
+				console.log('>>> autoPair(): has ENDED...');
+				console.log('>>> addToMatch(): will run');
+				console.log('############ current matches###############');
+				console.log(updatedEvent.matches);
+				console.log('###########################################');
+
 				addToMatch(currAttendeesArr, updatedEvent.matches, 1);
 			}
 		}
@@ -546,6 +567,7 @@ router.put('/test/:eventId', async (req, res) => {
 		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 		//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 		async function addToMatch(attendeesArr, matchArr, counter) {
+			console.log('### addToMatch(): is running');
 			let currAttendeesArr = [];
 			let currMatchesArr = [];
 			currAttendeesArr = attendeesArr;
@@ -558,13 +580,20 @@ router.put('/test/:eventId', async (req, res) => {
 
 			// loop through attendees and check if isMatch === false
 			for (let i = 0; i < currAttendeesArr.length; i++) {
+				console.log(
+					`> addToMath(): check if user of index ${i} is already matched`
+				);
 				if (currAttendeesArr[i].isMatched === false) {
 					// store user pertinent info and breaks out of the look
+					console.log(
+						`--- addToMatch(): user found, user of index ${i} is not matched`
+					);
 					currIndex = i;
 					level = currAttendeesArr[i].level;
 					primaryLang = currAttendeesArr[i].attendee.primaryLanguage;
 					secondaryLang =
 						currAttendeesArr[i].attendee.secondaryLanguage;
+					console.log('> addToMatch(): broke out of the loop');
 					break;
 				}
 				// else {
@@ -576,6 +605,10 @@ router.put('/test/:eventId', async (req, res) => {
 
 			// loop through list of matches
 			for (let j = 0; j < currMatchesArr.length; j++) {
+				console.log(
+					'### addToMatch(): checking for match groups that might be a good fit'
+				);
+				console.log(`> addToMatch(): now checking index #${j}`);
 				let isMatch;
 				// Same Language and nearest level up.
 				if (
@@ -583,8 +616,14 @@ router.put('/test/:eventId', async (req, res) => {
 					!currMatchesArr[j].user3 ||
 					!currMatchesArr[j].user4
 				) {
-					console.log(!currMatchesArr[j].user3, 'there is no user3');
-					console.log(!currMatchesArr[j].user4, 'there is no user4');
+					console.log(
+						!currMatchesArr[j].user3,
+						'there is no user3 - addToMatch()'
+					);
+					console.log(
+						!currMatchesArr[j].user4,
+						'there is no user4 - addToMatch()'
+					);
 					if (
 						// same primary language and same level
 						currMatchesArr[j].user2.primaryLanguage ===
@@ -658,8 +697,40 @@ router.put('/test/:eventId', async (req, res) => {
 				}
 				// check if user should be added to user3 or user4
 				if (isMatch) {
+					console.log(
+						`> addToMatch(): user of index #${j} is a match`
+					);
+
+					/* TO DO  
+                    - update user that was added to match isMatch = true
+                        */
+					// add new match to matches field
+					console.log(
+						'>>> addToMatch() update user status of isMatched to true'
+					);
+					await db.Event.findByIdAndUpdate(
+						{ _id: req.params.eventId },
+						{
+							$set: {
+								'attendees.$[item].isMatched': true,
+							},
+						},
+						{
+							arrayFilters: [
+								{
+									'item.attendee':
+										currAttendeesArr[currIndex].attendee
+											._id,
+								},
+							],
+							new: true,
+						}
+					);
 					if (currMatchesArr[j].user3) {
 						// add new user to match
+						console.log(
+							'--- addToMatch(): user will be stored on user3 spot'
+						);
 						await db.Event.findByIdAndUpdate(
 							{ _id: req.params.eventId },
 							{
@@ -680,6 +751,9 @@ router.put('/test/:eventId', async (req, res) => {
 						);
 					} else {
 						// add new user to match
+						console.log(
+							'--- addToMatch(): user will be store on user4 spot'
+						);
 						await db.Event.findByIdAndUpdate(
 							{ _id: req.params.eventId },
 							{
@@ -700,31 +774,10 @@ router.put('/test/:eventId', async (req, res) => {
 						);
 					}
 
-					/* TO DO  
-                    - update user that was added to match isMatch = true
-                        */
-					// add new match to matches field
-					await db.Event.findByIdAndUpdate(
-						{ _id: req.params.eventId },
-						{
-							$set: {
-								'attendees.$[item].isMatched': true,
-							},
-						},
-						{
-							arrayFilters: [
-								{
-									'item.attendee':
-										currAttendeesArr[currIndex].attendee
-											._id,
-								},
-							],
-							new: true,
-						}
-					);
 					break;
 				}
 			}
+			console.log('### addToMatch(): retrieving updated event info...');
 			const updatedEvent = await db.Event.findOne({
 				_id: req.params.eventId,
 			})
@@ -739,13 +792,15 @@ router.put('/test/:eventId', async (req, res) => {
 
 			if (arrayCounter < currAttendeesArr.length) {
 				arrayCounter++;
-				console.log('addToMatch() should run again');
+				console.log('>addToMatch(): should run again');
 				addToMatch(currAttendeesArr, currMatchesArr, arrayCounter);
 			} else {
-				res.send(
-					'Users have been added to match groups! - addToMatch()'
+				console.log(
+					'addToMatch(): recursion stopped - has ended, all users have been added to match groups.'
 				);
-				console.log('recursion stopped - addToMatch()');
+				res.send(
+					'addToMatch(): Users have been added to match groups!'
+				);
 				return;
 			}
 		}
@@ -753,15 +808,17 @@ router.put('/test/:eventId', async (req, res) => {
 		//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 		// fetches event from db and populates all necessary fields.
+		console.log('######## First fetching of event info...');
 		const event = await db.Event.findOne({ _id: req.params.eventId })
 			.populate('attendees.attendee')
 			.populate('matches.user1')
 			.populate('matches.user2')
 			.populate('matches.user3')
 			.populate('matches.user4');
-
+		console.log('>>>autoPair(): will run...');
 		autoPair(event.attendees, 1);
 	} catch (err) {
+		console.log('>>> Something went wrong.....');
 		console.error(err.message);
 		res.status(500).send('Server Error');
 	}
