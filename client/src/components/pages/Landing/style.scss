@@ -1,1 +1,28 @@
 @import '../../../App.scss';
+
+.heading {
+	color: $grey-dark;
+}
+.cta-buttons {
+	max-width: 50rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	a {
+		min-width: 12rem;
+	}
+}
+@media only screen and (min-width: 768px) {
+	.cta-buttons {
+		flex-direction: row;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	.heading {
+		font-size: 4.3rem;
+	}
+	.description {
+		font-size: 1.5rem;
+	}
+}
