@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Navbar from '../../Navbar';
+import EventCard from '../../EventCard';
 
 import './style.scss';
 
@@ -18,6 +19,7 @@ const Home = () => {
 		<Fragment>
 			<Navbar></Navbar>
 			<h1 className='mt-5'>Home Page</h1>
+			<EventCard></EventCard>
 		</Fragment>
 	);
 };
