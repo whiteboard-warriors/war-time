@@ -17,7 +17,7 @@ const EventCard = (props) => {
 		deleteEvent,
 	} = props;
 	return (
-		<div className='card'>
+		<div className='event-card'>
 			<div className='img-container'>
 				<img src={image} alt='whiteboard warriors logo' />
 			</div>
