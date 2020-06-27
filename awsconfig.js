@@ -1,7 +1,7 @@
 module.exports = {
 	aws: {
-		key: '',
-		secret: '',
+		key: process.env.AWS_EMAIL_KEY || '',
+		secret: process.env.AWS_EMAIL_SECRET || '',
 		ses: {
 			from: {
 				// replace with actual email address
