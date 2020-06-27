@@ -94,7 +94,7 @@ var attendees = [
 		},
 	}, //perfect match
 	{
-		isMatched: false,
+		isMatched: true,
 		level: 3,
 		_id: '5ea0f23c983f168155d3670b',
 		attendee: {
@@ -189,7 +189,7 @@ var attendees = [
 		},
 	}, // should match by primary language.
 	{
-		isMatched: false,
+		isMatched: true,
 		level: 3,
 		_id: '5ea0f23c983f168155d3670b',
 		attendee: {
@@ -246,6 +246,65 @@ var attendees = [
 		},
 	}, // primary language and level match.
 ];
+
+// let matches2 = [];
+
+// function autoPair2(arr, counter) {
+// 	//counter is 0 at first, then gets updated in recursion.
+// 	//starts at index 0
+// 	let currAttendees = [];
+// 	currAttendees = arr; // fetched from db
+// 	let arrayCounter = counter; // which is 0
+// 	let currIndex = counter; // which is 0
+// 	let level = 0;
+// 	let primaryLang = '';
+
+// 	for (let i = arrayCounter; i < currAttendees.length; i++) {
+// 		//loops to find user that is not yet matched.
+// 		if (currAttendees[i].isMatched === false) {
+// 			// check isMatched attribute
+// 			currIndex = i;
+// 			arrayCounter = i + 1;
+// 			level = currAttendees[i].level;
+// 			primaryLang = currAttendees[i].attendee.primaryLanguage;
+// 			break;
+// 		}
+// 	}
+
+// 	for (let j = currIndex + 1; j < currAttendees.length; j++) {
+// 		if (
+// 			// checks to see if attendee is a match to the one looking to be matched.
+// 			currAttendees[j].isMatched === false &&
+// 			level === currAttendees[j].level &&
+// 			primaryLang === currAttendees[j].attendee.primaryLanguage
+// 		) {
+// 			let match = {
+// 				// creates match object
+// 				user1: currAttendees[currIndex].attendee._id,
+// 				user2: currAttendees[j].attendee._id,
+// 				docLink: 'sample link',
+// 				level: currAttendees[currIndex].level,
+// 			};
+// 			// db//
+// 			// update to event.attendees
+// 			currAttendees[j].isMatched = true; // users that were matched on db
+// 			currAttendees[currIndex].isMatched = true; // users that were matched on db
+// 			// update to event.matches2
+// 			matches2.push(match); // adds match to db
+// 			break;
+// 			// db//
+// 		}
+// 	}
+
+// 	if (arrayCounter < currAttendees.length) {
+// 		autoPair2(currAttendees, arrayCounter);
+// 	} else {
+// 		return;
+// 	}
+// }
+
+// autoPair2(attendees, 0);
+// console.log('Paired Matches:', matches2);
 
 ///////////////////
 // Pablo's Attempt
@@ -396,8 +455,8 @@ function autoPair(arr, counter) {
 		}
 	}
 
-	if (arrayCounter <= newArr.length) {
-		arrayCounter = arrayCounter + 1;
+	if (arrayCounter < newArr.length) {
+		arrayCounter++;
 		autoPair(newArr, arrayCounter);
 	} else {
 		return;
