@@ -42,7 +42,7 @@ router.post(
 			linkedIn,
 			primaryLanguage,
 			secondaryLanguage,
-			admin,
+			skillLevel,
 		} = req.body
 
 		try {
@@ -60,6 +60,7 @@ router.post(
 				linkedIn,
 				primaryLanguage,
 				secondaryLanguage,
+				skillLevel,
 			})
 
 			await user.save()
@@ -111,6 +112,7 @@ router.put('/:id', async (req, res) => {
 		linkedIn,
 		primaryLanguage,
 		secondaryLanguage,
+		skillLevel,
 		active,
 	} = req.body
 	try {
@@ -128,12 +130,13 @@ router.put('/:id', async (req, res) => {
 		if (primaryLanguage) updatedUser.primaryLanguage = primaryLanguage
 		if (secondaryLanguage) updatedUser.secondaryLanguage = secondaryLanguage
 		if (active) updatedUser.active = active
+		if (skillLevel) updatedUser.skillLevel = skillLevel
 
 		await db.User.findByIdAndUpdate(
 			{ _id: req.params.id },
 			{ $set: updatedUser }
 		)
-		res.status(200).send('Your account has been updated.')
+		res.json(user)
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')

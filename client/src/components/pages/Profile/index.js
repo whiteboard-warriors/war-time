@@ -42,7 +42,7 @@ const Profile = () => {
 			slackUsername,
 			primaryLanguage,
 			secondaryLanguage,
-			skillLevel
+			skillLevel,
 		})
 	}
 
@@ -226,6 +226,7 @@ const Profile = () => {
 											name="skillLevel"
 											id="skillLevelAdvanced"
 											value="beginner"
+											checked={skillLevel === 'beginner'}
 										/>
 										<Form.Check
 											type="radio"
@@ -233,6 +234,7 @@ const Profile = () => {
 											name="skillLevel"
 											id="skillLevelEasy"
 											value="easy"
+											checked={skillLevel === 'easy'}
 										/>
 										<Form.Check
 											type="radio"
@@ -240,6 +242,7 @@ const Profile = () => {
 											name="skillLevel"
 											id="skillLevelMedium"
 											value="medium"
+											checked={skillLevel === 'medium'}
 										/>
 										<Form.Check
 											type="radio"
@@ -247,6 +250,7 @@ const Profile = () => {
 											name="skillLevel"
 											id="skillLevelHard"
 											value="hard"
+											checked={skillLevel === 'hard'}
 										/>
 									</Col>
 								</Form.Group>

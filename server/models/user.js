@@ -51,6 +51,10 @@ const UserSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	skillLevel: {
+		type: String,
+		required: 'Skill Level is Required',
+	},
 	active: {
 		type: Boolean,
 		default: true,

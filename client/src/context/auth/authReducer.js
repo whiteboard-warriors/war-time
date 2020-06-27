@@ -8,7 +8,7 @@ import {
 	LOGOUT,
 	CLEAR_ERRORS,
 	UPDATE_PROFILE_SUCCESS,
-	UPDATE_PROFILE_FAIL
+	UPDATE_PROFILE_FAIL,
 } from '../types'
 
 export default (state, action) => {
@@ -50,6 +50,12 @@ export default (state, action) => {
 			return {
 				...state,
 				error: null,
+			}
+		case UPDATE_PROFILE_SUCCESS:
+			localStorage.setItem('user', JSON.stringify(action.payload))
+			return {
+				...state,
+				user: action.payload,
 			}
 		default:
 			return state
