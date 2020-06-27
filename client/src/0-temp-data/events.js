@@ -380,3 +380,5 @@ const events = [
 		__v: 0,
 	},
 ];
+
+export default events;
