@@ -9,6 +9,9 @@ import {
 	CLEAR_ERRORS,
 	UPDATE_PROFILE_SUCCESS,
 	UPDATE_PROFILE_FAIL,
+	FORGOT_PASSWORD_SUCCESS,
+	FORGOT_RESET_SUCCESS,
+	FORGOT_RESET_FAIL,
 } from '../types'
 
 export default (state, action) => {
@@ -57,6 +60,14 @@ export default (state, action) => {
 				...state,
 				user: action.payload,
 			}
+		case FORGOT_PASSWORD_SUCCESS:
+			localStorage.removeItem('isAuthenticated')
+			localStorage.removeItem('user')
+			return { ...state, error: null, forgotRequestSuccess: true }
+		case FORGOT_RESET_SUCCESS:
+			return { ...state, error: null, forgotResetSuccess: true }
+		case FORGOT_RESET_FAIL:
+			return { ...state, error: action.payload.error }
 		default:
 			return state
 	}

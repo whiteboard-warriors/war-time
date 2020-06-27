@@ -1,8 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react'
-import Navbar from '../../Navbar'
 import AuthContext from '../../../context/auth/authContext'
 import AlertContext from '../../../context/alert/alertContext'
-import { Container, Form, Row, Col, Button } from 'react-bootstrap'
+import { Form, Row, Col, Button } from 'react-bootstrap'
 
 const Login = (props) => {
 	const alertContext = useContext(AlertContext)
@@ -43,44 +42,42 @@ const Login = (props) => {
 
 	return (
 		<Fragment>
-			<Navbar></Navbar>
-			<Container>
-				<Form onSubmit={onSubmit}>
-					<Row>
-						<Col>
-							<Form.Group controlId="formEmail">
-								<Form.Label>Email</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="E-Mail"
-									name="email"
-									value={email}
-									onChange={onChange}
-									required
-								/>
-							</Form.Group>
-						</Col>
-					</Row>
-					<Row>
-						<Col>
-							<Form.Group controlId="formPassword">
-								<Form.Label>Password</Form.Label>
-								<Form.Control
-									type="password"
-									placeholder="Password"
-									name="password"
-									value={password}
-									onChange={onChange}
-									required
-								/>
-							</Form.Group>
-						</Col>
-					</Row>
-					<Button variant="primary" type="submit">
-						Sign In
-					</Button>
-				</Form>
-			</Container>
+			<Form onSubmit={onSubmit}>
+				<Row>
+					<Col>
+						<Form.Group controlId="formEmail">
+							<Form.Label>Email</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="E-Mail"
+								name="email"
+								value={email}
+								onChange={onChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						<Form.Group controlId="formPassword">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type="password"
+								placeholder="Password"
+								name="password"
+								value={password}
+								onChange={onChange}
+								required
+							/>
+						</Form.Group>
+						<a href="/forgot-password">Forgot Password?</a>
+					</Col>
+				</Row>
+				<Button variant="primary" type="submit">
+					Sign In
+				</Button>
+			</Form>
 		</Fragment>
 	)
 }

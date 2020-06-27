@@ -1,7 +1,8 @@
-import React, { useReducer } from 'react'
+import React, { useContext, useReducer } from 'react'
 import axios from 'axios'
 import AuthContext from './authContext'
 import authReducer from './authReducer'
+import AlertState from '../alert/AlertState'
 // import setAuthToken from '../../utils/setAuthToken';
 import {
 	SIGNUP_SUCCESS,
@@ -13,9 +14,18 @@ import {
 	LOGOUT,
 	CLEAR_ERRORS,
 	UPDATE_PROFILE_SUCCESS,
-	UPDATE_PROFILE_FAIL
+	UPDATE_PROFILE_FAIL,
+	FORGOT_PASSWORD_SUCCESS,
+	FORGOT_RESET_SUCCESS,
+	FORGOT_RESET_FAIL,
+	RESET_PASSWORD_SUCCESS,
+	RESET_PASSWORD_FAIL,
 } from '../types'
 
+/**
+ *
+ * @param {*} props
+ */
 const AuthState = (props) => {
 	const initialState = {
 		isAuthenticated: localStorage.getItem('isAuthenticated'),
@@ -25,6 +35,8 @@ const AuthState = (props) => {
 				? JSON.parse(localStorage.getItem('user'))
 				: {},
 		error: null,
+		forgotResetSuccess: false,
+		forgotRequestSuccess: false,
 	}
 
 	const [state, dispatch] = useReducer(authReducer, initialState)
@@ -130,6 +142,60 @@ const AuthState = (props) => {
 		}
 	}
 
+	/**
+	 *
+	 * @param {*} formData
+	 */
+	const forgotPassword = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+		try {
+			const res = await axios.post(
+				'/api/users/forgot-password-init',
+				formData,
+				config
+			)
+
+			dispatch({
+				type: FORGOT_PASSWORD_SUCCESS,
+			})
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
+	/**
+	 *
+	 * @param {*} formData
+	 */
+	const forgotPasswordComplete = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+		try {
+			const res = await axios.post(
+				'/api/users/forgot-password-complete',
+				formData,
+				config
+			)
+
+			dispatch({
+				type: FORGOT_RESET_SUCCESS,
+			})
+		} catch (err) {
+			console.error(err)
+			dispatch({
+				type: FORGOT_RESET_FAIL,
+				payload: { error: err.response.data.msg },
+			})
+		}
+	}
+
 	// Logout
 	const logout = () => dispatch({ type: LOGOUT })
 
@@ -144,12 +210,16 @@ const AuthState = (props) => {
 				loading: state.loading,
 				user: state.user,
 				error: state.error,
+				forgotResetSuccess: state.forgotResetSuccess,
+				forgotRequestSuccess: state.forgotRequestSuccess,
 				register,
 				loadUser,
 				updateUserProfile,
 				login,
 				logout,
 				clearErrors,
+				forgotPassword,
+				forgotPasswordComplete,
 			}}
 		>
 			{props.children}

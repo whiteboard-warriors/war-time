@@ -1,7 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react'
-import Navbar from '../../Navbar'
 import './style.scss'
-import { Container } from 'react-bootstrap'
+import { Jumbotron, Button } from 'react-bootstrap'
 import AuthContext from '../../../context/auth/authContext'
 
 const Home = () => {
@@ -22,11 +21,13 @@ const Home = () => {
 
 	return (
 		<Fragment>
-			<Navbar></Navbar>
-			<Container>
-				<h1 className="mt-5">Welcome</h1>
-				{isAuthenticated ? authGreeting : landingGreeting}
-			</Container>
+			<Jumbotron>
+				<h1>Welcome!</h1>
+				<p>{isAuthenticated ? authGreeting : landingGreeting}</p>
+				<p>
+					<Button variant="primary">Events</Button>
+				</p>
+			</Jumbotron>
 		</Fragment>
 	)
 }
