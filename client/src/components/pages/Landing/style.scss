@@ -1,7 +1,14 @@
 @import '../../../App.scss';
 
+.masthead {
+	padding: 7rem 0 1rem 0;
+}
+
 .heading {
 	color: $grey-dark;
+}
+.description {
+	font-style: italic;
 }
 .cta-buttons {
 	max-width: 50rem;
@@ -9,20 +16,29 @@
 	flex-direction: column;
 	justify-content: space-evenly;
 	a {
-		min-width: 12rem;
+		min-width: 11rem;
 	}
 }
 @media only screen and (min-width: 768px) {
+	.masthead {
+		padding: 11rem 0 3rem 0;
+	}
+	.heading {
+		font-size: 3.5rem;
+	}
 	.cta-buttons {
 		flex-direction: row;
 	}
 }
 
 @media only screen and (min-width: 1024px) {
+	.masthead {
+		padding: 9 rem 0 3rem 0;
+	}
 	.heading {
 		font-size: 4.3rem;
 	}
 	.description {
-		font-size: 1.5rem;
+		font-size: 1.6rem;
 	}
 }

@@ -24,25 +24,24 @@ const Landing = () => {
 			<Container>
 				<Row>
 					<Col
-						md={{ span: 6, offset: 3 }}
-						className='text-center py-5'
+						md={{ span: 8, offset: 2 }}
+						className='text-center masthead'
 					>
-						<h1 className='mt-5 heading'>It's Coding Time</h1>
+						<h1 className='mt-5 heading'>It's Time To Code</h1>
 					</Col>
 					<Col
-						md={{ span: 10, offset: 1 }}
+						md={{ span: 12, offset: 0 }}
 						className='text-center py-5'
 					>
 						<p className='mt-5 description'>
 							War-time is the place where coding warriors come
-							gather and sharpen their skills.
-							<br /> Join NOW!
+							together and sharpen their skills.
 						</p>
 					</Col>
 				</Row>
 				<Row>
 					<Col
-						md={{ span: 10, offset: 1 }}
+						md={{ span: 8, offset: 2 }}
 						className='text-center py-5 cta-buttons'
 					>
 						<Link className='btn btn-warning btn-lg' to='/signup'>
