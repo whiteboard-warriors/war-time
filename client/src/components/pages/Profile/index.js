@@ -1,72 +1,61 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react'
-import AlertContext from '../../../context/alert/alertContext'
+import './style.scss'
+import { Form, Row, Col, Button } from 'react-bootstrap'
 import AuthContext from '../../../context/auth/authContext'
-import { Form, Button, Row, Col } from 'react-bootstrap'
 
-const Signup = (props) => {
-	const alertContext = useContext(AlertContext)
+const Profile = (props) => {
+	// const [firstName, lastName, setText] = useState('')
 	const authContext = useContext(AuthContext)
+	const { user, updateUserProfile } = authContext
 
-	const { setAlert } = alertContext
-	const { register, error, clearErrors, isAuthenticated } = authContext
-
-	useEffect(() => {
-		if (isAuthenticated) {
-			props.history.push('/')
-		}
-
-		if (error === 'User already exists') {
-			setAlert(error, 'danger')
-			clearErrors()
-		}
-		// eslint-disable-next-line
-	}, [error, isAuthenticated, props.history])
-
-	const [user, setUser] = useState({
-		firstName: '',
-		lastName: '',
-		email: '',
-		slackUsername: '',
-		primaryLanguage: '',
-		secondaryLanguage: '',
-		skillLevel: '',
-		password: '',
-		password2: '',
+	const [profile, setProfile] = useState({
+		id: user._id,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		slackUsername: user.slackUsername,
+		primaryLanguage: user.primaryLanguage,
+		secondaryLanguage: user.secondaryLanguage,
+		skillLevel: user.skillLevel,
 	})
 
 	const {
+		id,
 		firstName,
 		lastName,
-		email,
 		slackUsername,
 		primaryLanguage,
 		secondaryLanguage,
 		skillLevel,
-		password,
-		password2,
-	} = user
+	} = profile
 
-	const onChange = (e) => {
-		setUser({ ...user, [e.target.name]: e.target.value })
+	/**
+	 *
+	 */
+	useEffect(() => {}, [props.history])
+
+	const onChangeProfile = (e) => {
+		setProfile({ ...profile, [e.target.name]: e.target.value })
 	}
 
-	const onSubmit = (e) => {
+	const saveProfile = (e) => {
 		e.preventDefault()
-		register({
+		updateUserProfile({
+			id,
 			firstName,
 			lastName,
-			email,
 			slackUsername,
 			primaryLanguage,
 			secondaryLanguage,
 			skillLevel,
-			password,
 		})
 	}
 
 	return (
 		<Fragment>
-			<Form onSubmit={onSubmit}>
+			<h1 className="mt-5">
+				{user.firstName} {user.lastName}
+			</h1>
+			<Form onSubmit={saveProfile}>
 				<Row>
 					<Col>
 						<Form.Group controlId="formFirstname">
@@ -76,7 +65,7 @@ const Signup = (props) => {
 								placeholder="What is your preferred name?"
 								name="firstName"
 								value={firstName}
-								onChange={onChange}
+								onChange={onChangeProfile}
 								required
 							/>
 						</Form.Group>
@@ -89,66 +78,22 @@ const Signup = (props) => {
 								placeholder="What is your family/last name?"
 								name="lastName"
 								value={lastName}
-								onChange={onChange}
+								onChange={onChangeProfile}
 								required
 							/>
 						</Form.Group>
 					</Col>
 				</Row>
-				<Form.Group controlId="formBasicEmail">
-					<Form.Label>Email address</Form.Label>
-					<Form.Control
-						type="email"
-						placeholder="Enter email"
-						name="email"
-						value={email}
-						onChange={onChange}
-					/>
-					<Form.Text className="text-muted">
-						We'll never share your email with anyone else.
-					</Form.Text>
-				</Form.Group>
-
 				<Form.Group controlId="formBasicPassword">
 					<Form.Label>Slack Username</Form.Label>
 					<Form.Control
 						type="text"
 						placeholder="Your Whiteboard Warriors Slack user"
-						onChange={onChange}
+						onChange={onChangeProfile}
 						name="slackUsername"
 						value={slackUsername}
 					/>
-					<Form.Text className="text-muted">
-						We're using Slack to connect members for virtual meetups
-						right now, You can join our Slack by{' '}
-						<a href="https://join.slack.com/t/whiteboardwarriors/shared_invite/zt-bphxxiuf-Eeo0NOvjzaas2xMIgZ_Z7A">
-							clicking here
-						</a>{' '}
-						😉
-					</Form.Text>
 				</Form.Group>
-
-				<Form.Group controlId="formBasicPassword">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Password"
-						value={password}
-						onChange={onChange}
-						name="password"
-					/>
-				</Form.Group>
-				<Form.Group controlId="formBasicPassword2">
-					<Form.Label>Confirm Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Confirm Password"
-						value={password2}
-						onChange={onChange}
-						name="password2"
-					/>
-				</Form.Group>
-
 				<Row>
 					<Col>
 						<fieldset>
@@ -156,7 +101,7 @@ const Signup = (props) => {
 								<Form.Label as="legend" column sm={2}>
 									Primary Language
 								</Form.Label>
-								<Col sm={10}>
+								<Col sm={10} onChange={onChangeProfile}>
 									<Form.Check
 										type="radio"
 										label="JavaScript"
@@ -166,7 +111,7 @@ const Signup = (props) => {
 										checked={
 											primaryLanguage === 'javascript'
 										}
-										onChange={onChange}
+										onChange={onChangeProfile}
 										disabled={
 											secondaryLanguage === 'javascript'
 										}
@@ -181,7 +126,7 @@ const Signup = (props) => {
 											primaryLanguage ===
 											'c-cplusplus-java-go'
 										}
-										onChange={onChange}
+										onChange={onChangeProfile}
 										disabled={
 											secondaryLanguage ===
 											'c-cplusplus-java-go'
@@ -196,7 +141,7 @@ const Signup = (props) => {
 										checked={
 											primaryLanguage === 'python-ruby'
 										}
-										onChange={onChange}
+										onChange={onChangeProfile}
 										disabled={
 											secondaryLanguage === 'python-ruby'
 										}
@@ -222,7 +167,7 @@ const Signup = (props) => {
 										checked={
 											secondaryLanguage === 'javascript'
 										}
-										onChange={onChange}
+										onChange={onChangeProfile}
 										disabled={
 											primaryLanguage === 'javascript'
 										}
@@ -237,7 +182,7 @@ const Signup = (props) => {
 											secondaryLanguage ===
 											'c-cplusplus-java-go'
 										}
-										onChange={onChange}
+										onChange={onChangeProfile}
 										disabled={
 											primaryLanguage ===
 											'c-cplusplus-java-go'
@@ -252,7 +197,7 @@ const Signup = (props) => {
 										checked={
 											secondaryLanguage === 'python-ruby'
 										}
-										onChange={onChange}
+										onChange={onChangeProfile}
 										disabled={
 											primaryLanguage === 'python-ruby'
 										}
@@ -270,13 +215,14 @@ const Signup = (props) => {
 								<Form.Label as="legend" column sm={2}>
 									Skill Level
 								</Form.Label>
-								<Col sm={10} onChange={onChange}>
+								<Col sm={10} onChange={onChangeProfile}>
 									<Form.Check
 										type="radio"
 										label="Beginner (Less than 1-year coding) "
 										name="skillLevel"
 										id="skillLevelAdvanced"
 										value="beginner"
+										checked={skillLevel === 'beginner'}
 									/>
 									<Form.Check
 										type="radio"
@@ -284,6 +230,7 @@ const Signup = (props) => {
 										name="skillLevel"
 										id="skillLevelEasy"
 										value="easy"
+										checked={skillLevel === 'easy'}
 									/>
 									<Form.Check
 										type="radio"
@@ -291,6 +238,7 @@ const Signup = (props) => {
 										name="skillLevel"
 										id="skillLevelMedium"
 										value="medium"
+										checked={skillLevel === 'medium'}
 									/>
 									<Form.Check
 										type="radio"
@@ -298,19 +246,46 @@ const Signup = (props) => {
 										name="skillLevel"
 										id="skillLevelHard"
 										value="hard"
+										checked={skillLevel === 'hard'}
 									/>
 								</Col>
 							</Form.Group>
 						</fieldset>
 					</Col>
 				</Row>
-
 				<Button variant="primary" type="submit">
-					Sign-Up!
+					Save
 				</Button>
+			</Form>
+
+			<hr />
+			<h4>Change Password</h4>
+			<Form inline>
+				<Form.Label htmlFor="password">Password</Form.Label>
+				<Form.Control
+					type="password"
+					placeholder="Password"
+					id="password"
+				/>
+				<Form.Label>Confirm Password</Form.Label>
+				<Form.Control type="password" placeholder="Password" />
+				<Button variant="primary" type="submit">
+					Reset
+				</Button>
+			</Form>
+			<hr />
+			<h4>Change E-Mail</h4>
+			<Form>
+				<Form.Group controlId="formGroupEmail">
+					<Form.Label>Email address</Form.Label>
+					<Form.Control type="email" placeholder="Enter email" />
+					<Button variant="primary" type="submit">
+						Update
+					</Button>
+				</Form.Group>
 			</Form>
 		</Fragment>
 	)
 }
 
-export default Signup
+export default Profile

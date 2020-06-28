@@ -1,25 +1,35 @@
-import React, { Fragment } from 'react';
-
-import Navbar from '../../Navbar';
-
-import './style.scss';
-
-// import AuthContext from '../../../context/auth/authContext';
+import React, { Fragment, useContext } from 'react'
+import './style.scss'
+import { Jumbotron, Button } from 'react-bootstrap'
+import AuthContext from '../../../context/auth/authContext'
 
 const Home = () => {
-	// const authContext = useContext(AuthContext);
+	const authContext = useContext(AuthContext)
+	const { isAuthenticated, user } = authContext
 
-	// useEffect(() => {
-	// 	authContext.loadUser();
-	// 	// eslint-disable-next-line
-	// }, []);
+	const authGreeting = (
+		<Fragment>
+			Hi {user.firstName}! Thanks for joining Whiteboard Warriors!!! 👍
+		</Fragment>
+	)
+
+	const landingGreeting = (
+		<Fragment>
+			Welcome to War-Time the Whiteboard Warriors Meet-Up App!
+		</Fragment>
+	)
 
 	return (
 		<Fragment>
-			<Navbar></Navbar>
-			<h1 className='mt-5'>Home Page</h1>
+			<Jumbotron>
+				<h1>Welcome!</h1>
+				<p>{isAuthenticated ? authGreeting : landingGreeting}</p>
+				<p>
+					<Button variant="primary">Events</Button>
+				</p>
+			</Jumbotron>
 		</Fragment>
-	);
-};
+	)
+}
 
-export default Home;
+export default Home
