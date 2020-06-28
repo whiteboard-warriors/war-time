@@ -35,7 +35,7 @@ const Index = () => {
 			</NavDropdown>
 			<ul className="navbar-nav">
 				<li className="nav-item avatar">
-					<a className="nav-link p-0" href="#">
+					<a className="nav-link p-0">
 						<img
 							src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
 							className="profile-pic rounded-circle z-depth-0"

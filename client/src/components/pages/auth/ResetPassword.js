@@ -42,7 +42,14 @@ const ResetPassword = (props) => {
 			)
 			props.history.push('/login')
 		}
-	}, [error, forgotResetSuccess, props.history, setAlert])
+	}, [
+		error,
+		forgotResetSuccess,
+		props.history,
+		props.location.search,
+		user,
+		setAlert,
+	])
 
 	const onChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value })
