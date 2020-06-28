@@ -19,12 +19,12 @@ before_deploy:
     - eval "$(ssh-agent -s)"
     - chmod 600 deploy-key.pem
     - ssh-add deploy-key.pem
+    - ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "forever stop wartime"
 deploy:
     provider: script
     skip_cleanup: true
-    script:
-        - ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "forever stop wartime"
-        - rsync -r --delete-after --quiet -e "ssh -o StrictHostKeyChecking=no" $TRAVIS_BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-        - ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "cd htdocs/war-time && forever start -a --uid 'wartime' server/index.js"
+    script: rsync -r --delete-after --quiet -e "ssh -o StrictHostKeyChecking=no" $TRAVIS_BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     on:
         branch: master
+after_deploy:
+    - ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "cd htdocs/war-time && forever start -a --uid 'wartime' server/index.js"
