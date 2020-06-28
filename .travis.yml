@@ -26,6 +26,6 @@ deploy:
         ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "forever stop wartime"
         rsync -r --delete-after --quiet -e "ssh -o StrictHostKeyChecking=no" $TRAVIS_BUILD_DIR
         $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-        ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "forever start --uid 'wartime' $DEPLOY_PATH/server/index.js"
+        ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "forever start -a --uid 'wartime' htdocs/war-time/server/index.js"
     on:
         branch: master
