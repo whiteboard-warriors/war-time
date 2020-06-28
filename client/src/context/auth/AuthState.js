@@ -1,8 +1,7 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useReducer } from 'react'
 import axios from 'axios'
 import AuthContext from './authContext'
 import authReducer from './authReducer'
-import AlertState from '../alert/AlertState'
 // import setAuthToken from '../../utils/setAuthToken';
 import {
 	SIGNUP_SUCCESS,
@@ -18,8 +17,8 @@ import {
 	FORGOT_PASSWORD_SUCCESS,
 	FORGOT_RESET_SUCCESS,
 	FORGOT_RESET_FAIL,
-	RESET_PASSWORD_SUCCESS,
-	RESET_PASSWORD_FAIL,
+	// RESET_PASSWORD_SUCCESS,
+	// RESET_PASSWORD_FAIL,
 } from '../types'
 
 /**
@@ -161,6 +160,7 @@ const AuthState = (props) => {
 
 			dispatch({
 				type: FORGOT_PASSWORD_SUCCESS,
+				payload: res.body,
 			})
 		} catch (err) {
 			console.error(err)
@@ -186,6 +186,7 @@ const AuthState = (props) => {
 
 			dispatch({
 				type: FORGOT_RESET_SUCCESS,
+				payload: res.body,
 			})
 		} catch (err) {
 			console.error(err)

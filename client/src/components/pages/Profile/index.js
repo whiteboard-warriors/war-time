@@ -1,13 +1,12 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react'
-import Navbar from '../../Navbar'
 import './style.scss'
 import { Form, Row, Col, Button } from 'react-bootstrap'
 import AuthContext from '../../../context/auth/authContext'
-import AuthState from '../../../context/auth/AuthState'
-const Profile = () => {
+
+const Profile = (props) => {
 	// const [firstName, lastName, setText] = useState('')
 	const authContext = useContext(AuthContext)
-	const { isAuthenticated, user, updateUserProfile } = authContext
+	const { user, updateUserProfile } = authContext
 
 	const [profile, setProfile] = useState({
 		id: user._id,
@@ -28,6 +27,11 @@ const Profile = () => {
 		secondaryLanguage,
 		skillLevel,
 	} = profile
+
+	/**
+	 *
+	 */
+	useEffect(() => {}, [props.history])
 
 	const onChangeProfile = (e) => {
 		setProfile({ ...profile, [e.target.name]: e.target.value })

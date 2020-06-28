@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react'
+import React, { Fragment, useContext } from 'react'
 import './style.scss'
 import { Jumbotron, Button } from 'react-bootstrap'
 import AuthContext from '../../../context/auth/authContext'

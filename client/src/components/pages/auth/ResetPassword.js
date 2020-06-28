@@ -3,7 +3,6 @@ import AlertContext from '../../../context/alert/alertContext'
 import AuthContext from '../../../context/auth/authContext'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import qs from 'qs'
-import setAuthToken from '../../../utils/setAuthToken'
 
 const ResetPassword = (props) => {
 	const alertContext = useContext(AlertContext)
@@ -43,7 +42,7 @@ const ResetPassword = (props) => {
 			)
 			props.history.push('/login')
 		}
-	}, [error, forgotResetSuccess, props.history])
+	}, [error, forgotResetSuccess, props.history, setAlert])
 
 	const onChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value })

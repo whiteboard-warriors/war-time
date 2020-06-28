@@ -58,10 +58,6 @@ const Index = () => {
 		</Fragment>
 	)
 
-	const onLogout = () => {
-		logout()
-	}
-
 	return (
 		<Navbar expand="lg">
 			<Link className="navbar-brand" to="/">

@@ -60,6 +60,8 @@ export default (state, action) => {
 				...state,
 				user: action.payload,
 			}
+		case UPDATE_PROFILE_FAIL:
+			return state
 		case FORGOT_PASSWORD_SUCCESS:
 			localStorage.removeItem('isAuthenticated')
 			localStorage.removeItem('user')

@@ -4,10 +4,10 @@ import AuthContext from '../../../context/auth/authContext'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 
 const Signup = (props) => {
-	// const alertContext = useContext(AlertContext)
+	const alertContext = useContext(AlertContext)
 	const authContext = useContext(AuthContext)
 
-	// const { setAlert } = alertContext
+	const { setAlert } = alertContext
 	const { register, error, clearErrors, isAuthenticated } = authContext
 
 	useEffect(() => {
@@ -16,7 +16,7 @@ const Signup = (props) => {
 		}
 
 		if (error === 'User already exists') {
-			// setAlert(error, 'danger')
+			setAlert(error, 'danger')
 			clearErrors()
 		}
 		// eslint-disable-next-line
