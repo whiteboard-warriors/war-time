@@ -138,7 +138,7 @@ router.put('/:id', async (req, res) => {
 			{ _id: req.params.id },
 			{ $set: updatedUser }
 		)
-		res.json(user)
+		res.json(updatedUser);
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')
@@ -197,9 +197,7 @@ router.post('/forgot-password-complete', async (req, res) => {
 		const user = await db.User.findOne({ token: token })
 
 		if (user === null) {
-			res
-				.status(401)
-				.json({ msg: 'INVALID_TOKEN' })
+			res.status(401).json({ msg: 'INVALID_TOKEN' })
 		} else {
 			user.password = password
 			user.token = null

@@ -22,8 +22,9 @@ before_deploy:
 deploy:
     provider: script
     skip_cleanup: true
-    script:
+    script: ssh $DEPLOY_USER@$DEPLOY_HOST << 'forever stop wartime'
         rsync -r --delete-after --quiet -e "ssh -o StrictHostKeyChecking=no" $TRAVIS_BUILD_DIR
         $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+        ssh $DEPLOY_USER@$DEPLOY_HOST << 'forever start --uid "wartime" $DEPLOY_PATH/server/index.js'
     on:
         branch: master
