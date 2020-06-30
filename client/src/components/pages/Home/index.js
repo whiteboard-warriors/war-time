@@ -30,24 +30,24 @@ const Home = () => {
 	const edit = function () {
 		console.log('event edited');
 	};
-	const signIn = function () {
-		console.log('used signed in');
-	};
+	// const signIn = function () {
+	// 	console.log('used signed in');
+	// };
 
 	return (
 		<Fragment>
 			<Navbar></Navbar>
-			<Container className='mt-5'>
+			<Container className='mt-5 card-container'>
 				{events.map((item) => {
 					return (
 						<EventCard
 							image={wwLogo}
 							location={item.location}
 							date={item.date}
+							time={item.time}
 							deleteEvent={deleteEvent}
 							pair={pair}
 							edit={edit}
-							signIn={signIn}
 						/>
 					);
 				})}
