@@ -23,38 +23,45 @@ const EventCard = (props) => {
 			</div>
 			<div className='info-container'>
 				<div className='info-left'>
-					<h3>Location</h3>
-					<p>{location}</p>
-					<h3>Date</h3>
-					<p>{date}</p>
+					<p>Location</p>
+					<h6>{location}</h6>
+					<br />
+					<p>Date</p>
+					<h6>{date}Friday, July 3rd</h6>
 				</div>
 				<div className='info-right'>
-					<h3>Time</h3>
-					<p>{time}</p>
-					{pair && (
-						<Button variant='danger' size='md' onClick={pair}>
-							Pair
-						</Button>
-					)}
-					{edit && (
-						<Button variant='primary' size='md' onClick={edit}>
-							Edit
-						</Button>
-					)}
-					{deleteEvent && (
-						<Button
-							variant='primary'
-							size='md'
-							onClick={deleteEvent}
-						>
-							Delete
-						</Button>
-					)}
-					{signIn && (
-						<Button variant='primary' size='md' onClick={signIn}>
-							Signin
-						</Button>
-					)}
+					<p>Time</p>
+					<h6>{time} 7:00pm</h6>
+					<div className='info-buttons'>
+						{pair && (
+							<Button variant='warning' size='md' onClick={pair}>
+								Pair
+							</Button>
+						)}
+						{edit && (
+							<Button variant='primary' size='md' onClick={edit}>
+								Edit
+							</Button>
+						)}
+						{deleteEvent && (
+							<Button
+								variant='danger'
+								size='md'
+								onClick={deleteEvent}
+							>
+								Delete
+							</Button>
+						)}
+						{signIn && (
+							<Button
+								variant='warning'
+								size='md'
+								onClick={signIn}
+							>
+								Signin
+							</Button>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
