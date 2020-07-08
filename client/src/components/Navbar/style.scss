@@ -7,7 +7,9 @@
 	-moz-box-shadow: 3px 3px 5px 5px #ccc;
 	-webkit-box-shadow: 3px 3px 5px 5px #ccc;
 	box-shadow: 3px 3px 5px 5px #ccc;
+	margin-bottom: 1rem;
 }
+
 .navbar-brand {
 	transform: translateX(-50%);
 	left: 50%;
@@ -15,9 +17,11 @@
 	font-size: 1.5rem !important;
 	color: $grey-dark !important;
 }
+
 .navbar-nav {
 	margin-right: 5%;
 }
+
 .nav-link {
 	margin-right: 0.5rem;
 }
@@ -27,4 +31,8 @@
 	height: 3rem;
 	margin: 0rem;
 	padding: 0;
+}
+
+.profile-pic {
+	width: 3rem
 }

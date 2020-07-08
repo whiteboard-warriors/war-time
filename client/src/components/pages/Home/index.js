@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Container from 'react-bootstrap/Container';
+import { Jumbotron, Button } from 'react-bootstrap';
 
 import Navbar from '../../Navbar';
 import EventCard from '../../EventCard';
@@ -10,15 +11,23 @@ import wwLogo from './ww-logo.svg';
 
 import events from '../../../0-temp-data/events';
 
-// import AuthContext from '../../../context/auth/authContext';
+import AuthContext from '../../../context/auth/authContext';
 
 const Home = () => {
-	// const authContext = useContext(AuthContext);
+	const authContext = useContext(AuthContext);
+	const { isAuthenticated, user } = authContext;
 
-	// useEffect(() => {
-	// 	authContext.loadUser();
-	// 	// eslint-disable-next-line
-	// }, []);
+	const authGreeting = (
+		<Fragment>
+			Hi {user.firstName}! Thanks for joining Whiteboard Warriors!!! 👍
+		</Fragment>
+	);
+
+	const landingGreeting = (
+		<Fragment>
+			Welcome to War-Time the Whiteboard Warriors Meet-Up App!
+		</Fragment>
+	);
 
 	// temp actions
 	const deleteEvent = function () {
@@ -52,6 +61,13 @@ const Home = () => {
 					);
 				})}
 			</Container>
+			<Jumbotron>
+				<h1>Welcome!</h1>
+				<p>{isAuthenticated ? authGreeting : landingGreeting}</p>
+				<p>
+					<Button variant='primary'>Events</Button>
+				</p>
+			</Jumbotron>
 		</Fragment>
 	);
 };
