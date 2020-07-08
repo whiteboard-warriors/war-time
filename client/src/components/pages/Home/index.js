@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 
 import Container from 'react-bootstrap/Container';
-import { Jumbotron, Button } from 'react-bootstrap';
+// import { Jumbotron, Button } from 'react-bootstrap';
 
-import Navbar from '../../Navbar';
 import EventCard from '../../EventCard';
 
 import './style.scss';
@@ -17,17 +16,17 @@ const Home = () => {
 	const authContext = useContext(AuthContext);
 	const { isAuthenticated, user } = authContext;
 
-	const authGreeting = (
-		<Fragment>
-			Hi {user.firstName}! Thanks for joining Whiteboard Warriors!!! 👍
-		</Fragment>
-	);
+	// const authGreeting = (
+	// 	<Fragment>
+	// 		Hi {user.firstName}! Thanks for joining Whiteboard Warriors!!! 👍
+	// 	</Fragment>
+	// );
 
-	const landingGreeting = (
-		<Fragment>
-			Welcome to War-Time the Whiteboard Warriors Meet-Up App!
-		</Fragment>
-	);
+	// const landingGreeting = (
+	// 	<Fragment>
+	// 		Welcome to War-Time the Whiteboard Warriors Meet-Up App!
+	// 	</Fragment>
+	// );
 
 	// temp actions
 	const deleteEvent = function () {
@@ -45,8 +44,7 @@ const Home = () => {
 
 	return (
 		<Fragment>
-			<Navbar></Navbar>
-			<Container className='mt-5 card-container'>
+			<Container className='mt-5 event-card-container'>
 				{events.map((item) => {
 					return (
 						<EventCard
@@ -61,13 +59,13 @@ const Home = () => {
 					);
 				})}
 			</Container>
-			<Jumbotron>
+			{/* <Jumbotron>
 				<h1>Welcome!</h1>
 				<p>{isAuthenticated ? authGreeting : landingGreeting}</p>
 				<p>
 					<Button variant='primary'>Events</Button>
 				</p>
-			</Jumbotron>
+			</Jumbotron> */}
 		</Fragment>
 	);
 };
