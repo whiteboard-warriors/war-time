@@ -1,0 +1,12 @@
+input,
+textarea {
+	border-radius: 0 !important;
+	border-color: lighten($color: $secondary, $amount: 10) !important;
+	&:focus {
+		box-shadow: 0 0 5px rgba(176, 179, 180, 1) !important;
+	}
+	&:active {
+		box-shadow: 0 0 5px rgba(176, 179, 180, 1);
+		border: 1px solid rgb(161, 164, 165);
+	}
+}
