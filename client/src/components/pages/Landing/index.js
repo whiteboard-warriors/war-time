@@ -5,8 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import Navbar from '../../Navbar';
-
 import './style.scss';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +18,6 @@ import './style.scss';
 const Landing = () => {
 	return (
 		<Fragment>
-			<Navbar></Navbar>
 			<Container>
 				<Row>
 					<Col
