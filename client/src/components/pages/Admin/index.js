@@ -35,7 +35,7 @@ const Admin = () => {
 	return (
 		<Fragment>
 			<Container className='mt-5 admin-page-container text-center'>
-				<div className='mt-5 admin-action-container container'>
+				<div className='mt-5 admin-action-container'>
 					<div>
 						<h3 className='my-4'>Admin</h3>
 						<div className='admin-action-card text-center'>
