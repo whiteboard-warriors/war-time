@@ -3,7 +3,7 @@ import AlertContext from '../../../context/alert/alertContext';
 import AuthContext from '../../../context/auth/authContext';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-import './signup.scss';
+import './style.scss';
 
 const Signup = (props) => {
 	const alertContext = useContext(AlertContext);
@@ -313,7 +313,7 @@ const Signup = (props) => {
 							</Col>
 						</Row>
 						<div className='text-center my-3'>
-							<Button variant='primary' type='submit' size='lg'>
+							<Button variant='warning' type='submit' size='lg'>
 								Sign-Up!
 							</Button>
 						</div>
