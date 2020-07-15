@@ -44,20 +44,24 @@ const Home = () => {
 
 	return (
 		<Fragment>
+			<div className='text-center mt-5'>
+				{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
+			</div>
 			<Container className='mt-5 event-card-container'>
-				{events.map((item) => {
-					return (
-						<EventCard
-							image={wwLogo}
-							location={item.location}
-							date={item.date}
-							time={item.time}
-							deleteEvent={deleteEvent}
-							pair={pair}
-							edit={edit}
-						/>
-					);
-				})}
+				{user.firstName &&
+					events.map((item) => {
+						return (
+							<EventCard
+								image={wwLogo}
+								location={item.location}
+								date={item.date}
+								time={item.time}
+								deleteEvent={deleteEvent}
+								pair={pair}
+								edit={edit}
+							/>
+						);
+					})}
 			</Container>
 			{/* <Jumbotron>
 				<h1>Welcome!</h1>
