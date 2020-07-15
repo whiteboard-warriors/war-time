@@ -48,7 +48,7 @@ const Home = () => {
 				{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
 			</div>
 			<Container className='mt-5 event-card-container'>
-				{user.firstName &&
+				{isAuthenticated &&
 					events.map((item) => {
 						return (
 							<EventCard
