@@ -1,0 +1,40 @@
+@import '../../App.scss';
+
+.event-card {
+	margin: 1rem;
+	width: 17rem;
+	border: 0.5px solid lighten($color: $secondary, $amount: 10);
+	border-radius: 1rem;
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	.img-container {
+		display: flex;
+		justify-content: center;
+		padding: 1.5rem 0;
+		border-bottom: 1px solid $secondary;
+		img {
+			width: 9rem;
+		}
+	}
+	.info-container {
+		display: flex;
+		flex-direction: row;
+		.info-left {
+			border-right: 1px solid $secondary;
+			padding: 1.5rem 0.8rem 1.5rem 1rem;
+			h6 {
+				font-weight: 600;
+			}
+		}
+		.info-right {
+			min-width: 45%;
+			padding: 1.5rem 1.5rem 1.5rem 1rem;
+			.info-buttons {
+				display: flex;
+				flex-direction: column;
+			}
+			h6 {
+				font-weight: 600;
+			}
+		}
+	}
+}

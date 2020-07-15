@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -7,8 +7,8 @@ const app = express();
 
 const PORT = process.env.PORT || 5005;
 
-console.info('PORT: '+process.env.PORT)
-console.info('NODE_ENV: '+process.env.NODE_ENV)
+console.info('PORT: ' + process.env.PORT);
+console.info('NODE_ENV: ' + process.env.NODE_ENV);
 console.log('MONGO: ' + process.env.MONGODB_URI);
 console.log('MONGO: ' + process.env.AWS_SES_KEY);
 console.log('MONGO: ' + process.env.AWS_SES_SECRET);

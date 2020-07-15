@@ -1,0 +1,68 @@
+@import '../../../App.scss';
+
+.admin-action-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	// flexbox layout.
+	.admin-create-buttons,
+	.location-card-container,
+	.language-card-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
+	.admin-create-buttons {
+		padding: 3rem 3rem 3rem 3rem;
+	}
+	.admin-action-card {
+		padding: 0.5rem;
+		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+			0 10px 10px rgba(0, 0, 0, 0.22);
+		width: 18rem !important;
+		border: 1px solid $secondary;
+		border-radius: 1rem;
+		h4 {
+			padding: 1.5rem 0 0 0;
+		}
+		.admin-search-form {
+			display: flex;
+			flex-direction: row !important;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0.5rem;
+			// margin-bottom: 0.5rem;
+			.form-group {
+				margin: 0;
+			}
+			button {
+				width: 3rem;
+			}
+		}
+	}
+	.location-card-container {
+		padding: 0.5rem;
+
+		.location-card {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			margin: 0.2rem 0;
+			border: 0.5px solid lighten($color: $secondary, $amount: 15%);
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12),
+				0 2px 4px rgba(0, 0, 0, 0.24);
+			transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+			padding: 0.2rem 0.6rem;
+
+			a:first-child {
+				margin-right: 1rem;
+			}
+		}
+	}
+}
+
+.admin-card-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
