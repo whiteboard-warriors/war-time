@@ -1,9 +1,9 @@
 @import '../../App.scss';
 
 .event-card {
-	max-width: 25rem;
+	margin: 1rem;
 	width: 17rem;
-	border: 1px solid $secondary;
+	border: 0.5px solid lighten($color: $secondary, $amount: 10);
 	border-radius: 1rem;
 	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 	.img-container {
