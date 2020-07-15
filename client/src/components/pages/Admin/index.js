@@ -1,14 +1,12 @@
 import React, { Fragment, useContext } from 'react';
 
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 
 import EventCard from '../../EventCard';
 
 import './style.scss';
 //images
 import wwLogo from './ww-logo.svg';
-import pen from './pen.svg';
-import trashCan from './delete.svg';
 
 import events from '../../../0-temp-data/events';
 
@@ -35,6 +33,9 @@ const Admin = () => {
 	return (
 		<Fragment>
 			<Container className='mt-5 admin-page-container text-center'>
+				<div className='text-center mt-5'>
+					{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
+				</div>
 				<div className='mt-5 admin-action-container'>
 					<div>
 						<h3 className='my-4'>Admin</h3>
@@ -65,11 +66,11 @@ const Admin = () => {
 								<div className='location-card'>
 									<p>Location Name</p>
 									<div>
-										<a href=''>
+										<a href='/admin'>
 											<i class='fa fa-pen'></i>
 										</a>
 
-										<a href=''>
+										<a href='/admin'>
 											<i class='fa fa-trash'></i>
 										</a>
 									</div>
@@ -77,11 +78,11 @@ const Admin = () => {
 								<div className='location-card'>
 									<p>Location Name</p>
 									<div>
-										<a href=''>
+										<a href='/admin'>
 											<i class='fa fa-pen'></i>
 										</a>
 
-										<a href=''>
+										<a href='/admin'>
 											<i class='fa fa-trash'></i>
 										</a>
 									</div>
@@ -89,11 +90,11 @@ const Admin = () => {
 								<div className='location-card'>
 									<p>Location Name</p>
 									<div>
-										<a href=''>
+										<a href='/admin'>
 											<i class='fa fa-pen'></i>
 										</a>
 
-										<a href=''>
+										<a href='/admin'>
 											<i class='fa fa-trash'></i>
 										</a>
 									</div>
@@ -123,19 +124,20 @@ const Admin = () => {
 						<h3>Events</h3>
 					</div>
 					<div className='mt-3 admin-card-container'>
-						{events.map((item) => {
-							return (
-								<EventCard
-									image={wwLogo}
-									location={item.location}
-									date={item.date}
-									time={item.time}
-									deleteEvent={deleteEvent}
-									pair={pair}
-									edit={edit}
-								/>
-							);
-						})}
+						{isAuthenticated &&
+							events.map((item) => {
+								return (
+									<EventCard
+										image={wwLogo}
+										location={item.location}
+										date={item.date}
+										time={item.time}
+										deleteEvent={deleteEvent}
+										pair={pair}
+										edit={edit}
+									/>
+								);
+							})}
 					</div>
 				</div>
 			</Container>
