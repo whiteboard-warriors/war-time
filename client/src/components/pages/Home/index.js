@@ -52,6 +52,7 @@ const Home = () => {
 					events.map((item) => {
 						return (
 							<EventCard
+								key={item._id}
 								image={wwLogo}
 								location={item.location}
 								date={item.date}
