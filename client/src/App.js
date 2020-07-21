@@ -10,7 +10,7 @@ import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
 
-import PrivateRoute from './components/routing/PrivateRoute';
+// import PrivateRoute from './components/routing/PrivateRoute';
 
 import Alerts from './components/Alerts';
 import Navbar from './components/Navbar';
@@ -40,12 +40,8 @@ const App = () => {
 									path='/landing'
 									component={Landing}
 								/>
-								<PrivateRoute exact path='/' component={Home} />
-								<PrivateRoute
-									exact
-									path='/admin'
-									component={Admin}
-								/>
+								<Route exact path='/' component={Home} />
+								<Route exact path='/admin' component={Admin} />
 
 								<Route
 									exact
@@ -53,7 +49,7 @@ const App = () => {
 									component={Signup}
 								/>
 								<Route exact path='/login' component={Login} />
-								<PrivateRoute
+								<Route
 									exact
 									path='/profile'
 									component={Profile}
