@@ -11,6 +11,8 @@ import wwLogo from './ww-logo.svg';
 import events from '../../../0-temp-data/events';
 
 import AuthContext from '../../../context/auth/authContext';
+import languages from '../../../0-temp-data/languages';
+import locations from '../../../0-temp-data/locations';
 
 const Admin = () => {
 	const authContext = useContext(AuthContext);
@@ -33,7 +35,7 @@ const Admin = () => {
 	return (
 		<Fragment>
 			<Container className='mt-5 admin-page-container text-center'>
-				<div className='text-center mt-5'>
+				<div className='text-left mt-5'>
 					{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
 				</div>
 				<div className='mt-5 admin-action-container'>
@@ -47,73 +49,70 @@ const Admin = () => {
 							</div>
 						</div>
 					</div>
+					{/* -- Locations Card --  */}
 					<div>
 						<h3 className='my-4'>Locations</h3>
 						<div className='admin-action-card text-center'>
 							<Form className='admin-search-form'>
 								<Form.Group controlId='formBasicPassword'>
 									<Form.Control
-										type='password'
-										placeholder='Password'
+										type='search'
+										placeholder='Search Locations'
 									/>
 								</Form.Group>
 
 								<Button variant='primary' type='submit'>
-									<i class='fa fa-search'></i>
+									<i className='fa fa-search'></i>
 								</Button>
 							</Form>
 							<div className='location-card-container'>
-								<div className='location-card'>
-									<p>Location Name</p>
-									<div>
-										<a href='/admin'>
-											<i class='fa fa-pen'></i>
-										</a>
+								{locations &&
+									locations.map((location) => {
+										return (
+											<div className='location-card'>
+												<p>
+													{location.name},{' '}
+													{location.city} -{' '}
+													{location.state}
+												</p>
+												<div>
+													<a href='/admin'>
+														<i className='fa fa-pen'></i>
+													</a>
 
-										<a href='/admin'>
-											<i class='fa fa-trash'></i>
-										</a>
-									</div>
-								</div>
-								<div className='location-card'>
-									<p>Location Name</p>
-									<div>
-										<a href='/admin'>
-											<i class='fa fa-pen'></i>
-										</a>
-
-										<a href='/admin'>
-											<i class='fa fa-trash'></i>
-										</a>
-									</div>
-								</div>
-								<div className='location-card'>
-									<p>Location Name</p>
-									<div>
-										<a href='/admin'>
-											<i class='fa fa-pen'></i>
-										</a>
-
-										<a href='/admin'>
-											<i class='fa fa-trash'></i>
-										</a>
-									</div>
-								</div>
+													<a href='/admin'>
+														<i className='fa fa-trash'></i>
+													</a>
+												</div>
+											</div>
+										);
+									})}
 							</div>
 						</div>
 					</div>
+					{/* -- Language Card --  */}
 					<div>
 						<h3 className='my-4'>Languages</h3>
 						<div className='admin-action-card text-center'>
 							<div className='language-card-container'>
-								<div className='language-card'>
-									language card
-								</div>
-								<div className='language-card'>
-									language card
-								</div>
-								<div className='language-card'>
-									language card
+								<div className='language-card-container'>
+									{languages &&
+										languages.map((item) => {
+											return (
+												<div className='language-card'>
+													<p>{item.language}</p>
+													<div>
+														<a href='/admin'>
+															<i className='fa fa-pen'></i>
+														</a>
+
+														<a href='/admin'>
+															<i className='fa fa-trash'></i>
+														</a>
+													</div>
+												</div>
+											);
+										})}
 								</div>
 							</div>
 						</div>

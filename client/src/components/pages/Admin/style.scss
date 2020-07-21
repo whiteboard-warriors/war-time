@@ -2,8 +2,9 @@
 
 .admin-action-container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: space-evenly;
+	align-items: center;
 	// flexbox layout.
 	.admin-create-buttons,
 	.location-card-container,
@@ -19,7 +20,7 @@
 		padding: 0.5rem;
 		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
 			0 10px 10px rgba(0, 0, 0, 0.22);
-		width: 18rem !important;
+		width: 20rem !important;
 		border: 1px solid $secondary;
 		border-radius: 1rem;
 		h4 {
@@ -34,15 +35,17 @@
 			// margin-bottom: 0.5rem;
 			.form-group {
 				margin: 0;
+				width: 80%;
 			}
 			button {
 				width: 3rem;
 			}
 		}
 	}
+	.language-card-container,
 	.location-card-container {
 		padding: 0.5rem;
-
+		.language-card,
 		.location-card {
 			display: flex;
 			flex-direction: row;
@@ -65,4 +68,11 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
+}
+
+@media only screen and (min-width: 768px) {
+	.admin-action-container {
+		flex-direction: row;
+		align-items: initial;
+	}
 }
