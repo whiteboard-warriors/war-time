@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Container, Button, Form } from 'react-bootstrap';
 
@@ -43,9 +44,21 @@ const Admin = () => {
 						<h3 className='my-4'>Admin</h3>
 						<div className='admin-action-card text-center'>
 							<div className='admin-create-buttons'>
-								<Button variant='warning'>Create Event</Button>
-								<Button variant='warning'>Add Location</Button>
-								<Button variant='warning'>Add Language</Button>
+								<Link to='/admin/create-event'>
+									<Button variant='warning'>
+										Create Event
+									</Button>
+								</Link>
+								<Link to='/admin/add-location'>
+									<Button variant='warning'>
+										Add Location
+									</Button>
+								</Link>
+								<Link to='/admin/add-language'>
+									<Button variant='warning'>
+										Add Language
+									</Button>
+								</Link>
 							</div>
 						</div>
 					</div>
