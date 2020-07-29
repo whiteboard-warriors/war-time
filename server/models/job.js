@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-mongoose.set('useCreateIndex', true)
+const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const JobSchema = new Schema({
 	createdBy: {
@@ -11,8 +11,11 @@ const JobSchema = new Schema({
 	title: {
 		type: String,
 	},
-})
+	description: {
+		type: String,
+	},
+});
 
-const Job = mongoose.model('Job', JobSchema)
+const Job = mongoose.model('Job', JobSchema);
 
-module.exports = Job
+module.exports = Job;
