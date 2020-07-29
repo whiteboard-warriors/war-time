@@ -2,13 +2,17 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Pages
 import Home from './components/pages/Home';
-import Admin from './components/pages/Admin';
 import Landing from './components/pages/Landing';
 import Login from './components/pages/auth/Login';
 import Signup from './components/pages/auth/Signup';
 import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
+//Admin Pages
+import Admin from './components/pages/Admin';
+import AddLanguage from './components/pages/Admin/AddLanguage';
+import AddLocation from './components/pages/Admin/AddLocation';
+import CreateEvent from './components/pages/Admin/CreateEvent';
 
 // import PrivateRoute from './components/routing/PrivateRoute';
 
@@ -42,6 +46,21 @@ const App = () => {
 								/>
 								<Route exact path='/' component={Home} />
 								<Route exact path='/admin' component={Admin} />
+								<Route
+									exact
+									path='/admin/create-event'
+									component={CreateEvent}
+								/>
+								<Route
+									exact
+									path='/admin/add-language'
+									component={AddLanguage}
+								/>
+								<Route
+									exact
+									path='/admin/add-location'
+									component={AddLocation}
+								/>
 
 								<Route
 									exact
