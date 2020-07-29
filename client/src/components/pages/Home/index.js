@@ -42,6 +42,7 @@ const Home = () => {
 	// 	console.log('used signed in');
 	// };
 
+	// console.log('user::: ', user);
 	return (
 		<Fragment>
 			<div className='text-center mt-5'>
