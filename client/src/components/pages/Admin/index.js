@@ -9,9 +9,9 @@ import './style.scss';
 //images
 import wwLogo from './ww-logo.svg';
 
-import events from '../../../0-temp-data/events';
-
 import AuthContext from '../../../context/auth/authContext';
+//temp data
+import events from '../../../0-temp-data/events';
 import languages from '../../../0-temp-data/languages';
 import locations from '../../../0-temp-data/locations';
 
@@ -36,7 +36,7 @@ const Admin = () => {
 	return (
 		<Fragment>
 			<Container className='mt-5 admin-page-container text-center'>
-				<div className='text-left mt-5'>
+				<div className='mt-5'>
 					{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
 				</div>
 				<div className='mt-5 admin-action-container'>

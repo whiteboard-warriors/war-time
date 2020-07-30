@@ -33,6 +33,13 @@ const Index = () => {
 					>
 						Profile
 					</Link>
+					<Link
+						data-rb-event-key='/admin'
+						className='dropdown-item'
+						to='/admin'
+					>
+						Admin
+					</Link>
 					<NavDropdown.Item href='#logout' onClick={logout}>
 						Log Out
 					</NavDropdown.Item>
