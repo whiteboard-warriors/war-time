@@ -1,25 +1,25 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const db = require('../models')
-const isAuthenticated = require('../config/middleware/isAuthenticated')
+const db = require('../models');
+const isAuthenticated = require('../config/middleware/isAuthenticated');
 
 // @route   GET /api/jobs
 // @desc    Retrieves all events
 router.get('/', async (req, res) => {
 	try {
-		const jobs = await db.Job.find()
-		res.json(jobs)
+		const jobs = await db.Job.find();
+		res.json(jobs);
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server Error')
+		console.error(err.message);
+		res.status(500).send('Server Error');
 	}
-})
+});
 
 // @route   POST /api/events
 // @desc    Admin creates an event
 router.post('/', async (req, res) => {
-	let { title } = req.body
+	let { title, description } = req.body;
 
 	try {
 		// check to make sure user making updates has admin rights.
@@ -32,14 +32,15 @@ router.post('/', async (req, res) => {
 
 		const job = new db.Job({
 			// createdBy: req.user._id,
-			title: title,
-		})
-		await job.save()
-		res.send('Your job was created!')
+			title,
+			description,
+		});
+		await job.save();
+		res.send('Your job was created!');
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server Error')
+		console.error(err.message);
+		res.status(500).send('Server Error');
 	}
-})
+});
 
-module.exports = router
+module.exports = router;

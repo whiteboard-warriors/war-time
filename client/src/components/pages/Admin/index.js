@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Container, Button, Form } from 'react-bootstrap';
 
@@ -8,9 +9,9 @@ import './style.scss';
 //images
 import wwLogo from './ww-logo.svg';
 
-import events from '../../../0-temp-data/events';
-
 import AuthContext from '../../../context/auth/authContext';
+//temp data
+import events from '../../../0-temp-data/events';
 import languages from '../../../0-temp-data/languages';
 import locations from '../../../0-temp-data/locations';
 
@@ -35,7 +36,7 @@ const Admin = () => {
 	return (
 		<Fragment>
 			<Container className='mt-5 admin-page-container text-center'>
-				<div className='text-left mt-5'>
+				<div className='mt-5'>
 					{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
 				</div>
 				<div className='mt-5 admin-action-container'>
@@ -43,9 +44,21 @@ const Admin = () => {
 						<h3 className='my-4'>Admin</h3>
 						<div className='admin-action-card text-center'>
 							<div className='admin-create-buttons'>
-								<Button variant='warning'>Create Event</Button>
-								<Button variant='warning'>Add Location</Button>
-								<Button variant='warning'>Add Language</Button>
+								<Link to='/admin/create-event'>
+									<Button variant='warning'>
+										Create Event
+									</Button>
+								</Link>
+								<Link to='/admin/add-location'>
+									<Button variant='warning'>
+										Add Location
+									</Button>
+								</Link>
+								<Link to='/admin/add-language'>
+									<Button variant='warning'>
+										Add Language
+									</Button>
+								</Link>
 							</div>
 						</div>
 					</div>

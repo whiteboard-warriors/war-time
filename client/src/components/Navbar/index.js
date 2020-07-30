@@ -33,6 +33,13 @@ const Index = () => {
 					>
 						Profile
 					</Link>
+					<Link
+						data-rb-event-key='/admin'
+						className='dropdown-item'
+						to='/admin'
+					>
+						Admin
+					</Link>
 					<NavDropdown.Item href='#logout' onClick={logout}>
 						Log Out
 					</NavDropdown.Item>
@@ -41,13 +48,13 @@ const Index = () => {
 
 			<ul className='navbar-nav'>
 				<li className='nav-item avatar'>
-					<a className='nav-link p-0' href='/profile'>
+					<Link className='nav-link p-0' to='/profile'>
 						<img
 							src='https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg'
 							className='profile-pic rounded-circle z-depth-0'
 							alt='avatar'
 						></img>
-					</a>
+					</Link>
 				</li>
 			</ul>
 		</Fragment>
