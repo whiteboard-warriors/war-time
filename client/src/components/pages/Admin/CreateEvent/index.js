@@ -63,7 +63,7 @@ const Signup = (props) => {
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
 					<Form onSubmit={onSubmit} className='form-global-margin'>
-						<Form.Group controlId='formBasicName'>
+						<Form.Group controlId='formBasic'>
 							<Form.Control
 								type='text'
 								placeholder='Location*'
