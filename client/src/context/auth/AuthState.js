@@ -36,6 +36,7 @@ const AuthState = (props) => {
 		error: null,
 		forgotResetSuccess: false,
 		forgotRequestSuccess: false,
+		updateProfileSuccess: false,
 	}
 
 	const [state, dispatch] = useReducer(authReducer, initialState)
@@ -213,6 +214,7 @@ const AuthState = (props) => {
 				error: state.error,
 				forgotResetSuccess: state.forgotResetSuccess,
 				forgotRequestSuccess: state.forgotRequestSuccess,
+				updateProfileSuccess: state.updateProfileSuccess,
 				register,
 				loadUser,
 				updateUserProfile,
