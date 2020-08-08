@@ -8,6 +8,7 @@ import Signup from './components/pages/auth/Signup';
 import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
+import Event from "./components/pages/Event"
 //Admin Pages
 import Admin from './components/pages/Admin';
 import AddLanguage from './components/pages/Admin/AddLanguage';
@@ -61,7 +62,11 @@ const App = () => {
 									path='/admin/add-location'
 									component={AddLocation}
 								/>
-
+								<Route
+									exact
+									path='/event/'
+									component={Event}
+								/>
 								<Route
 									exact
 									path='/signup'
