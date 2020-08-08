@@ -138,7 +138,12 @@ router.put('/:id', async (req, res) => {
 			{ _id: req.params.id },
 			{ $set: updatedUser }
 		)
-		res.json(updatedUser);
+
+		let user = await db.User.find({
+			_id: req.params.id,
+		})
+
+		res.status(204).json(user);
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')

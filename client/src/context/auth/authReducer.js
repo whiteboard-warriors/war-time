@@ -59,6 +59,7 @@ export default (state, action) => {
 			return {
 				...state,
 				user: action.payload,
+				updateProfileSuccess: true
 			}
 		case UPDATE_PROFILE_FAIL:
 			return state
