@@ -37,7 +37,7 @@ const Profile = (props) => {
 		if (updateProfileSuccess) {
 			setAlert('Your profile has been updated.', 'success')
 		}
-	}, [updateProfileSuccess, props.history])
+	}, [updateProfileSuccess])
 
 	const onChangeProfile = (e) => {
 		setProfile({ ...profile, [e.target.name]: e.target.value })
