@@ -30,6 +30,17 @@ app.use(passport.session())
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'))
 }
+
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, '../client/public/index.html'), function (
+		err
+	) {
+		if (err) {
+			res.status(500).send(err)
+		}
+	})
+})
+
 // Add routes, both API and view
 app.use('/api/users', require('./routes/users'))
 app.use('/api/events', require('./routes/events'))
