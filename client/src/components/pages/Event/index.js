@@ -7,7 +7,7 @@ import './style.scss'
 import AuthContext from '../../../context/auth/authContext'
 
 const Event = () => {
-	const authContext = useContext(AuthContext)
+	// const authContext = useContext(AuthContext)
 	const [socket, setSocket] = useState(null)
 	const [socketConnected, setSocketConnected] = useState(false)
 	const [dt, setDt] = useState('')
@@ -19,6 +19,10 @@ const Event = () => {
 	// subscribe to the socket event
 	useEffect(() => {
 		if (!socket) return
+		// subscribe to socket date event
+		const subscribeToDateEvent = (interval = 1000) => {
+			socket.emit('subscribeToDateEvent', interval)
+		}
 
 		socket.on('connect', () => {
 			setSocketConnected(socket.connected)
@@ -32,11 +36,6 @@ const Event = () => {
 			setDt(data)
 		})
 	}, [socket, subscribeToDateEvent])
-
-	// subscribe to socket date event
-	const subscribeToDateEvent = (interval = 1000) => {
-		socket.emit('subscribeToDateEvent', interval)
-	}
 
 	// manage socket connection
 	const handleSocketConnection = () => {
