@@ -37,7 +37,7 @@ const Profile = (props) => {
 		if (updateProfileSuccess) {
 			setAlert('Your profile has been updated.', 'success')
 		}
-	}, [updateProfileSuccess])
+	}, [updateProfileSuccess, setAlert])
 
 	const onChangeProfile = (e) => {
 		setProfile({ ...profile, [e.target.name]: e.target.value })
@@ -115,9 +115,14 @@ const Profile = (props) => {
 											value="javascript"
 											name="primaryLanguage"
 											id="primarylanguageJavaScript"
-											checked={primaryLanguage === 'javascript'}
+											checked={
+												primaryLanguage === 'javascript'
+											}
 											onChange={onChangeProfile}
-											disabled={secondaryLanguage === 'javascript'}
+											disabled={
+												secondaryLanguage ===
+												'javascript'
+											}
 										/>
 										<Form.Check
 											type="radio"
@@ -125,9 +130,15 @@ const Profile = (props) => {
 											value="c-cplusplus-java-go"
 											name="primaryLanguage"
 											id="primarylanguageCJavaGo"
-											checked={primaryLanguage === 'c-cplusplus-java-go'}
+											checked={
+												primaryLanguage ===
+												'c-cplusplus-java-go'
+											}
 											onChange={onChangeProfile}
-											disabled={secondaryLanguage === 'c-cplusplus-java-go'}
+											disabled={
+												secondaryLanguage ===
+												'c-cplusplus-java-go'
+											}
 										/>
 										<Form.Check
 											type="radio"
@@ -135,9 +146,15 @@ const Profile = (props) => {
 											value="python-ruby"
 											name="primaryLanguage"
 											id="primarylanguagePythonRuby"
-											checked={primaryLanguage === 'python-ruby'}
+											checked={
+												primaryLanguage ===
+												'python-ruby'
+											}
 											onChange={onChangeProfile}
-											disabled={secondaryLanguage === 'python-ruby'}
+											disabled={
+												secondaryLanguage ===
+												'python-ruby'
+											}
 										/>
 									</Col>
 								</Form.Group>
@@ -157,9 +174,14 @@ const Profile = (props) => {
 											value="javascript"
 											name="secondaryLanguage"
 											id="secondarylanguageJavaScript"
-											checked={secondaryLanguage === 'javascript'}
+											checked={
+												secondaryLanguage ===
+												'javascript'
+											}
 											onChange={onChangeProfile}
-											disabled={primaryLanguage === 'javascript'}
+											disabled={
+												primaryLanguage === 'javascript'
+											}
 										/>
 										<Form.Check
 											type="radio"
@@ -167,9 +189,15 @@ const Profile = (props) => {
 											value="c-cplusplus-java-go"
 											name="secondaryLanguage"
 											id="secondarylanguageCJavaGo"
-											checked={secondaryLanguage === 'c-cplusplus-java-go'}
+											checked={
+												secondaryLanguage ===
+												'c-cplusplus-java-go'
+											}
 											onChange={onChangeProfile}
-											disabled={primaryLanguage === 'c-cplusplus-java-go'}
+											disabled={
+												primaryLanguage ===
+												'c-cplusplus-java-go'
+											}
 										/>
 										<Form.Check
 											type="radio"
@@ -177,9 +205,15 @@ const Profile = (props) => {
 											name="secondaryLanguage"
 											value="python-ruby"
 											id="secondarylanguagePythonRuby"
-											checked={secondaryLanguage === 'python-ruby'}
+											checked={
+												secondaryLanguage ===
+												'python-ruby'
+											}
 											onChange={onChangeProfile}
-											disabled={primaryLanguage === 'python-ruby'}
+											disabled={
+												primaryLanguage ===
+												'python-ruby'
+											}
 										/>
 									</Col>
 								</Form.Group>
@@ -241,7 +275,11 @@ const Profile = (props) => {
 				<h4>Change Password</h4>
 				<Form inline>
 					<Form.Label htmlFor="password">Password</Form.Label>
-					<Form.Control type="password" placeholder="Password" id="password" />
+					<Form.Control
+						type="password"
+						placeholder="Password"
+						id="password"
+					/>
 					<Form.Label>Confirm Password</Form.Label>
 					<Form.Control type="password" placeholder="Password" />
 					<Button variant="primary" type="submit">
