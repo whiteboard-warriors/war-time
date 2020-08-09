@@ -1,10 +1,8 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import io from 'socket.io-client'
 import Container from 'react-bootstrap/Container'
 
 import './style.scss'
-
-import AuthContext from '../../../context/auth/authContext'
 
 const Event = () => {
 	// const authContext = useContext(AuthContext)
