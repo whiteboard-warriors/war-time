@@ -42,7 +42,7 @@ app.use('/api/languages', require('./routes/languages'))
 
 app.get('/*', function (req, res) {
 	console.info('get profile')
-	res.sendFile('client/build/index.html', function (err) {
+	res.sendFile('index.html', function (err) {
 		if (err) {
 			res.status(500).send(err)
 		}
