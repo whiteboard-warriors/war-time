@@ -40,13 +40,8 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/locations', require('./routes/locations'))
 app.use('/api/languages', require('./routes/languages'))
 
-app.get('/*', function (req, res) {
-	console.info('get profile')
-	res.sendFile('index.html', function (err) {
-		if (err) {
-			res.status(500).send(err)
-		}
-	})
+server.get('/*', (req, res) => {
+	res.sendFile(__dirname + '/index.html')
 })
 
 // Connect to the Mongo DB
