@@ -35,7 +35,7 @@ const Event = () => {
 		socket.on('getDate', (data) => {
 			setDt(data)
 		})
-	}, [socket, subscribeToDateEvent])
+	}, [socket])
 
 	// manage socket connection
 	const handleSocketConnection = () => {
