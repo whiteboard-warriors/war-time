@@ -40,7 +40,7 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/locations', require('./routes/locations'))
 app.use('/api/languages', require('./routes/languages'))
 
-server.get('/*', (req, res) => {
+app.get('/*', (req, res) => {
 	res.sendFile(__dirname + '/index.html')
 })
 
