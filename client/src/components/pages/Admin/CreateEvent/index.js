@@ -1,26 +1,36 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
+import LocationContext from '../../../../context/location/locationContext';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 // import statesAndRegions from '../AddLocation/statesAndRegions';
 
 import './style.scss';
+import { get, set } from 'mongoose';
 
-const Signup = (props) => {
+const CreateEvent = (props) => {
 	const alertContext = useContext(AlertContext);
 	const authContext = useContext(AuthContext);
+	const locationContext = useContext(LocationContext);
 
 	const { setAlert } = alertContext;
 	const { error, clearErrors, isAuthenticated } = authContext;
+	const { locationError, getLocations, locations } = locationContext;
 
 	useEffect(() => {
 		if (isAuthenticated) {
+			getLocations();
 			props.history.push('/admin/create-event');
 		}
 
 		if (error === 'User already exists') {
 			setAlert(error, 'danger');
+			clearErrors();
+		}
+
+		if (locationError) {
+			setAlert(locationError, 'danger');
 			clearErrors();
 		}
 		// eslint-disable-next-line
@@ -63,14 +73,24 @@ const Signup = (props) => {
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
 					<Form onSubmit={onSubmit} className='form-global-margin'>
-						<Form.Group controlId='formBasic'>
+						<Form.Group controlId='formBasicState'>
 							<Form.Control
 								type='text'
-								placeholder='Location*'
-								name='location'
-								// value={location}
+								placeholder='Locations*'
+								defaultValue='Locations*'
+								value={location}
 								onChange={onChange}
-							/>
+								name='location'
+								as='select'
+							>
+								{locations.map((location) => {
+									return (
+										<option
+											value={`${location.name}, ${location.city} - ${location.state}`}
+										>{`${location.name}, ${location.city} - ${location.state}`}</option>
+									);
+								})}
+							</Form.Control>
 						</Form.Group>
 
 						<Form.Group controlId='formBasicPassword'>
@@ -148,4 +168,4 @@ const Signup = (props) => {
 	);
 };
 
-export default Signup;
+export default CreateEvent;
