@@ -42,7 +42,7 @@ const LocationState = (props) => {
 		}
 	};
 
-	// Add Location
+	// Add Location ** ADMIN
 	const addLocation = async (location) => {
 		const config = {
 			headers: {
@@ -58,14 +58,15 @@ const LocationState = (props) => {
 				payload: res.data,
 			});
 		} catch (err) {
+			console.log('add location err >>> ', err);
 			dispatch({
 				type: LOCATION_ERROR,
-				payload: err.response.msg,
+				payload: err.response.data.msg,
 			});
 		}
 	};
 
-	// Delete Location
+	// Delete Location ** ADMIN
 	const deleteLocation = async (id) => {
 		try {
 			await axios.delete(`/api/locations/${id}`);
@@ -77,12 +78,12 @@ const LocationState = (props) => {
 		} catch (err) {
 			dispatch({
 				type: LOCATION_ERROR,
-				payload: err.response.msg,
+				payload: err.response.data.msg,
 			});
 		}
 	};
 
-	// Update Location
+	// Update Location ** ADMIN
 	const updateLocation = async (location) => {
 		const config = {
 			headers: {
@@ -104,7 +105,7 @@ const LocationState = (props) => {
 		} catch (err) {
 			dispatch({
 				type: LOCATION_ERROR,
-				payload: err.response.msg,
+				payload: err.response.data.msg,
 			});
 		}
 	};
@@ -140,7 +141,7 @@ const LocationState = (props) => {
 				locations: state.locations,
 				current: state.current,
 				filtered: state.filtered,
-				error: state.error,
+				error: state.locationError,
 				addLocation,
 				deleteLocation,
 				clearLocations,
