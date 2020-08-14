@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
+import LocationContext from '../../../../context/location/locationContext';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 import statesAndRegions from './statesAndRegions';
@@ -10,9 +11,11 @@ import './style.scss';
 const AddLocation = (props) => {
 	const alertContext = useContext(AlertContext);
 	const authContext = useContext(AuthContext);
+	const locationContext = useContext(LocationContext);
 
 	const { setAlert } = alertContext;
 	const { error, clearErrors, isAuthenticated } = authContext;
+	const { addLocation } = locationContext;
 
 	useEffect(() => {
 		if (isAuthenticated) {
@@ -52,17 +55,18 @@ const AddLocation = (props) => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		// createEvent({
-		// 	name,
-		//	street,
-		// 	unit,
-		//	city,
-		// 	state,
-		//	zipCode,
-		//	onlinePlatform
-
-		// })
+		addLocation({
+			name,
+			street,
+			unit,
+			city,
+			state,
+			zipCode,
+			onlinePlatform,
+		});
+		props.history.push('/admin');
 		console.log('Event will be created');
+		setAlert('New location added!', 'danger');
 	};
 
 	return (
@@ -117,13 +121,17 @@ const AddLocation = (props) => {
 								type='text'
 								placeholder='State*'
 								defaultValue='State*'
-								value={state}
+								// value={state}
 								onChange={onChange}
 								name='state'
 								as='select'
 							>
-								{statesAndRegions.map((item) => {
-									return <option value={item}>{item}</option>;
+								{statesAndRegions.map((item, index) => {
+									return (
+										<option key={index} value={item}>
+											{item}
+										</option>
+									);
 								})}
 							</Form.Control>
 						</Form.Group>
@@ -142,7 +150,7 @@ const AddLocation = (props) => {
 								placeholder='Online Platform'
 								value={onlinePlatform}
 								onChange={onChange}
-								name='online platform'
+								name='onlinePlatform'
 							/>
 						</Form.Group>
 
