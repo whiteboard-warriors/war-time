@@ -22,7 +22,7 @@ export default (state, action) => {
 		case ADD_LOCATION:
 			return {
 				...state,
-				locations: [action.payload, ...state.locations],
+				locations: action.payload,
 				loading: false,
 			};
 		case UPDATE_LOCATION:
