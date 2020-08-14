@@ -313,7 +313,7 @@ const Signup = (props) => {
 							</Col>
 						</Row>
 						<div className='text-center my-3'>
-							<Button variant='warning' type='submit' size='lg'>
+							<Button variant='primary' type='submit' size='lg'>
 								Sign-Up!
 							</Button>
 						</div>

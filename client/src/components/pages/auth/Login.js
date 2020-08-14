@@ -78,7 +78,7 @@ const Login = (props) => {
 							</Col>
 						</Row>
 						<div className='text-center'>
-							<Button variant='secondary' type='submit' size='lg'>
+							<Button variant='primary' type='submit' size='lg'>
 								Sign In
 							</Button>
 						</div>
