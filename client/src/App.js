@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// Bootstrap
+import { Container } from 'react-bootstrap';
 // Pages
 import Home from './components/pages/Home';
 import Landing from './components/pages/Landing';
@@ -43,7 +45,9 @@ const App = () => {
 						<Router>
 							<Fragment>
 								<Navbar></Navbar>
-								<Alerts />
+								<Container>
+									<Alerts />
+								</Container>
 								<Switch>
 									<Route
 										exact
