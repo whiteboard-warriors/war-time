@@ -46,6 +46,13 @@ const CreateEvent = (props) => {
 	});
 
 	const { location, date, startTime, endTime, languages, levels } = event;
+	console.log('locations >>> ', locations);
+	console.log('location >>> ', location);
+	console.log('date >>> ', date);
+	console.log('startTime >>>', startTime);
+	console.log('endTime >>>', endTime);
+	console.log('languages >>>', languages);
+	console.log('levels >>>', levels);
 
 	const onChange = (e) => {
 		setEvent({ ...event, [e.target.name]: e.target.value });
@@ -74,7 +81,7 @@ const CreateEvent = (props) => {
 				<Col lg={{ span: 6, offset: 3 }}>
 					<Form onSubmit={onSubmit} className='form-global-margin'>
 						<Form.Group controlId='formBasicState'>
-							<Form.Control
+							{/* <Form.Control
 								type='text'
 								placeholder='Locations*'
 								defaultValue='Locations*'
@@ -90,7 +97,7 @@ const CreateEvent = (props) => {
 										>{`${location.name}, ${location.city} - ${location.state}`}</option>
 									);
 								})}
-							</Form.Control>
+							</Form.Control> */}
 						</Form.Group>
 
 						<Form.Group controlId='formBasicPassword'>
