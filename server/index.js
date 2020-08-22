@@ -30,6 +30,7 @@ app.use(passport.session());
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
 }
+
 // Add routes, both API and view
 app.use('/api/users', require('./routes/users'));
 app.use('/api/events', require('./routes/events'));
@@ -39,6 +40,10 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/locations', require('./routes/locations'));
 app.use('/api/languages', require('./routes/languages'));
 
+app.get('/*', (req, res) => {
+	res.sendFile(__dirname + '/index.html');
+});
+
 // Connect to the Mongo DB
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/war-time', {
@@ -47,6 +52,10 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/war-time', {
 });
 
 // Start the API server
-app.listen(PORT, function () {
+let server = app.listen(PORT, function () {
 	console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
+
+// attach socket to the node server
+var io = require('socket.io').listen(server);
+require('./middleware/socket')(io);
