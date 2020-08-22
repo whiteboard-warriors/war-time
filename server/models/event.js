@@ -9,8 +9,8 @@ const EventSchema = new Schema({
 		ref: 'User',
 	},
 	location: {
-		type: String,
-		required: 'Event location is required',
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Location',
 	},
 	date: {
 		type: Date,
@@ -25,19 +25,13 @@ const EventSchema = new Schema({
 		required: true,
 	},
 	languages: {
-		type: Array,
-		required: true,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Language',
 	},
 
 	levels: [
 		{
-			type: Number,
-			required: 'Array of levels is required',
-			enums: [
-				1, //'easy',
-				2, //'medium',
-				3, //'hard'
-			],
+			type: String,
 		},
 	],
 	attendees: [

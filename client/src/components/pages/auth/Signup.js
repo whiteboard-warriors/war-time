@@ -17,7 +17,6 @@ const Signup = (props) => {
 			props.history.push('/');
 		}
 
-		
 		if (error === 'User already exists') {
 			setAlert(error, 'danger');
 			clearErrors();
@@ -74,7 +73,7 @@ const Signup = (props) => {
 			</div>
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
-					<Form onSubmit={onSubmit} className='signup-form'>
+					<Form onSubmit={onSubmit} className='form-custom-margin'>
 						<Row>
 							<Col xs={12} sm={6}>
 								<Form.Group controlId='formFirstname'>
@@ -314,7 +313,7 @@ const Signup = (props) => {
 							</Col>
 						</Row>
 						<div className='text-center my-3'>
-							<Button variant='warning' type='submit' size='lg'>
+							<Button variant='primary' type='submit' size='lg'>
 								Sign-Up!
 							</Button>
 						</div>
