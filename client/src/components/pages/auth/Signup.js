@@ -17,7 +17,6 @@ const Signup = (props) => {
 			props.history.push('/');
 		}
 
-		
 		if (error === 'User already exists') {
 			setAlert(error, 'danger');
 			clearErrors();
