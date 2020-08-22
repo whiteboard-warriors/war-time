@@ -25,6 +25,7 @@ import AlertState from './context/alert/AlertState'
 import setAuthToken from './utils/setAuthToken'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
+import { Container } from 'react-bootstrap'
 
 if (localStorage.token) {
 	setAuthToken(localStorage.token)
@@ -38,7 +39,9 @@ const App = () => {
 					<Router>
 						<Fragment>
 							<Navbar></Navbar>
-							<Alerts />
+							<Container>
+								<Alerts />
+							</Container>
 							<Switch>
 								<Route
 									exact

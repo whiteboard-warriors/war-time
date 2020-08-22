@@ -11,7 +11,16 @@ const Event = () => {
 	const [dt, setDt] = useState('')
 	// establish socket connection
 	useEffect(() => {
-		setSocket(io('http://localhost:5005'))
+		debugger
+
+		setSocket(
+			io(
+				window.location.protocol +
+					'//' +
+					window.location.hostname +
+					':5005'
+			)
+		)
 	}, [])
 
 	// subscribe to the socket event
