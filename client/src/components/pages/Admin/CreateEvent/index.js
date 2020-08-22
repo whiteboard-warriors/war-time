@@ -7,7 +7,6 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 // import statesAndRegions from '../AddLocation/statesAndRegions';
 
 import './style.scss';
-import { get, set } from 'mongoose';
 
 const CreateEvent = (props) => {
 	const alertContext = useContext(AlertContext);
