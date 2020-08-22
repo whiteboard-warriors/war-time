@@ -11,7 +11,7 @@ const Event = () => {
 	const [dt, setDt] = useState('')
 	// establish socket connection
 	useEffect(() => {
-		debugger
+		// debugger
 
 		setSocket(
 			io(
