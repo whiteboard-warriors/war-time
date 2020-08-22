@@ -1,12 +1,1 @@
 @import '../../../App.scss';
-
-.signup-form,
-.login-form {
-	.form-group,
-	.btn {
-		margin: 1rem 0 !important;
-		.form-control:last-child {
-			margin: 2rem 0 1rem !important;
-		}
-	}
-}

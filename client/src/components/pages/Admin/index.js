@@ -80,9 +80,12 @@ const Admin = () => {
 							</Form>
 							<div className='location-card-container'>
 								{locations &&
-									locations.map((location) => {
+									locations.map((location, index) => {
 										return (
-											<div className='location-card'>
+											<div
+												key={index}
+												className='location-card'
+											>
 												<p>
 													{location.name},{' '}
 													{location.city} -{' '}
@@ -110,9 +113,12 @@ const Admin = () => {
 							<div className='language-card-container'>
 								<div className='language-card-container'>
 									{languages &&
-										languages.map((item) => {
+										languages.map((item, index) => {
 											return (
-												<div className='language-card'>
+												<div
+													key={index}
+													className='language-card'
+												>
 													<p>{item.language}</p>
 													<div>
 														<a href='/admin'>
@@ -140,6 +146,7 @@ const Admin = () => {
 							events.map((item) => {
 								return (
 									<EventCard
+										key={item._id}
 										image={wwLogo}
 										location={item.location}
 										date={item.date}

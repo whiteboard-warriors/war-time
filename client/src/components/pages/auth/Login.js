@@ -47,7 +47,7 @@ const Login = (props) => {
 			</div>
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
-					<Form onSubmit={onSubmit} className='login-form'>
+					<Form onSubmit={onSubmit} className='form-custom-margin'>
 						<Row>
 							<Col>
 								<Form.Group controlId='formEmail'>
@@ -78,7 +78,7 @@ const Login = (props) => {
 							</Col>
 						</Row>
 						<div className='text-center'>
-							<Button variant='secondary' type='submit' size='lg'>
+							<Button variant='primary' type='submit' size='lg'>
 								Sign In
 							</Button>
 						</div>

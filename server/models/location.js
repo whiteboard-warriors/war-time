@@ -18,6 +18,7 @@ const LocationSchema = new Schema({
 	},
 	street: {
 		type: String,
+		required: 'Street name is required',
 	},
 	unit: {
 		type: String,

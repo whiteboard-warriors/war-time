@@ -40,9 +40,14 @@ const Index = () => {
 					>
 						Admin
 					</Link>
-					<NavDropdown.Item href='#logout' onClick={logout}>
+
+					<Link
+						onClick={logout}
+						className='dropdown-item'
+						to='/landing'
+					>
 						Log Out
-					</NavDropdown.Item>
+					</Link>
 				</NavDropdown>
 			)}
 

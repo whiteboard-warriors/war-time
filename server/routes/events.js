@@ -10,6 +10,7 @@ const isAuthenticated = require('../config/middleware/isAuthenticated');
 router.get('/', isAuthenticated, async (req, res) => {
 	try {
 		const event = await db.Event.find()
+			.populate('location')
 			.populate('attendees.attendee')
 			.populate('matches.user1')
 			.populate('matches.user2')
@@ -29,6 +30,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 		const event = await db.Event.find({
 			_id: req.params.id,
 		})
+			.populate('location')
 			.populate('attendees.attendee')
 			.populate('matches.user1')
 			.populate('matches.user2')
