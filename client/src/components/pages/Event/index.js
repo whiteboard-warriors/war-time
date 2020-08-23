@@ -12,7 +12,8 @@ const Event = () => {
 	// establish socket connection
 	useEffect(() => {
 		// debugger
-		let socketHost = setSocket(
+
+		setSocket(
 			io(
 				window.location.protocol +
 					'//' +
