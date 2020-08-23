@@ -12,16 +12,14 @@ const Event = () => {
 	// establish socket connection
 	useEffect(() => {
 		// debugger
-
-		setSocket(
+		let socketHost = setSocket(
 			io(
 				window.location.protocol +
 					'//' +
 					window.location.hostname +
-					window.location.hostname.indexOf('localhost') !==
-					-1
-					? ':5005'
-					: ''
+					(window.location.hostname.indexOf('localhost') !== -1
+						? ':5005'
+						: '')
 			)
 		)
 	}, [])
