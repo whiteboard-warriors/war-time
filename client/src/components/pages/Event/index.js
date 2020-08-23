@@ -21,7 +21,8 @@ const Event = () => {
 					(window.location.hostname.indexOf('localhost') !== -1
 						? ':5005'
 						: '')
-			)
+			),
+			{ transports: ['websocket'] }
 		)
 	}, [])
 
