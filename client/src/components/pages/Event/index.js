@@ -18,7 +18,10 @@ const Event = () => {
 				window.location.protocol +
 					'//' +
 					window.location.hostname +
-					':5005'
+					window.location.hostname.indexOf('localhost') !==
+					-1
+					? ':5005'
+					: ''
 			)
 		)
 	}, [])
