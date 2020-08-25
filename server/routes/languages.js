@@ -9,7 +9,8 @@ const db = require('../models');
 // @desc    Admin can add a language
 
 router.post('/', async (req, res) => {
-	const { createdBy, language } = req.body;
+	const { language } = req.body;
+	console.log('langauge from POST route = ', language);
 	try {
 		// check to make sure user making updates has admin rights.
 		let user = await db.User.findOne({ _id: req.user._id });
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
 			});
 		}
 		const item = new db.Language({
-			createdBy,
+			createdBy: req.user._id,
 			language,
 		});
 		await item.save();
