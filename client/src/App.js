@@ -24,6 +24,7 @@ import Navbar from './components/Navbar';
 //State
 import EventState from './context/event/EventState';
 import LocationState from './context/location/LocationState';
+import LanguageState from './context/language/LanguageState';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 
@@ -42,75 +43,81 @@ const App = () => {
 		<AuthState>
 			<EventState>
 				<LocationState>
-					<AlertState>
-						<Router>
-							<Fragment>
-								<Navbar></Navbar>
-								<Container>
-									<Alerts />
-								</Container>
-								<Switch>
-									<Route
-										exact
-										path='/landing'
-										component={Landing}
-									/>
-									<Route exact path='/' component={Home} />
-									<Route
-										exact
-										path='/event'
-										component={Event}
-									/>
-									<Route
-										exact
-										path='/admin'
-										component={Admin}
-									/>
-									<Route
-										exact
-										path='/admin/create-event'
-										component={CreateEvent}
-									/>
-									<Route
-										exact
-										path='/admin/add-language'
-										component={AddLanguage}
-									/>
-									<Route
-										exact
-										path='/admin/add-location'
-										component={AddLocation}
-									/>
+					<LanguageState>
+						<AlertState>
+							<Router>
+								<Fragment>
+									<Navbar></Navbar>
+									<Container>
+										<Alerts />
+									</Container>
+									<Switch>
+										<Route
+											exact
+											path='/landing'
+											component={Landing}
+										/>
+										<Route
+											exact
+											path='/'
+											component={Home}
+										/>
+										<Route
+											exact
+											path='/event'
+											component={Event}
+										/>
+										<Route
+											exact
+											path='/admin'
+											component={Admin}
+										/>
+										<Route
+											exact
+											path='/admin/create-event'
+											component={CreateEvent}
+										/>
+										<Route
+											exact
+											path='/admin/add-language'
+											component={AddLanguage}
+										/>
+										<Route
+											exact
+											path='/admin/add-location'
+											component={AddLocation}
+										/>
 
-									<Route
-										exact
-										path='/signup'
-										component={Signup}
-									/>
-									<Route
-										exact
-										path='/login'
-										component={Login}
-									/>
-									<Route
-										exact
-										path='/profile'
-										component={Profile}
-									/>
-									<Route
-										exact
-										path='/forgot-password'
-										component={ForgotPassword}
-									></Route>
-									<Route
-										exact
-										path='/reset-password'
-										component={ResetPassword}
-									></Route>
-								</Switch>
-							</Fragment>
-						</Router>
-					</AlertState>
+										<Route
+											exact
+											path='/signup'
+											component={Signup}
+										/>
+										<Route
+											exact
+											path='/login'
+											component={Login}
+										/>
+										<Route
+											exact
+											path='/profile'
+											component={Profile}
+										/>
+										<Route
+											exact
+											path='/forgot-password'
+											component={ForgotPassword}
+										></Route>
+										<Route
+											exact
+											path='/reset-password'
+											component={ResetPassword}
+										></Route>
+									</Switch>
+								</Fragment>
+							</Router>
+						</AlertState>
+					</LanguageState>
 				</LocationState>
 			</EventState>
 		</AuthState>
