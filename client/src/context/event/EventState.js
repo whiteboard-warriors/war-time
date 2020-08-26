@@ -42,8 +42,8 @@ const EventState = (props) => {
 		}
 	};
 
-	// Add Event
-	const addEvent = async (event) => {
+	// Create Event
+	const createEvent = async (event) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const EventState = (props) => {
 				current: state.current,
 				filtered: state.filtered,
 				error: state.error,
-				addEvent,
+				createEvent,
 				deleteEvent,
 				clearEvents,
 				setCurrent,
