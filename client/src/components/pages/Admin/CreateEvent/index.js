@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
 import LocationContext from '../../../../context/location/locationContext';
+import EventContext from '../../../../context/event/eventContext';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 // import statesAndRegions from '../AddLocation/statesAndRegions';
@@ -12,10 +13,12 @@ const CreateEvent = (props) => {
 	const alertContext = useContext(AlertContext);
 	const authContext = useContext(AuthContext);
 	const locationContext = useContext(LocationContext);
+	const eventContext = useContext(EventContext);
 
 	const { setAlert } = alertContext;
 	const { error, clearErrors, isAuthenticated } = authContext;
 	const { locationError, getLocations, locations } = locationContext;
+	const { createEvent } = eventContext;
 
 	useEffect(() => {
 		if (isAuthenticated) {
@@ -45,13 +48,13 @@ const CreateEvent = (props) => {
 	});
 
 	const { location, date, startTime, endTime, languages, levels } = event;
-	console.log('locations >>> ', locations);
-	console.log('location >>> ', location);
-	console.log('date >>> ', date);
-	console.log('startTime >>>', startTime);
-	console.log('endTime >>>', endTime);
-	console.log('languages >>>', languages);
-	console.log('levels >>>', levels);
+	// console.log('locations >>> ', locations);
+	// console.log('location >>> ', location);
+	// console.log('date >>> ', date);
+	// console.log('startTime >>>', startTime);
+	// console.log('endTime >>>', endTime);
+	// console.log('languages >>>', languages);
+	// console.log('levels >>>', levels);
 
 	const onChange = (e) => {
 		setEvent({ ...event, [e.target.name]: e.target.value });
@@ -59,15 +62,14 @@ const CreateEvent = (props) => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		// createEvent({
-		// 	location,
-		//	date,
-		// 	startTime,
-		//	endTime,
-		// 	languages,
-		//	levels,
-
-		// })
+		createEvent({
+			location,
+			date,
+			startTime,
+			endTime,
+			languages,
+			levels,
+		});
 		console.log('Event will be created');
 	};
 
@@ -80,23 +82,30 @@ const CreateEvent = (props) => {
 				<Col lg={{ span: 6, offset: 3 }}>
 					<Form onSubmit={onSubmit} className='form-global-margin'>
 						<Form.Group controlId='formBasicState'>
-							{/* <Form.Control
+							<Form.Control
 								type='text'
 								placeholder='Locations*'
 								defaultValue='Locations*'
-								value={location}
+								// value={location}
 								onChange={onChange}
 								name='location'
 								as='select'
 							>
-								{locations.map((location) => {
-									return (
-										<option
-											value={`${location.name}, ${location.city} - ${location.state}`}
-										>{`${location.name}, ${location.city} - ${location.state}`}</option>
-									);
-								})}
-							</Form.Control> */}
+								{locations ? (
+									locations.map((location) => {
+										return (
+											<option
+												key={location._id}
+												value={`${location.name}, ${location.city} - ${location.state}`}
+											>{`${location.name}, ${location.city} - ${location.state}`}</option>
+										);
+									})
+								) : (
+									<option>
+										Admin, you need to add a locations
+									</option>
+								)}
+							</Form.Control>
 						</Form.Group>
 
 						<Form.Group controlId='formBasicPassword'>
