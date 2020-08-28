@@ -66,7 +66,7 @@ const AddLocation = (props) => {
 		});
 		props.history.push('/admin');
 		console.log('Event will be created');
-		setAlert('New location added!', 'danger');
+		setAlert('New location added!', 'warning');
 	};
 
 	return (
