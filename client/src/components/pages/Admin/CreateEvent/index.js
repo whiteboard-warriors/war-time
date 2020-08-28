@@ -1,15 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
+
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
 import LocationContext from '../../../../context/location/locationContext';
 import EventContext from '../../../../context/event/eventContext';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-// import statesAndRegions from '../AddLocation/statesAndRegions';
-
 import './style.scss';
 
 const CreateEvent = (props) => {
+	// console.log(moment().format());
+
 	const alertContext = useContext(AlertContext);
 	const authContext = useContext(AuthContext);
 	const locationContext = useContext(LocationContext);
@@ -37,6 +38,8 @@ const CreateEvent = (props) => {
 		}
 		// eslint-disable-next-line
 	}, [error, isAuthenticated, props.history]);
+
+	const [startDate, setStartDate] = useState(new Date());
 
 	const [event, setEvent] = useState({
 		location: '',
@@ -80,7 +83,7 @@ const CreateEvent = (props) => {
 			</div>
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
-					<Form onSubmit={onSubmit} className='form-global-margin'>
+					<Form onSubmit={onSubmit} className='custom-margin'>
 						<Form.Group controlId='formBasicState'>
 							<Form.Control
 								type='text'
@@ -91,6 +94,7 @@ const CreateEvent = (props) => {
 								name='location'
 								as='select'
 							>
+								<option value={null}>Locations</option>
 								{locations ? (
 									locations.map((location) => {
 										return (
@@ -107,7 +111,6 @@ const CreateEvent = (props) => {
 								)}
 							</Form.Control>
 						</Form.Group>
-
 						<Form.Group controlId='formBasicPassword'>
 							<Form.Control
 								type='text'
@@ -115,7 +118,7 @@ const CreateEvent = (props) => {
 								onChange={onChange}
 								name='street'
 								// value={street}
-							/>
+							></Form.Control>
 						</Form.Group>
 
 						<Form.Group controlId='formBasicUnit'>
