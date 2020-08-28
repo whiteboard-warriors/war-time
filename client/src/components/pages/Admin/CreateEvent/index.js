@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import AlertContext from '../../../../context/alert/alertContext'
 import AuthContext from '../../../../context/auth/authContext'
-// import LocationContext from '../../../../context/location/locationContext'
+import LocationContext from '../../../../context/location/locationContext'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import EventContext from '../../../../context/event/eventContext'
 import './style.scss'
@@ -13,8 +13,9 @@ const CreateEvent = (props) => {
 	const alertContext = useContext(AlertContext)
 	const eventContext = useContext(EventContext)
 	const authContext = useContext(AuthContext)
+	const locationContext = useContext(LocationContext)
 
-	const { setAlert } = alertContext
+	const { setAlert, clearErrors } = alertContext
 	const { isAuthenticated } = authContext
 	const {
 		createEvent,
@@ -22,7 +23,7 @@ const CreateEvent = (props) => {
 		error,
 		saveSuccess,
 	} = eventContext
-
+	const { locationError, getLocations, locations } = locationContext
 	useEffect(() => {
 		if (isAuthenticated) {
 			props.history.push('/admin/create-event')
@@ -47,6 +48,11 @@ const CreateEvent = (props) => {
 			debugger
 			props.history.push('/admin')
 		}
+
+		if (locationError) {
+			setAlert(locationError, 'danger')
+			clearErrors()
+		}
 	}, [
 		error,
 		saveSuccess,
@@ -58,6 +64,7 @@ const CreateEvent = (props) => {
 	const [event, setEvent] = useState({
 		title: '',
 		dateTime: '',
+		location: '',
 	})
 
 	const { title, dateTime } = event
@@ -102,6 +109,96 @@ const CreateEvent = (props) => {
 								onChange={onChange}
 								name="dateTime"
 							></Form.Control>
+						</Form.Group>
+
+						<Form.Group controlId="formBasicState">
+							<Form.Control
+								type="text"
+								placeholder="Locations*"
+								defaultValue="Locations*"
+								// value={location}
+								onChange={onChange}
+								name="location"
+								as="select"
+							>
+								<option value={null}>Locations</option>
+								{locations ? (
+									locations.map((location) => {
+										return (
+											<option
+												key={location._id}
+												value={`${location.name}, ${location.city} - ${location.state}`}
+											>{`${location.name}, ${location.city} - ${location.state}`}</option>
+										)
+									})
+								) : (
+									<option>
+										Admin, you need to add a locations
+									</option>
+								)}
+							</Form.Control>
+						</Form.Group>
+						<Form.Group>
+							<Form.Control
+								type="text"
+								placeholder="Street*"
+								onChange={onChange}
+								name="street"
+								// value={street}
+							></Form.Control>
+						</Form.Group>
+
+						<Form.Group controlId="formBasicUnit">
+							<Form.Control
+								type="text"
+								placeholder="Unit"
+								// value={unit}
+								onChange={onChange}
+								name="unit"
+							/>
+						</Form.Group>
+						<Form.Group controlId="formBasicCity">
+							<Form.Control
+								type="text"
+								placeholder="City*"
+								// value={city}
+								onChange={onChange}
+								name="city"
+							/>
+						</Form.Group>
+
+						{/* <Form.Group controlId='formBasicState'>
+							<Form.Control
+								type='text'
+								placeholder='State*'
+								defaultValue='State*'
+								value={state}
+								onChange={onChange}
+								name='state'
+								as='select'
+							>
+								{statesAndRegions.map((item) => {
+									return <option value={item}>{item}</option>;
+								})}
+							</Form.Control>
+						</Form.Group> */}
+						<Form.Group controlId="formBasicZipCode">
+							<Form.Control
+								type="text"
+								placeholder="ZipCode*"
+								// value={zipCode}
+								onChange={onChange}
+								name="zipCode"
+							/>
+						</Form.Group>
+						<Form.Group controlId="formBasicOnlinePlatform">
+							<Form.Control
+								type="text"
+								placeholder="Online Platform"
+								// value={onlinePlatform}
+								onChange={onChange}
+								name="online platform"
+							/>
 						</Form.Group>
 
 						<div className="text-center my-3">

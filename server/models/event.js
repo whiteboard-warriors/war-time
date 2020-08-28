@@ -22,10 +22,10 @@ const EventSchema = new Schema({
 		type: Date,
 		required: true,
 	},
-	// location: {
-	// 	type: mongoose.Schema.Types.ObjectId,
-	// 	ref: 'Location',
-	// },
+	location: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Location',
+	},
 	// date: {
 	// 	type: Date,
 	// 	required: true,
