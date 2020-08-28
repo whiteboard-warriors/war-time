@@ -59,9 +59,13 @@ router.post('/', isAuthenticated, async (req, res) => {
 				msg: 'You are not authorized to create events.',
 			})
 		}
+
+		let slug = createSlug(title)
+
 		const event = new db.Event({
 			createdBy: req.user._id,
 			title,
+			slug,
 			dateTime,
 		})
 		await event.save()
@@ -73,5 +77,28 @@ router.post('/', isAuthenticated, async (req, res) => {
 		})
 	}
 })
+
+/**
+ * https://stackoverflow.com/a/5782563/216194
+ * @param {*} str
+ */
+let createSlug = function (str) {
+	str = str.replace(/^\s+|\s+$/g, '') // trim
+	str = str.toLowerCase()
+
+	// remove accents, swap ñ for n, etc
+	let from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;'
+	let to = 'aaaaaeeeeeiiiiooooouuuunc------'
+	for (let i = 0, l = from.length; i < l; i++) {
+		str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
+	}
+
+	str = str
+		.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+		.replace(/\s+/g, '-') // collapse whitespace and replace by -
+		.replace(/-+/g, '-') // collapse dashes
+
+	return str
+}
 
 module.exports = router

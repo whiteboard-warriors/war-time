@@ -5,7 +5,6 @@ import AuthContext from '../../../../context/auth/authContext'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import EventContext from '../../../../context/event/eventContext'
 import './style.scss'
-import { Redirect } from 'react-router-dom' //import Redirect first
 /**
  *
  * @param {*} props
@@ -14,8 +13,6 @@ const CreateEvent = (props) => {
 	const alertContext = useContext(AlertContext)
 	const eventContext = useContext(EventContext)
 	const authContext = useContext(AuthContext)
-	const [state = { notLoaded: true }, setState] = useState(null)
-	// const locationContext = useContext(LocationContext)
 
 	const { setAlert } = alertContext
 	const { isAuthenticated } = authContext
@@ -25,7 +22,6 @@ const CreateEvent = (props) => {
 		error,
 		saveSuccess,
 	} = eventContext
-	// const { locationError, getLocations, locations } = locationContext
 
 	useEffect(() => {
 		if (isAuthenticated) {
@@ -51,12 +47,6 @@ const CreateEvent = (props) => {
 			debugger
 			props.history.push('/admin')
 		}
-
-		// if (locationError) {
-		// 	setAlert(locationError, 'danger')
-		// 	clearErrors()
-		// }
-		// eslint-disable-next-line
 	}, [
 		error,
 		saveSuccess,

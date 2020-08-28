@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import AuthContext from './authContext'
 import authReducer from './authReducer'
@@ -204,6 +204,15 @@ const AuthState = (props) => {
 	// Clear Errors
 	const clearErrors = () => dispatch({ type: CLEAR_ERRORS })
 
+	/**
+	 *
+	 */
+	const authError = () => {
+		dispatch({
+			type: AUTH_ERROR,
+		})
+	}
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -223,6 +232,7 @@ const AuthState = (props) => {
 				clearErrors,
 				forgotPassword,
 				forgotPasswordComplete,
+				authError,
 			}}
 		>
 			{props.children}

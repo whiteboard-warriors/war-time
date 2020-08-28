@@ -4,8 +4,9 @@ import EventContext from './eventContext'
 import eventReducer from './eventReducer'
 import * as HTTP from '../../service/HTTP'
 import AlertContext from '../../context/alert/alertContext'
+import AuthContext from '../../context/auth/authContext'
 import {
-	GET_EVENTS,
+	GET_EVENTS_SUCCESS,
 	CREATE_EVENT,
 	CREATE_EVENT_SUCCESS,
 	DELETE_EVENT,
@@ -31,19 +32,26 @@ const EventState = (props) => {
 		saving: false,
 		saveSuccess: false,
 	}
-	const alertContext = useContext(AlertContext)
+
+	const authContext = useContext(AuthContext)
+	const { authError } = authContext
 	const [state, dispatch] = useReducer(eventReducer, initialState)
 
-	// Get Events
+	/**
+	 * Get Events
+	 */
 	const getEvents = async () => {
 		try {
-			const res = await axios.get('/api/events')
-
+			let res = await HTTP.get('/api/events')
 			dispatch({
-				type: GET_EVENTS,
+				type: GET_EVENTS_SUCCESS,
 				payload: res.data,
 			})
 		} catch (err) {
+			if (err.response.status === 401) {
+				authError()
+			}
+
 			dispatch({
 				type: GET_EVENTS_ERROR,
 				payload: err.response.msg,
@@ -58,7 +66,10 @@ const EventState = (props) => {
 			payload: null,
 		})
 		try {
-			let result = await HTTP.post('/api/events', event)
+			let res = await HTTP.post('/api/events', event)
+			dispatch({
+				type: CREATE_EVENT_SUCCESS,
+			})
 		} catch (err) {
 			dispatch({
 				type: CREATE_EVENT_ERROR,

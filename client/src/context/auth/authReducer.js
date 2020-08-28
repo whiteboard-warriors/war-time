@@ -35,6 +35,13 @@ export default (state, action) => {
 			}
 		case SIGNUP_FAIL:
 		case AUTH_ERROR:
+			localStorage.removeItem('isAuthenticated')
+			localStorage.removeItem('user')
+			return {
+				...state,
+				token: null,
+				isAuthenticated: false,
+			}
 		case LOGIN_FAIL:
 			return {
 				...state,

@@ -1,5 +1,5 @@
 import {
-	GET_EVENTS,
+	GET_EVENTS_SUCCESS,
 	CREATE_EVENT,
 	CREATE_EVENT_SUCCESS,
 	CLEAR_CREATE_EVENT_FLAGS,
@@ -15,7 +15,7 @@ import {
 
 export default (state, action) => {
 	switch (action.type) {
-		case GET_EVENTS:
+		case GET_EVENTS_SUCCESS:
 			return {
 				...state,
 				events: action.payload,
@@ -28,7 +28,6 @@ export default (state, action) => {
 			}
 		}
 		case CREATE_EVENT_SUCCESS:
-			let events = state.events
 			return {
 				...state,
 				saving: false,

@@ -4,12 +4,17 @@
 import axios from 'axios'
 
 export const get = async (url) => {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		},
+	}
 	try {
-		const res = await axios.get(url)
-		return res.data
-	} catch (error) {
-		if (error == '401') {
-		}
+		const response = await axios.get(url)
+		return response
+	} catch (err) {
+		throw err
 	}
 }
 

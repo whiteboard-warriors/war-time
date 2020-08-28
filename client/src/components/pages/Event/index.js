@@ -37,6 +37,8 @@ const Event = () => {
 		socket.on('connect', () => {
 			setSocketConnected(socket.connected)
 			subscribeToDateEvent()
+
+			// socket.emit('joinEvent', eventId, userId)
 		})
 		socket.on('disconnect', () => {
 			setSocketConnected(socket.connected)
