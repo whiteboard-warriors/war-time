@@ -1,18 +1,30 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useContext } from 'react'
 import io from 'socket.io-client'
+import { useLocation } from 'react-router-dom'
+import AlertContext from '../../../context/alert/alertContext'
+import AuthContext from '../../../context/auth/authContext'
+import EventContext from '../../../context/event/eventContext'
+
 import Container from 'react-bootstrap/Container'
 
 import './style.scss'
 
-const Event = () => {
+const Event = (props) => {
 	// const authContext = useContext(AuthContext)
 	const [socket, setSocket] = useState(null)
 	const [socketConnected, setSocketConnected] = useState(false)
 	const [dt, setDt] = useState('')
+	const location = useLocation()
+	const alertContext = useContext(AlertContext)
+	const eventContext = useContext(EventContext)
+	const authContext = useContext(AuthContext)
+
+	const { setAlert } = alertContext
+	const { user, isAuthenticated } = authContext
+	const { getEventBySlug, event } = eventContext
+
 	// establish socket connection
 	useEffect(() => {
-		// debugger
-
 		setSocket(
 			io(
 				window.location.protocol +
@@ -24,30 +36,54 @@ const Event = () => {
 			),
 			{ transports: ['websocket'] }
 		)
+
+		let pathSlug = location.pathname.replace('/event/', '')
+
+		getEventBySlug(pathSlug)
 	}, [])
 
-	// subscribe to the socket event
+	/**
+	 *
+	 */
 	useEffect(() => {
 		if (!socket) return
-		// subscribe to socket date event
-		const subscribeToDateEvent = (interval = 1000) => {
-			socket.emit('subscribeToDateEvent', interval)
+
+		/**
+		 *
+		 * @param {*} socketId
+		 * @param {*} userId
+		 * @param {*} eventId
+		 */
+		const joinEvent = (socketId, userId, eventId) => {
+			socket.emit('joinEvent', socketId, userId, eventId)
 		}
 
+		/**
+		 *
+		 */
 		socket.on('connect', () => {
 			setSocketConnected(socket.connected)
-			subscribeToDateEvent()
-
-			// socket.emit('joinEvent', eventId, userId)
 		})
+
+		/**
+		 *
+		 */
 		socket.on('disconnect', () => {
 			setSocketConnected(socket.connected)
 		})
 
+		/**
+		 *
+		 */
 		socket.on('getDate', (data) => {
 			setDt(data)
 		})
-	}, [socket])
+
+		if (event) {
+			console.info('joining event')
+			joinEvent(socket.id, user._id, event._id)
+		}
+	}, [socket, useLocation, event])
 
 	// manage socket connection
 	const handleSocketConnection = () => {

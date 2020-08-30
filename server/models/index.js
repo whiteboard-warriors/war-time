@@ -4,4 +4,5 @@ module.exports = {
 	Language: require('./language'),
 	Location: require('./location'),
 	Job: require('./job'),
+	Attendance: require('./attendance'),
 }

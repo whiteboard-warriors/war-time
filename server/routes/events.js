@@ -25,18 +25,12 @@ router.get('/', isAuthenticated, async (req, res) => {
 
 // @route   GET /api/events
 // @desc    Retrieves one event
-router.get('/:id', isAuthenticated, async (req, res) => {
+router.get('/:slug', isAuthenticated, async (req, res) => {
 	try {
-		const event = await db.Event.find({
-			_id: req.params.id,
+		const event = await db.Event.findOne({
+			slug: req.params.slug,
 		})
-			.populate('location')
-			.populate('attendees.attendee')
-			.populate('matches.user1')
-			.populate('matches.user2')
-			.populate('matches.user3')
-			.populate('matches.user4')
-		res.json(event)
+		return res.json(event)
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')

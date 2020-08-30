@@ -21,7 +21,11 @@ import {
 	DELETE_EVENT_ERROR,
 	UPDATE_EVENT_ERROR,
 	CLEAR_CREATE_EVENT_FLAGS,
+	LOAD_EVENT,
+	LOAD_EVENT_SUCCESS,
+	LOAD_EVENT_ERROR,
 } from '../types'
+import { ConnectionStates } from 'mongoose'
 
 const EventState = (props) => {
 	const initialState = {
@@ -31,6 +35,7 @@ const EventState = (props) => {
 		error: null,
 		saving: false,
 		saveSuccess: false,
+		event: null,
 	}
 
 	const authContext = useContext(AuthContext)
@@ -59,7 +64,33 @@ const EventState = (props) => {
 		}
 	}
 
-	// Add Event
+	/**
+	 *
+	 * @param {*} slug
+	 */
+	const getEventBySlug = async (slug) => {
+		dispatch({
+			type: LOAD_EVENT,
+		})
+		try {
+			let res = await HTTP.get('/api/events/' + slug)
+
+			dispatch({
+				type: LOAD_EVENT_SUCCESS,
+				payload: res.data,
+			})
+		} catch (err) {
+			dispatch({
+				type: LOAD_EVENT_ERROR,
+				payload: err.response.data.msg,
+			})
+		}
+	}
+
+	/**
+	 *
+	 * @param {*} event
+	 */
 	const createEvent = async (event) => {
 		dispatch({
 			type: CREATE_EVENT,
@@ -161,6 +192,7 @@ const EventState = (props) => {
 				filtered: state.filtered,
 				error: state.error,
 				saving: state.saving,
+				event: state.event,
 				saveSuccess: state.saveSuccess,
 				createEvent,
 				deleteEvent,
@@ -172,6 +204,7 @@ const EventState = (props) => {
 				clearFilter,
 				getEvents,
 				clearCreateEventFlags,
+				getEventBySlug,
 			}}
 		>
 			{props.children}

@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router()
-// const passport = require('../config/passport');
-const async = require('async')
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
 const emailService = require('../service/emailservice')
@@ -143,7 +141,7 @@ router.put('/:id', async (req, res) => {
 			_id: req.params.id,
 		})
 
-		res.status(204).json(user);
+		res.status(204).json(user)
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')
@@ -182,7 +180,10 @@ router.post('/forgot-password-init', async (req, res) => {
 			let updatedUser = {}
 			updatedUser.token = buf.toString('hex')
 
-			await db.User.findByIdAndUpdate({ _id: user._id }, { $set: updatedUser })
+			await db.User.findByIdAndUpdate(
+				{ _id: user._id },
+				{ $set: updatedUser }
+			)
 
 			emailService.sendPasswordResetEmail(user.email, updatedUser.token)
 		}
