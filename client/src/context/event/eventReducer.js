@@ -1,30 +1,39 @@
 import {
-	GET_EVENTS,
-	ADD_EVENT,
+	GET_EVENTS_SUCCESS,
+	CREATE_EVENT,
+	CREATE_EVENT_SUCCESS,
+	CLEAR_CREATE_EVENT_FLAGS,
 	DELETE_EVENT,
 	SET_CURRENT,
 	CLEAR_CURRENT,
 	UPDATE_EVENT,
 	FILTER_EVENTS,
 	CLEAR_FILTER,
-	EVENT_ERROR,
+	CREATE_EVENT_ERROR,
 	CLEAR_EVENTS,
-} from '../types';
+	LOAD_EVENT_SUCCESS,
+} from '../types'
 
 export default (state, action) => {
 	switch (action.type) {
-		case GET_EVENTS:
+		case GET_EVENTS_SUCCESS:
 			return {
 				...state,
 				events: action.payload,
 				loading: false,
-			};
-		case ADD_EVENT:
+			}
+		case CREATE_EVENT: {
 			return {
 				...state,
-				events: [action.payload, ...state.events],
-				loading: false,
-			};
+				saving: true,
+			}
+		}
+		case CREATE_EVENT_SUCCESS:
+			return {
+				...state,
+				saving: false,
+				saveSuccess: true,
+			}
 		case UPDATE_EVENT:
 			return {
 				...state,
@@ -32,7 +41,7 @@ export default (state, action) => {
 					event._id === action.payload._id ? action.payload : event
 				),
 				loading: false,
-			};
+			}
 		case DELETE_EVENT:
 			return {
 				...state,
@@ -40,7 +49,7 @@ export default (state, action) => {
 					(event) => event._id !== action.payload
 				),
 				loading: false,
-			};
+			}
 		case CLEAR_EVENTS:
 			return {
 				...state,
@@ -48,36 +57,50 @@ export default (state, action) => {
 				filtered: null,
 				error: null,
 				current: null,
-			};
+			}
+		case CLEAR_CREATE_EVENT_FLAGS: {
+			return {
+				...state,
+				error: null,
+				saveSuccess: false,
+				loading: false,
+				saving: false,
+			}
+		}
 		case SET_CURRENT:
 			return {
 				...state,
 				current: action.payload,
-			};
+			}
 		case CLEAR_CURRENT:
 			return {
 				...state,
 				current: null,
-			};
+			}
 		case FILTER_EVENTS:
 			return {
 				...state,
 				filtered: state.events.filter((event) => {
-					const regex = new RegExp(`${action.payload}`, 'gi');
-					return event.name.match(regex) || event.email.match(regex);
+					const regex = new RegExp(`${action.payload}`, 'gi')
+					return event.name.match(regex) || event.email.match(regex)
 				}),
-			};
+			}
 		case CLEAR_FILTER:
 			return {
 				...state,
 				filtered: null,
-			};
-		case EVENT_ERROR:
+			}
+		case CREATE_EVENT_ERROR:
 			return {
 				...state,
 				error: action.payload,
-			};
+			}
+		case LOAD_EVENT_SUCCESS:
+			return {
+				...state,
+				event: action.payload,
+			}
 		default:
-			return state;
+			return state
 	}
-};
+}

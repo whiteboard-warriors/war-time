@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const passport = require('../config/passport');
-const async = require('async');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const emailService = require('../service/emailservice');
