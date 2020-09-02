@@ -2,6 +2,7 @@ import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import AuthContext from './authContext'
 import authReducer from './authReducer'
+import * as HTTP from '../../service/HTTP'
 // import setAuthToken from '../../utils/setAuthToken';
 import {
 	SIGNUP_SUCCESS,
@@ -27,8 +28,9 @@ import {
  */
 const AuthState = (props) => {
 	const initialState = {
-		isAuthenticated: localStorage.getItem('isAuthenticated'),
+		isAuthenticated: localStorage.getItem('token'),
 		loading: true,
+		token: null,
 		user:
 			localStorage.getItem('user') != null
 				? JSON.parse(localStorage.getItem('user'))
@@ -44,7 +46,8 @@ const AuthState = (props) => {
 	// Load User
 	const loadUser = async () => {
 		try {
-			const res = await axios.get('/api/users/')
+			debugger
+			const res = await HTTP.get('/api/users')
 
 			dispatch({
 				type: USER_LOADED,
@@ -119,14 +122,8 @@ const AuthState = (props) => {
 	 * @param {*} formData
 	 */
 	const login = async (formData) => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		}
-
 		try {
-			const res = await axios.post('/api/auth/login', formData, config)
+			const res = await HTTP.post('/api/auth/login', formData)
 
 			dispatch({
 				type: LOGIN_SUCCESS,
@@ -221,6 +218,7 @@ const AuthState = (props) => {
 				loading: state.loading,
 				user: state.user,
 				error: state.error,
+				token: state.token,
 				forgotResetSuccess: state.forgotResetSuccess,
 				forgotRequestSuccess: state.forgotRequestSuccess,
 				updateProfileSuccess: state.updateProfileSuccess,

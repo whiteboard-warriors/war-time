@@ -5,10 +5,7 @@ const crypto = require('crypto')
 const emailService = require('../service/emailservice')
 const { check, validationResult } = require('express-validator')
 
-// const isAuthenticated = require('../config/middleware/isAuthenticated');
-
 const db = require('../models')
-const isAuthenticated = require('../config/middleware/isAuthenticated')
 
 // @route   POST api/users
 // @desc - Sign up
@@ -75,10 +72,10 @@ router.post(
 
 // @route   GET /api/users
 // @desc - Get the current users' info
-router.get('/', isAuthenticated, async (req, res) => {
+router.get('/', async (req, res) => {
 	try {
 		const user = await db.User.findOne({
-			_id: req.user._id,
+			_id: req.user.id,
 		})
 		res.json(user)
 	} catch (err) {
@@ -89,7 +86,7 @@ router.get('/', isAuthenticated, async (req, res) => {
 
 // @route   GET /api/users/:id
 // @desc - Get users info except password
-router.get('/:id', isAuthenticated, async (req, res) => {
+router.get('/:id', async (req, res) => {
 	try {
 		const user = await db.User.find({
 			_id: req.params.id,

@@ -26,10 +26,10 @@ export default (state, action) => {
 			}
 		case SIGNUP_SUCCESS:
 		case LOGIN_SUCCESS:
+			localStorage.setItem('token', action.payload.token)
 			localStorage.setItem('isAuthenticated', true)
 			return {
 				...state,
-				...action.payload,
 				isAuthenticated: true,
 				loading: false,
 			}
@@ -37,6 +37,7 @@ export default (state, action) => {
 		case AUTH_ERROR:
 			localStorage.removeItem('isAuthenticated')
 			localStorage.removeItem('user')
+			localStorage.removeItem('token')
 			return {
 				...state,
 				token: null,
@@ -50,6 +51,7 @@ export default (state, action) => {
 		case LOGOUT:
 			localStorage.removeItem('isAuthenticated')
 			localStorage.removeItem('user')
+			localStorage.removeItem('token')
 			return {
 				...state,
 				token: null,
