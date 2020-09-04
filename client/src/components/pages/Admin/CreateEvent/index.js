@@ -23,7 +23,7 @@ const CreateEvent = (props) => {
 		error,
 		saveSuccess,
 	} = eventContext
-	const { locationError, getLocations, locations } = locationContext
+	const { locationError, locations } = locationContext
 	useEffect(() => {
 		if (isAuthenticated) {
 			props.history.push('/admin/create-event')
@@ -59,6 +59,9 @@ const CreateEvent = (props) => {
 		isAuthenticated,
 		clearCreateEventFlags,
 		props.history,
+		clearErrors,
+		locationError,
+		setAlert,
 	])
 
 	const [event, setEvent] = useState({

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react'
+import React, { Fragment, useEffect, useContext } from 'react'
 import Container from 'react-bootstrap/Container'
 import AlertContext from '../../../context/alert/alertContext'
 import AuthContext from '../../../context/auth/authContext'
@@ -24,7 +24,7 @@ const Events = (props) => {
 		}
 
 		getEvents()
-	}, [setAlert, isAuthenticated])
+	}, [getEvents, props, setAlert, isAuthenticated])
 
 	return (
 		<Fragment>

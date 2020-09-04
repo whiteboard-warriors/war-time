@@ -3,7 +3,6 @@ import axios from 'axios'
 import EventContext from './eventContext'
 import eventReducer from './eventReducer'
 import * as HTTP from '../../service/HTTP'
-import AlertContext from '../../context/alert/alertContext'
 import AuthContext from '../../context/auth/authContext'
 import {
 	GET_EVENTS_SUCCESS,
@@ -25,7 +24,6 @@ import {
 	LOAD_EVENT_SUCCESS,
 	LOAD_EVENT_ERROR,
 } from '../types'
-import { ConnectionStates } from 'mongoose'
 
 const EventState = (props) => {
 	const initialState = {
@@ -100,6 +98,7 @@ const EventState = (props) => {
 			let res = await HTTP.post('/api/events', event)
 			dispatch({
 				type: CREATE_EVENT_SUCCESS,
+				payload: res.data,
 			})
 		} catch (err) {
 			dispatch({
