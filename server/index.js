@@ -51,11 +51,7 @@ app.use(
 	passport.authenticate('jwt', { session: false }),
 	require('./routes/eventPairing')
 )
-app.use(
-	'/api/auth',
-	passport.authenticate('jwt', { session: false }),
-	require('./routes/auth')
-)
+app.use('/api/auth', require('./routes/auth'))
 app.use(
 	'/api/locations',
 	passport.authenticate('jwt', { session: false }),
