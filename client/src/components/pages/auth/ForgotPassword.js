@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react'
 import AlertContext from '../../../context/alert/alertContext'
 import AuthContext from '../../../context/auth/authContext'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, Container } from 'react-bootstrap'
 
 /**
  *
@@ -45,27 +45,32 @@ const ForgotPassword = (props) => {
 
 	return (
 		<Fragment>
-			<h2>Forgot Password</h2>
-			<Form onSubmit={onSubmit}>
-				<Row>
-					<Col>
-						<Form.Group controlId="formEmail">
-							<Form.Label>Email</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder="E-Mail"
-								name="email"
-								value={email}
-								onChange={onChange}
-								required
-							/>
-						</Form.Group>
-					</Col>
-				</Row>
-				<Button variant="primary" type="submit">
-					Forgot Password
-				</Button>
-			</Form>
+			<Container>
+				<h2>Forgot Password</h2>
+				<Form onSubmit={onSubmit}>
+					<Row>
+						<Col>
+							<Form.Group controlId="formEmail">
+								<Form.Label>
+									Please enter the email address associated
+									with your account
+								</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="E-Mail"
+									name="email"
+									value={email}
+									onChange={onChange}
+									required
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
+					<Button variant="primary" type="submit">
+						Forgot Password
+					</Button>
+				</Form>
+			</Container>
 		</Fragment>
 	)
 }

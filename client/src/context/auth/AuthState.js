@@ -46,7 +46,6 @@ const AuthState = (props) => {
 	// Load User
 	const loadUser = async () => {
 		try {
-			debugger
 			const res = await HTTP.get('/api/users')
 
 			dispatch({
@@ -134,7 +133,7 @@ const AuthState = (props) => {
 		} catch (err) {
 			dispatch({
 				type: LOGIN_FAIL,
-				payload: err.response.data,
+				payload: err.response.data.msg,
 			})
 		}
 	}
