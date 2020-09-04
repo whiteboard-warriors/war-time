@@ -14,6 +14,9 @@ const socket = (io) => {
 			}, interval)
 		})
 
+		/**
+		 *
+		 */
 		client.on('joinEvent', async (socketId, userId, eventId) => {
 			try {
 				console.log(

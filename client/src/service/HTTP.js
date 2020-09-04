@@ -4,7 +4,6 @@
 import axios from 'axios'
 
 export const get = async (url) => {
-	debugger
 	const config = {
 		headers: {
 			Accept: 'application/json',

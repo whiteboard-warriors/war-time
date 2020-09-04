@@ -40,12 +40,36 @@ app.use(
 	passport.authenticate('jwt', { session: false }),
 	require('./routes/users')
 )
-app.use('/api/events', require('./routes/events'))
-app.use('/api/events/admin', require('./routes/eventAdmin'))
-app.use('/api/events/pair', require('./routes/eventPairing'))
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/locations', require('./routes/locations'))
-app.use('/api/languages', require('./routes/languages'))
+app.use(
+	'/api/events',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/events')
+)
+app.use(
+	'/api/events/admin',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/eventAdmin')
+)
+app.use(
+	'/api/events/pair',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/eventPairing')
+)
+app.use(
+	'/api/auth',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/auth')
+)
+app.use(
+	'/api/locations',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/locations')
+)
+app.use(
+	'/api/languages',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/languages')
+)
 
 // Connect to the Mongo DB
 mongoose.set('useUnifiedTopology', true)
