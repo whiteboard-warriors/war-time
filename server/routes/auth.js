@@ -39,9 +39,9 @@ router.post('/login', async function (req, res) {
 				}
 			)
 		} else {
-			return res
-				.status(400)
-				.json({ passwordincorrect: 'Password incorrect' })
+			return res.status(400).json({
+				msg: 'Invalid Credentials',
+			})
 		}
 	})
 })
