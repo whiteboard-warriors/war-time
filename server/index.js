@@ -35,11 +35,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Add routes, both API and view
-app.use(
-	'/api/users',
-	passport.authenticate('jwt', { session: false }),
-	require('./routes/users')
-)
+app.use('/api/users', require('./routes/users'))
 app.use(
 	'/api/events',
 	passport.authenticate('jwt', { session: false }),
