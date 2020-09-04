@@ -47,6 +47,11 @@ app.use(
 	require('./routes/eventAdmin')
 )
 app.use(
+	'/api/attendees',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/attendees')
+)
+app.use(
 	'/api/events/pair',
 	passport.authenticate('jwt', { session: false }),
 	require('./routes/eventPairing')
