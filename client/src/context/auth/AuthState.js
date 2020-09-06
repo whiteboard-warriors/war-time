@@ -1,7 +1,7 @@
-import React, { useReducer, useContext } from 'react'
-import axios from 'axios'
-import AuthContext from './authContext'
-import authReducer from './authReducer'
+import React, { useReducer } from 'react';
+import axios from 'axios';
+import AuthContext from './authContext';
+import authReducer from './authReducer';
 // import setAuthToken from '../../utils/setAuthToken';
 import {
 	SIGNUP_SUCCESS,
@@ -19,7 +19,7 @@ import {
 	FORGOT_RESET_FAIL,
 	// RESET_PASSWORD_SUCCESS,
 	// RESET_PASSWORD_FAIL,
-} from '../types'
+} from '../types';
 
 /**
  *
@@ -37,23 +37,23 @@ const AuthState = (props) => {
 		forgotResetSuccess: false,
 		forgotRequestSuccess: false,
 		updateProfileSuccess: false,
-	}
+	};
 
-	const [state, dispatch] = useReducer(authReducer, initialState)
+	const [state, dispatch] = useReducer(authReducer, initialState);
 
 	// Load User
 	const loadUser = async () => {
 		try {
-			const res = await axios.get('/api/users/')
+			const res = await axios.get('/api/users/');
 
 			dispatch({
 				type: USER_LOADED,
 				payload: res.data,
-			})
+			});
 		} catch (err) {
-			dispatch({ type: AUTH_ERROR })
+			dispatch({ type: AUTH_ERROR });
 		}
-	}
+	};
 
 	/**
 	 * Register User
@@ -64,24 +64,24 @@ const AuthState = (props) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		}
+		};
 
 		try {
-			const res = await axios.post('/api/users/', formData, config)
+			const res = await axios.post('/api/users/', formData, config);
 
 			dispatch({
 				type: SIGNUP_SUCCESS,
 				payload: res.data,
-			})
+			});
 
-			loadUser()
+			loadUser();
 		} catch (err) {
 			dispatch({
 				type: SIGNUP_FAIL,
 				payload: err.response.data.msg,
-			})
+			});
 		}
-	}
+	};
 	/**
 	 * Update User Profile
 	 * @param {*} formData
@@ -91,28 +91,28 @@ const AuthState = (props) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		}
+		};
 
 		try {
 			const res = await axios.put(
 				'/api/users/' + formData.id,
 				formData,
 				config
-			)
+			);
 
 			dispatch({
 				type: UPDATE_PROFILE_SUCCESS,
 				payload: res.data,
-			})
+			});
 
-			loadUser()
+			loadUser();
 		} catch (err) {
 			dispatch({
 				type: UPDATE_PROFILE_FAIL,
 				payload: err.response.data.msg,
-			})
+			});
 		}
-	}
+	};
 
 	/**
 	 * Login User
@@ -123,24 +123,24 @@ const AuthState = (props) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		}
+		};
 
 		try {
-			const res = await axios.post('/api/auth/login', formData, config)
+			const res = await axios.post('/api/auth/login', formData, config);
 
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: res.data,
-			})
+			});
 
-			loadUser()
+			loadUser();
 		} catch (err) {
 			dispatch({
 				type: LOGIN_FAIL,
 				payload: err.response.data,
-			})
+			});
 		}
-	}
+	};
 
 	/**
 	 *
@@ -151,22 +151,22 @@ const AuthState = (props) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		}
+		};
 		try {
 			const res = await axios.post(
 				'/api/users/forgot-password-init',
 				formData,
 				config
-			)
+			);
 
 			dispatch({
 				type: FORGOT_PASSWORD_SUCCESS,
 				payload: res.body,
-			})
+			});
 		} catch (err) {
-			console.error(err)
+			console.error(err);
 		}
-	}
+	};
 
 	/**
 	 *
@@ -177,32 +177,32 @@ const AuthState = (props) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		}
+		};
 		try {
 			const res = await axios.post(
 				'/api/users/forgot-password-complete',
 				formData,
 				config
-			)
+			);
 
 			dispatch({
 				type: FORGOT_RESET_SUCCESS,
 				payload: res.body,
-			})
+			});
 		} catch (err) {
-			console.error(err)
+			console.error(err);
 			dispatch({
 				type: FORGOT_RESET_FAIL,
 				payload: { error: err.response.data.msg },
-			})
+			});
 		}
-	}
+	};
 
 	// Logout
-	const logout = () => dispatch({ type: LOGOUT })
+	const logout = () => dispatch({ type: LOGOUT });
 
 	// Clear Errors
-	const clearErrors = () => dispatch({ type: CLEAR_ERRORS })
+	const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
 	/**
 	 *
@@ -210,8 +210,8 @@ const AuthState = (props) => {
 	const authError = () => {
 		dispatch({
 			type: AUTH_ERROR,
-		})
-	}
+		});
+	};
 
 	return (
 		<AuthContext.Provider
@@ -237,7 +237,7 @@ const AuthState = (props) => {
 		>
 			{props.children}
 		</AuthContext.Provider>
-	)
-}
+	);
+};
 
-export default AuthState
+export default AuthState;

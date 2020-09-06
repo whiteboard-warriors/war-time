@@ -1,22 +1,22 @@
 /**
  * Combine HTTP Operations for cohesiveness
  */
-import axios from 'axios'
+import axios from 'axios';
 
 export const get = async (url) => {
-	const config = {
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-	}
+	// const config = {
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 		Accept: 'application/json',
+	// 	},
+	// }
 	try {
-		const response = await axios.get(url)
-		return response
+		const response = await axios.get(url);
+		return response;
 	} catch (err) {
-		throw err
+		throw err;
 	}
-}
+};
 
 /**
  *
@@ -28,11 +28,11 @@ export const post = async (url, body) => {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-	}
+	};
 	try {
-		const response = await axios.post(url, body, config)
-		return response
+		const response = await axios.post(url, body, config);
+		return response;
 	} catch (err) {
-		throw err
+		throw err;
 	}
-}
+};
