@@ -63,6 +63,9 @@ const CreateEvent = (props) => {
 		locationError,
 		setAlert,
 		props.history,
+		clearErrors,
+		locationError,
+		setAlert,
 	]);
 
 	const [event, setEvent] = useState({

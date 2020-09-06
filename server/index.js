@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
-const passport = require('./config/passport')
+const passport = require('passport')
 const app = express()
 
 const PORT = process.env.PORT || 5005
@@ -25,7 +25,7 @@ app.use(
 	})
 )
 app.use(passport.initialize())
-app.use(passport.session())
+require('./config/passport')(passport)
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'))
@@ -36,12 +36,32 @@ if (process.env.NODE_ENV === 'production') {
 
 // Add routes, both API and view
 app.use('/api/users', require('./routes/users'))
-app.use('/api/events', require('./routes/events'))
-app.use('/api/events/admin', require('./routes/eventAdmin'))
-app.use('/api/events/pair', require('./routes/eventPairing'))
+app.use(
+	'/api/events',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/events')
+)
+app.use(
+	'/api/events/admin',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/eventAdmin')
+)
+app.use(
+	'/api/events/pair',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/eventPairing')
+)
 app.use('/api/auth', require('./routes/auth'))
-app.use('/api/locations', require('./routes/locations'))
-app.use('/api/languages', require('./routes/languages'))
+app.use(
+	'/api/locations',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/locations')
+)
+app.use(
+	'/api/languages',
+	passport.authenticate('jwt', { session: false }),
+	require('./routes/languages')
+)
 
 // Connect to the Mongo DB
 mongoose.set('useUnifiedTopology', true)

@@ -24,7 +24,7 @@ const Events = (props) => {
 		}
 
 		getEvents();
-	}, [setAlert, isAuthenticated, getEvents, props.history]);
+	}, [getEvents, props, setAlert, isAuthenticated]);
 
 	return (
 		<Fragment>

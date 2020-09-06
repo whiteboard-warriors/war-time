@@ -1,13 +1,11 @@
 const express = require('express')
 const router = express.Router()
-// const passport = require('../config/passport');
 
 const db = require('../models')
-const isAuthenticated = require('../config/middleware/isAuthenticated')
 
 // @route   GET /api/events
 // @desc    Retrieves all events
-router.get('/', isAuthenticated, async (req, res) => {
+router.get('/', async (req, res) => {
 	try {
 		const event = await db.Event.find()
 			.populate('location')
@@ -25,7 +23,7 @@ router.get('/', isAuthenticated, async (req, res) => {
 
 // @route   GET /api/events
 // @desc    Retrieves one event
-router.get('/:slug', isAuthenticated, async (req, res) => {
+router.get('/:slug', async (req, res) => {
 	try {
 		const event = await db.Event.findOne({
 			slug: req.params.slug,
@@ -43,7 +41,7 @@ router.get('/:slug', isAuthenticated, async (req, res) => {
  * Ensure Events are unique
  * Auto-generate "Number" Whiteboard Warriors #XX for Meetup Events
  */
-router.post('/', isAuthenticated, async (req, res) => {
+router.post('/', async (req, res) => {
 	const { title, dateTime } = req.body
 	try {
 		// check to make sure user making updates has admin rights.

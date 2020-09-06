@@ -4,14 +4,16 @@
 import axios from 'axios';
 
 export const get = async (url) => {
-	// const config = {
-	// 	headers: {
-	// 		'Content-Type': 'application/json',
-	// 		Accept: 'application/json',
-	// 	},
-	// }
+	const config = {
+		headers: {
+			Accept: 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+		url: url,
+		method: 'get',
+	};
 	try {
-		const response = await axios.get(url);
+		const response = await axios(config);
 		return response;
 	} catch (err) {
 		throw err;
@@ -27,6 +29,7 @@ export const post = async (url, body) => {
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
 		},
 	};
 	try {

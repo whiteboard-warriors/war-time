@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
+import AuthContext from '../../../context/auth/authContext';
+import EventContext from '../../../context/event/eventContext';
 
 import PairCard from './PairCard';
 import ParticipantCard from './ParticipantCard';
@@ -19,11 +21,8 @@ const Event = (props) => {
 	const [socketConnected, setSocketConnected] = useState(false);
 	const [dt, setDt] = useState('');
 	const location = useLocation();
-	// const alertContext = useContext(AlertContext);
 	const eventContext = useContext(EventContext);
 	const authContext = useContext(AuthContext);
-
-	// const { setAlert } = alertContext
 	const { user } = authContext;
 	const { getEventBySlug, event } = eventContext;
 
@@ -44,7 +43,7 @@ const Event = (props) => {
 		let pathSlug = location.pathname.replace('/event/', '');
 
 		getEventBySlug(pathSlug);
-	}, []);
+	}, [getEventBySlug, location.pathname]);
 
 	/**
 	 *
@@ -87,7 +86,7 @@ const Event = (props) => {
 			console.info('joining event');
 			joinEvent(socket.id, user._id, event._id);
 		}
-	}, [socket, useLocation, event]);
+	}, [user, socket, location, event]);
 
 	// manage socket connection
 	const handleSocketConnection = () => {
