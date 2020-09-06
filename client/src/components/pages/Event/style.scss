@@ -1,0 +1,20 @@
+@import '../../../App.scss';
+
+.container-root {
+	display: flex;
+	flex-direction: column-reverse;
+
+	.pairs-container,
+	.participant-containers {
+		padding: 1.5rem 1rem 1rem 1rem;
+		background-color: $grey-shade;
+		border-radius: 1rem;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+			0 6px 6px rgba(0, 0, 0, 0.23);
+		margin-bottom: 1rem;
+		hr {
+			margin: 0 0 1rem 0;
+			// width: calc(100% - 2rem);
+		}
+	}
+}
