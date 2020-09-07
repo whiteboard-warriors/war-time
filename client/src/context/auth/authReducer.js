@@ -12,6 +12,7 @@ import {
 	FORGOT_PASSWORD_SUCCESS,
 	FORGOT_RESET_SUCCESS,
 	FORGOT_RESET_FAIL,
+	CLEAR_SUCCESS,
 } from '../types'
 
 export default (state, action) => {
@@ -84,6 +85,8 @@ export default (state, action) => {
 			return { ...state, error: null, forgotResetSuccess: true }
 		case FORGOT_RESET_FAIL:
 			return { ...state, error: action.payload.error }
+		case CLEAR_SUCCESS:
+			return { ...state, updateProfileSuccess: false }
 		default:
 			return state
 	}

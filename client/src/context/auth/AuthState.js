@@ -18,6 +18,7 @@ import {
 	FORGOT_PASSWORD_SUCCESS,
 	FORGOT_RESET_SUCCESS,
 	FORGOT_RESET_FAIL,
+	CLEAR_SUCCESS,
 	// RESET_PASSWORD_SUCCESS,
 	// RESET_PASSWORD_FAIL,
 } from '../types'
@@ -89,18 +90,8 @@ const AuthState = (props) => {
 	 * @param {*} formData
 	 */
 	const updateUserProfile = async (formData) => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		}
-
 		try {
-			const res = await axios.put(
-				'/api/users/' + formData.id,
-				formData,
-				config
-			)
+			const res = await HTTP.put('/api/users/' + formData.id, formData)
 
 			dispatch({
 				type: UPDATE_PROFILE_SUCCESS,
@@ -143,16 +134,10 @@ const AuthState = (props) => {
 	 * @param {*} formData
 	 */
 	const forgotPassword = async (formData) => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		}
 		try {
-			const res = await axios.post(
-				'/api/users/forgot-password-init',
-				formData,
-				config
+			const res = await HTTP.post(
+				'/api/auth/forgot-password-init',
+				formData
 			)
 
 			dispatch({
@@ -169,16 +154,10 @@ const AuthState = (props) => {
 	 * @param {*} formData
 	 */
 	const forgotPasswordComplete = async (formData) => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		}
 		try {
-			const res = await axios.post(
+			const res = await HTTP.post(
 				'/api/users/forgot-password-complete',
-				formData,
-				config
+				formData
 			)
 
 			dispatch({
@@ -199,6 +178,9 @@ const AuthState = (props) => {
 
 	// Clear Errors
 	const clearErrors = () => dispatch({ type: CLEAR_ERRORS })
+
+	//
+	const clearSuccess = () => dispatch({ type: CLEAR_SUCCESS })
 
 	/**
 	 *
@@ -230,6 +212,7 @@ const AuthState = (props) => {
 				forgotPassword,
 				forgotPasswordComplete,
 				authError,
+				clearSuccess,
 			}}
 		>
 			{props.children}
