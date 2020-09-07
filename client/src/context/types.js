@@ -1,3 +1,5 @@
+export const CLEAR_SUCCESS = 'CLEAR_SUCCESS'
+
 // Events
 export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS'
 export const CREATE_EVENT = 'CREATE_EVENT'
