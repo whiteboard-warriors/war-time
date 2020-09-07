@@ -55,7 +55,7 @@ export const put = async (url, body) => {
 	}
 };
 
-export const remove = async (url, body) => {
+export const remove = async (url) => {
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export const remove = async (url, body) => {
 		},
 	};
 	try {
-		const response = await axios.delete(url, body, config);
+		const response = await axios.delete(url, config);
 		return response;
 	} catch (err) {
 		throw err;
