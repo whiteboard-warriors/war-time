@@ -54,3 +54,18 @@ export const put = async (url, body) => {
 		throw err;
 	}
 };
+
+export const remove = async (url, body) => {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+	};
+	try {
+		const response = await axios.delete(url, body, config);
+		return response;
+	} catch (err) {
+		throw err;
+	}
+};
