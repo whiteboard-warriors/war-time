@@ -36,7 +36,7 @@ const Event = (props) => {
 		let pathSlug = location.pathname.replace('/event/', '')
 
 		getEventBySlug(pathSlug)
-	}, [getEventBySlug, location.pathname])
+	}, [])
 
 	/**
 	 *
@@ -79,7 +79,7 @@ const Event = (props) => {
 			console.info('joining event')
 			joinEvent(socket.id, user._id, event._id)
 		}
-	}, [user, socket, location, event])
+	}, [user, socket, event])
 
 	// manage socket connection
 	const handleSocketConnection = () => {
