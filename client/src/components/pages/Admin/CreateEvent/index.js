@@ -23,9 +23,10 @@ const CreateEvent = (props) => {
 		error,
 		saveSuccess,
 	} = eventContext;
-	const { locationError, locations } = locationContext;
+	const { locationError, locations, getLocations } = locationContext;
 	useEffect(() => {
-		// getLocations();
+		getLocations();
+
 		if (isAuthenticated) {
 			props.history.push('/admin/create-event');
 		}
@@ -54,6 +55,7 @@ const CreateEvent = (props) => {
 			setAlert(locationError, 'danger');
 			clearErrors();
 		}
+		// eslint-disable-next-line
 	}, [
 		error,
 		saveSuccess,
@@ -63,18 +65,16 @@ const CreateEvent = (props) => {
 		locationError,
 		setAlert,
 		props.history,
-		clearErrors,
-		locationError,
-		setAlert,
 	]);
 
 	const [event, setEvent] = useState({
 		title: '',
 		dateTime: '',
-		location: '',
+		locations: '',
+		onlinePlatform: '',
 	});
 
-	const { title, dateTime } = event;
+	const { title, dateTime, onlinePlatform } = event;
 
 	const onChange = (e) => {
 		setEvent({ ...event, [e.target.name]: e.target.value });
@@ -85,9 +85,12 @@ const CreateEvent = (props) => {
 		createEvent({
 			title,
 			dateTime,
+			onlinePlatform,
 		});
 		console.log('Event will be created');
 	};
+
+	console.log('locaitons >>> ', locations);
 
 	return (
 		<Container>
@@ -96,12 +99,11 @@ const CreateEvent = (props) => {
 			</div>
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
-					<Form onSubmit={onSubmit} className='form-global-margin'>
+					<Form onSubmit={onSubmit} className='form-custom-margin'>
 						<Form.Group controlId='formBasicState'>
 							<Form.Control
 								type='text'
 								placeholder='Title'
-								defaultValue=''
 								value={title}
 								onChange={onChange}
 								name='title'
@@ -118,7 +120,7 @@ const CreateEvent = (props) => {
 							></Form.Control>
 						</Form.Group>
 
-						<Form.Group controlId='formBasicState'>
+						{/* <Form.Group controlId='formBasicState'>
 							<Form.Control
 								type='text'
 								placeholder='Locations*'
@@ -144,60 +146,8 @@ const CreateEvent = (props) => {
 									</option>
 								)}
 							</Form.Control>
-						</Form.Group>
-						<Form.Group>
-							<Form.Control
-								type='text'
-								placeholder='Street*'
-								onChange={onChange}
-								name='street'
-								// value={street}
-							></Form.Control>
-						</Form.Group>
-
-						<Form.Group controlId='formBasicUnit'>
-							<Form.Control
-								type='text'
-								placeholder='Unit'
-								// value={unit}
-								onChange={onChange}
-								name='unit'
-							/>
-						</Form.Group>
-						<Form.Group controlId='formBasicCity'>
-							<Form.Control
-								type='text'
-								placeholder='City*'
-								// value={city}
-								onChange={onChange}
-								name='city'
-							/>
-						</Form.Group>
-
-						{/* <Form.Group controlId='formBasicState'>
-							<Form.Control
-								type='text'
-								placeholder='State*'
-								defaultValue='State*'
-								value={state}
-								onChange={onChange}
-								name='state'
-								as='select'
-							>
-								{statesAndRegions.map((item) => {
-									return <option value={item}>{item}</option>;
-								})}
-							</Form.Control>
 						</Form.Group> */}
-						<Form.Group controlId='formBasicZipCode'>
-							<Form.Control
-								type='text'
-								placeholder='ZipCode*'
-								// value={zipCode}
-								onChange={onChange}
-								name='zipCode'
-							/>
-						</Form.Group>
+
 						<Form.Group controlId='formBasicOnlinePlatform'>
 							<Form.Control
 								type='text'
