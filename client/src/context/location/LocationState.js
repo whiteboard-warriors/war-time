@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import LocationContext from './locationContext';
 import locationReducer from './locationReducer';
+import * as HTTP from '../../service/HTTP';
 import {
 	GET_LOCATIONS,
 	ADD_LOCATION,
@@ -28,7 +29,7 @@ const LocationState = (props) => {
 	// Get Locations
 	const getLocations = async () => {
 		try {
-			const res = await axios.get('/api/locations');
+			const res = await HTTP.get('/api/locations');
 
 			dispatch({
 				type: GET_LOCATIONS,
@@ -51,7 +52,7 @@ const LocationState = (props) => {
 		};
 
 		try {
-			const res = await axios.post('/api/locations', location, config);
+			const res = await HTTP.post('/api/locations', location, config);
 
 			dispatch({
 				type: ADD_LOCATION,
@@ -85,17 +86,10 @@ const LocationState = (props) => {
 
 	// Update Location ** ADMIN
 	const updateLocation = async (location) => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
-
 		try {
-			const res = await axios.put(
+			const res = await HTTP.put(
 				`/api/location/${location._id}`,
-				location,
-				config
+				location
 			);
 
 			dispatch({
