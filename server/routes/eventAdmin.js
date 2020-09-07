@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 
 	try {
 		// check to make sure user making updates has admin rights.
-		let user = await db.User.findOne({ _id: req.user._id });
+		let user = await db.User.findOne({ _id: req.user.id });
 		if (user.admin !== true) {
 			return res.status(401).json({
 				msg: 'You are not authorized to edit this event.',

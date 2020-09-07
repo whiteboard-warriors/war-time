@@ -1,8 +1,6 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import AuthContext from '../../../context/auth/authContext';
-import EventContext from '../../../context/event/eventContext';
 
 import PairCard from './PairCard';
 import ParticipantCard from './ParticipantCard';
