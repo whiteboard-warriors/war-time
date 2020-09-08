@@ -12,6 +12,8 @@ import AuthContext from '../../../context/auth/authContext';
 import EventContext from '../../../context/event/eventContext';
 
 import './style.scss';
+//temp data
+import events from '../../../0-temp-data/events';
 
 const Event = (props) => {
 	// const authContext = useContext(AuthContext)
@@ -94,6 +96,8 @@ const Event = (props) => {
 			socket.connect();
 		}
 	};
+
+	console.log(events[0]);
 
 	return (
 		<Fragment>
