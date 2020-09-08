@@ -1,30 +1,40 @@
-import React, { useContext } from 'react';
-import AuthContext from '../../../../context/auth/authContext';
+import React from 'react';
 
 import './style.scss';
 
-const ParticipantCard = () => {
-	const authContext = useContext(AuthContext);
-	const { isAuthenticated, user } = authContext;
-
+const ParticipantCard = ({
+	imageLink,
+	firstName,
+	lastName,
+	primaryLanguage,
+}) => {
 	const ucFirstLetter = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
 	return (
 		<div className='participant-card-container'>
-			<div className='image'>
-				<i className='fa fa-user'></i>
-			</div>
-			<p>––</p>
+			{imageLink ? (
+				<div className='image'>
+					<img src={imageLink} alt='profile image' />
+				</div>
+			) : (
+				<div className='icon'>
+					<i className='fa fa-user'></i>
+				</div>
+			)}
+
+			<p>–</p>
 			<div className='user-name'>
-				<h5>
-					{user.firstName} {user.lastName}
-				</h5>
+				<p> {firstName ? `${firstName} ${lastName}` : 'First Last'}</p>
 			</div>
-			<p>––</p>
+			<p>–</p>
 			<div className='user-language'>
-				<p className='lead'>{ucFirstLetter(user.primaryLanguage)}</p>
+				<p>
+					{primaryLanguage
+						? ucFirstLetter(primaryLanguage)
+						: 'Primary Language'}
+				</p>
 			</div>
 		</div>
 	);
