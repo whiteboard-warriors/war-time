@@ -24,7 +24,10 @@ const Events = (props) => {
 		}
 
 		getEvents();
-	}, [getEvents, props, setAlert, isAuthenticated]);
+		//eslint-disable-next-line
+	}, [props, setAlert, isAuthenticated]);
+
+	console.log(events);
 
 	return (
 		<Fragment>
