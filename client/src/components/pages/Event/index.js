@@ -108,14 +108,41 @@ const Event = (props) => {
 							<h4>Pairs</h4>
 						</div>
 						<hr />
-						<PairCard />
+						<div className='pair-grid'>
+							{events[0].matches.map((match, index) => {
+								return (
+									<PairCard
+										key={index}
+										language={match.language}
+										user1={`${match.user1.firstName} ${match.user1.lastName}`}
+										user2={`${match.user2.firstName} ${match.user2.lastName}`}
+										skillLevel={match.level}
+										docLink={match.docLink}
+									/>
+								);
+							})}
+						</div>
 					</div>
 					<div className='participant-containers'>
 						<div className='text-center pb-3'>
 							<h4>Participants</h4>
 						</div>
 						<hr />
-						<ParticipantCard />
+						{events[0].attendees.map((attendeeObj, index) => {
+							return (
+								<ParticipantCard
+									key={index}
+									imageLink={`https://mdbootstrap.com/img/Photos/Avatars/avatar-${
+										index + 1
+									}.jpg`}
+									firstName={attendeeObj.attendee.firstName}
+									lastName={attendeeObj.attendee.lastName}
+									primaryLanguage={
+										attendeeObj.attendee.primaryLanguage
+									}
+								/>
+							);
+						})}
 					</div>
 				</div>
 				<hr />
