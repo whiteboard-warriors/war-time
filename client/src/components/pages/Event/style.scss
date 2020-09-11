@@ -19,3 +19,67 @@
 		}
 	}
 }
+// Galaxy fold
+@media only screen and (min-width: 240px) {
+	.user-name,
+	.user-language {
+		p {
+			font-size: x-small;
+		}
+	}
+}
+// Galaxy S5
+@media only screen and (min-width: 360px) {
+	.user-name,
+	.user-language {
+		p {
+			font-size: 1rem;
+		}
+	}
+}
+// Surface Duo
+@media only screen and (min-width: 540px) {
+	.container-root {
+		padding: 0 15%;
+	}
+}
+//tablets - profile
+@media only screen and (min-width: 720px) {
+	.container-root {
+		flex-direction: row;
+		padding: 0;
+	}
+	.pairs-container {
+		margin-right: 1rem;
+		width: 50vw;
+	}
+	.participant-containers {
+		width: 50vw;
+	}
+}
+//tablets - landscape
+@media only screen and (min-width: 1024px) {
+	.pairs-container {
+		margin-right: 1rem;
+		width: 63vw;
+		.pair-grid {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-around;
+		}
+	}
+	.participant-containers {
+		width: calc(37vw - 3rem);
+	}
+}
+//large tablets, laptops and greater.
+@media only screen and (min-width: 1366px) {
+	.pairs-container {
+		margin-right: 1rem;
+		width: 73vw;
+	}
+	.participant-containers {
+		width: calc(27vw - 3rem);
+	}
+}
