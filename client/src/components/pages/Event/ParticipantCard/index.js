@@ -8,6 +8,7 @@ const ParticipantCard = ({
 	lastName,
 	primaryLanguage,
 }) => {
+	//Uppercase first letter
 	const ucFirstLetter = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
@@ -16,7 +17,7 @@ const ParticipantCard = ({
 		<div className='participant-card-container'>
 			{imageLink ? (
 				<div className='image'>
-					<img src={imageLink} alt='profile image' />
+					<img src={imageLink} alt='profile' />
 				</div>
 			) : (
 				<div className='icon'>
