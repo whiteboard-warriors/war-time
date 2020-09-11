@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-mongoose.set('useCreateIndex', true)
+const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
 	createdBy: {
@@ -25,6 +25,10 @@ const EventSchema = new Schema({
 	location: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Location',
+	},
+	onlinePlatform: {
+		type: String,
+		required: false,
 	},
 	// date: {
 	// 	type: Date,
@@ -94,8 +98,8 @@ const EventSchema = new Schema({
 	// 		},
 	// 	},
 	// ],
-})
+});
 
-const Event = mongoose.model('Event', EventSchema)
+const Event = mongoose.model('Event', EventSchema);
 
-module.exports = Event
+module.exports = Event;

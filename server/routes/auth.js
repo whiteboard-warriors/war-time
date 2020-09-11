@@ -1,18 +1,18 @@
-const express = require('express')
-const passport = require('../config/passport')
-const router = express.Router()
-const bcrypt = require('bcryptjs')
-const db = require('../models')
-const jwt = require('jsonwebtoken')
-const { check, validationResult } = require('express-validator')
+const express = require('express');
+const passport = require('../config/passport');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const db = require('../models');
+const jwt = require('jsonwebtoken');
+const { check, validationResult } = require('express-validator');
 // @route   POST api/auth
 // @desc - Login
 router.post('/login', async function (req, res) {
-	const { email, password } = req.body
-	let user = await db.User.findOne({ email: email })
+	const { email, password } = req.body;
+	let user = await db.User.findOne({ email: email });
 
 	if (!user) {
-		return res.status(404).json({ emailnotfound: 'Email not found' })
+		return res.status(404).json({ emailnotfound: 'Email not found' });
 	}
 
 	// Check password
@@ -23,7 +23,7 @@ router.post('/login', async function (req, res) {
 			const payload = {
 				id: user.id,
 				name: user.name,
-			}
+			};
 			// Sign token
 			jwt.sign(
 				payload,
@@ -35,23 +35,23 @@ router.post('/login', async function (req, res) {
 					res.json({
 						success: true,
 						token: 'Bearer ' + token,
-					})
+					});
 				}
-			)
+			);
 		} else {
 			return res.status(400).json({
 				msg: 'Invalid Credentials',
-			})
+			});
 		}
-	})
-})
+	});
+});
 
 // @route   POST api/auth
 // @desc - Logout
 router.post('/logout', function (req, res) {
-	req.logout()
-	res.json({}).redirect('/login')
-})
+	req.logout();
+	res.json({}).redirect('/login');
+});
 
 // @route   POST api/users
 // @desc - Sign up
@@ -69,9 +69,9 @@ router.post(
 	],
 
 	async (req, res) => {
-		const errors = validationResult(req)
+		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() })
+			return res.status(400).json({ errors: errors.array() });
 		}
 
 		let {
@@ -84,13 +84,13 @@ router.post(
 			primaryLanguage,
 			secondaryLanguage,
 			skillLevel,
-		} = req.body
+		} = req.body;
 
 		try {
-			let user = await db.User.findOne({ email })
+			let user = await db.User.findOne({ email });
 
 			if (user) {
-				return res.status(400).json({ msg: 'User already exists' })
+				return res.status(400).json({ msg: 'User already exists' });
 			}
 			user = new db.User({
 				firstName,
@@ -102,69 +102,69 @@ router.post(
 				primaryLanguage,
 				secondaryLanguage,
 				skillLevel,
-			})
+			});
 
-			await user.save()
+			await user.save();
 
-			emailService.sendWelcomeConfirmation(email)
-			res.status(200).send('User Saved')
+			emailService.sendWelcomeConfirmation(email);
+			res.status(200).send('User Saved');
 			// res.redirect(307, 'api/auth/login'); // api login
 		} catch (err) {
-			console.error(err.message)
-			res.status(500).send('Server Error')
+			console.error(err.message);
+			res.status(500).send('Server Error');
 		}
 	}
-)
+);
 
 /**
  *
  */
 router.post('/forgot-password-init', async (req, res) => {
-	const { email } = req.body
+	const { email } = req.body;
 
 	try {
-		const user = await db.User.findOne({ email: email })
+		const user = await db.User.findOne({ email: email });
 
 		if (user !== undefined) {
 			// generate a token and save it to the users record
-			const buf = crypto.randomBytes(20)
-			let updatedUser = {}
-			updatedUser.token = buf.toString('hex')
+			const buf = crypto.randomBytes(20);
+			let updatedUser = {};
+			updatedUser.token = buf.toString('hex');
 
 			await db.User.findByIdAndUpdate(
 				{ _id: user._id },
 				{ $set: updatedUser }
-			)
+			);
 
-			emailService.sendPasswordResetEmail(user.email, updatedUser.token)
+			emailService.sendPasswordResetEmail(user.email, updatedUser.token);
 		}
-		res.send(200)
+		res.send(200);
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server Error')
+		console.error(err.message);
+		res.status(500).send('Server Error');
 	}
-})
+});
 
 // @route  POST /api/users
 // @desc - Sends a password reset email.
 router.post('/forgot-password-complete', async (req, res) => {
-	const { password, token } = req.body
+	const { password, token } = req.body;
 
 	try {
-		const user = await db.User.findOne({ token: token })
+		const user = await db.User.findOne({ token: token });
 
 		if (user === null) {
-			res.status(401).json({ msg: 'INVALID_TOKEN' })
+			res.status(401).json({ msg: 'INVALID_TOKEN' });
 		} else {
-			user.password = password
-			user.token = null
-			await user.save()
-			res.status(200).send('Your password has been updated.')
+			user.password = password;
+			user.token = null;
+			await user.save();
+			res.status(200).send('Your password has been updated.');
 		}
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server Error')
+		console.error(err.message);
+		res.status(500).send('Server Error');
 	}
-})
+});
 
-module.exports = router
+module.exports = router;

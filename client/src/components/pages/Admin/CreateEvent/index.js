@@ -1,128 +1,134 @@
-import React, { useContext, useState, useEffect } from 'react'
-import AlertContext from '../../../../context/alert/alertContext'
-import AuthContext from '../../../../context/auth/authContext'
-import LocationContext from '../../../../context/location/locationContext'
-import { Form, Button, Container, Row, Col } from 'react-bootstrap'
-import EventContext from '../../../../context/event/eventContext'
-import './style.scss'
+import React, { useContext, useState, useEffect } from 'react';
+import AlertContext from '../../../../context/alert/alertContext';
+import AuthContext from '../../../../context/auth/authContext';
+import LocationContext from '../../../../context/location/locationContext';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import EventContext from '../../../../context/event/eventContext';
+import './style.scss';
 /**
  *
  * @param {*} props
  */
 const CreateEvent = (props) => {
-	const alertContext = useContext(AlertContext)
-	const eventContext = useContext(EventContext)
-	const authContext = useContext(AuthContext)
-	const locationContext = useContext(LocationContext)
+	const alertContext = useContext(AlertContext);
+	const eventContext = useContext(EventContext);
+	const authContext = useContext(AuthContext);
+	const locationContext = useContext(LocationContext);
 
-	const { setAlert, clearErrors } = alertContext
-	const { isAuthenticated } = authContext
+	const { setAlert, clearErrors } = alertContext;
+	const { isAuthenticated } = authContext;
 	const {
 		createEvent,
 		clearCreateEventFlags,
 		error,
 		saveSuccess,
-	} = eventContext
-	const { locationError, locations } = locationContext
+	} = eventContext;
+	const { locationError, locations, getLocations } = locationContext;
 	useEffect(() => {
+		getLocations();
+
 		if (isAuthenticated) {
-			props.history.push('/admin/create-event')
+			props.history.push('/admin/create-event');
 		}
 
 		if (!isAuthenticated) {
-			setAlert('Please login before completing action.', 'danger')
-			props.history.push('/login')
+			setAlert('Please login before completing action.', 'danger');
+			props.history.push('/login');
 		}
 
 		if (error === 'You are not authorized to create events.') {
-			setAlert(error, 'danger')
+			setAlert(error, 'danger');
 		}
 
 		if (error != null && error.indexOf('title_1 dup key') !== -1) {
-			setAlert('Event name is not unique, please try again!', 'danger')
+			setAlert('Event name is not unique, please try again!', 'danger');
 		}
 
 		if (saveSuccess) {
-			setAlert('Event has been created.', 'success')
-			clearCreateEventFlags()
-			debugger
-			props.history.push('/admin')
+			setAlert('Event has been created.', 'success');
+			clearCreateEventFlags();
+			debugger;
+			props.history.push('/admin');
 		}
 
 		if (locationError) {
-			setAlert(locationError, 'danger')
-			clearErrors()
+			setAlert(locationError, 'danger');
+			clearErrors();
 		}
+		// eslint-disable-next-line
 	}, [
 		error,
 		saveSuccess,
 		isAuthenticated,
 		clearCreateEventFlags,
-		props.history,
 		clearErrors,
 		locationError,
 		setAlert,
-	])
+		props.history,
+	]);
 
 	const [event, setEvent] = useState({
 		title: '',
 		dateTime: '',
-		location: '',
-	})
+		locations: '',
+		onlinePlatform: '',
+	});
 
-	const { title, dateTime } = event
+	const { title, dateTime, onlinePlatform } = event;
 
 	const onChange = (e) => {
-		setEvent({ ...event, [e.target.name]: e.target.value })
-	}
+		setEvent({ ...event, [e.target.name]: e.target.value });
+	};
 
 	const onSubmit = (e) => {
-		e.preventDefault()
+		e.preventDefault();
 		createEvent({
 			title,
 			dateTime,
-		})
-		console.log('Event will be created')
-	}
+			onlinePlatform,
+		});
+		console.log('Event will be created');
+	};
+
+	console.log('locaitons >>> ', locations);
 
 	return (
 		<Container>
-			<div className="text-center">
-				<h3 className="mt-5 mb-3">Create Event</h3>
+			<div className='text-center'>
+				<h3 className='mt-5 mb-3'>Create Event</h3>
 			</div>
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
-					<Form onSubmit={onSubmit} className="form-global-margin">
-						<Form.Group controlId="formBasicState">
+					<Form onSubmit={onSubmit} className='form-custom-margin'>
+						<Form.Group controlId='formBasicState'>
 							<Form.Control
-								type="text"
-								placeholder="Title"
-								defaultValue=""
+								type='text'
+								placeholder='Title'
 								value={title}
 								onChange={onChange}
-								name="title"
+								name='title'
 							></Form.Control>
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Control
-								type="datetime-local"
-								placeholder="Start Time"
+								type='datetime-local'
+								placeholder='Start Time'
 								value={dateTime}
 								onChange={onChange}
-								name="dateTime"
+								name='dateTime'
 							></Form.Control>
 						</Form.Group>
 
-						<Form.Group controlId="formBasicState">
+						{/* <Form.Group controlId='formBasicState'>
 							<Form.Control
-								type="text"
-								placeholder="Locations*"
-								defaultValue="Locations*"
+								type='text'
+								placeholder='Locations*'
+								defaultValue='Locations*'
 								// value={location}
 								onChange={onChange}
-								name="location"
-								as="select"
+								name='location'
+								as='select'
 							>
 								<option value={null}>Locations</option>
 								{locations ? (
@@ -132,7 +138,7 @@ const CreateEvent = (props) => {
 												key={location._id}
 												value={`${location.name}, ${location.city} - ${location.state}`}
 											>{`${location.name}, ${location.city} - ${location.state}`}</option>
-										)
+										);
 									})
 								) : (
 									<option>
@@ -140,72 +146,20 @@ const CreateEvent = (props) => {
 									</option>
 								)}
 							</Form.Control>
-						</Form.Group>
-						<Form.Group>
-							<Form.Control
-								type="text"
-								placeholder="Street*"
-								onChange={onChange}
-								name="street"
-								// value={street}
-							></Form.Control>
-						</Form.Group>
+						</Form.Group> */}
 
-						<Form.Group controlId="formBasicUnit">
-							<Form.Control
-								type="text"
-								placeholder="Unit"
-								// value={unit}
-								onChange={onChange}
-								name="unit"
-							/>
-						</Form.Group>
-						<Form.Group controlId="formBasicCity">
-							<Form.Control
-								type="text"
-								placeholder="City*"
-								// value={city}
-								onChange={onChange}
-								name="city"
-							/>
-						</Form.Group>
-
-						{/* <Form.Group controlId='formBasicState'>
+						<Form.Group controlId='formBasicOnlinePlatform'>
 							<Form.Control
 								type='text'
-								placeholder='State*'
-								defaultValue='State*'
-								value={state}
+								placeholder='Online Platform'
+								value={onlinePlatform}
 								onChange={onChange}
-								name='state'
-								as='select'
-							>
-								{statesAndRegions.map((item) => {
-									return <option value={item}>{item}</option>;
-								})}
-							</Form.Control>
-						</Form.Group> */}
-						<Form.Group controlId="formBasicZipCode">
-							<Form.Control
-								type="text"
-								placeholder="ZipCode*"
-								// value={zipCode}
-								onChange={onChange}
-								name="zipCode"
-							/>
-						</Form.Group>
-						<Form.Group controlId="formBasicOnlinePlatform">
-							<Form.Control
-								type="text"
-								placeholder="Online Platform"
-								// value={onlinePlatform}
-								onChange={onChange}
-								name="online platform"
+								name='onlinePlatform'
 							/>
 						</Form.Group>
 
-						<div className="text-center my-3">
-							<Button variant="warning" type="submit" size="lg">
+						<div className='text-center my-3'>
+							<Button variant='warning' type='submit' size='lg'>
 								Create Event
 							</Button>
 						</div>
@@ -213,7 +167,7 @@ const CreateEvent = (props) => {
 				</Col>
 			</Row>
 		</Container>
-	)
-}
+	);
+};
 
-export default CreateEvent
+export default CreateEvent;

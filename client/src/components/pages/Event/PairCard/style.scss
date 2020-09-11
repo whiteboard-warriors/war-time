@@ -1,0 +1,65 @@
+@import '../../../../App.scss';
+
+.pair-card-container {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	border-radius: 3rem;
+	border: 1px solid lighten($color: $secondary, $amount: 15);
+	margin-bottom: 1rem;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0, 0, 0, 0.23);
+	// general grid
+	.image,
+	.matches,
+	.skill-level,
+	.doc-link {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
+		padding: 1rem;
+		border-top: 1px solid lighten($color: $secondary, $amount: 15);
+	}
+	// custom styles
+	.image {
+		border-top: none;
+		padding: 1rem;
+		justify-content: space-around;
+		img {
+			height: 4rem;
+			width: auto;
+			padding: 0.5rem;
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+				0 3px 3px rgba(0, 0, 0, 0.23);
+			// border: 1px solid lighten($color: $secondary, $amount: 10);
+			border-radius: 25%;
+			// background-color: lighten($color: $secondary, $amount: 20);
+		}
+	}
+	.matches {
+		justify-content: space-around;
+		padding-bottom: 0;
+		.user {
+			padding: 0.5rem;
+			border: 1px solid lighten($color: $secondary, $amount: 5);
+			margin-bottom: 1rem;
+			p {
+				font-size: 1rem;
+			}
+		}
+	}
+	.skill-level {
+		justify-content: space-between;
+		padding: 0.5rem 2rem;
+	}
+	.doc-link {
+		justify-content: space-around;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.pair-card-container {
+		min-width: 17rem;
+		max-width: 20rem;
+	}
+}
