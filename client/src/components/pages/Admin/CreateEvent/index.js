@@ -152,9 +152,9 @@ const CreateEvent = (props) => {
 							<Form.Control
 								type='text'
 								placeholder='Online Platform'
-								// value={onlinePlatform}
+								value={onlinePlatform}
 								onChange={onChange}
-								name='online platform'
+								name='onlinePlatform'
 							/>
 						</Form.Group>
 

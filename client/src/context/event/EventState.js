@@ -94,6 +94,7 @@ const EventState = (props) => {
 			type: CREATE_EVENT,
 			payload: null,
 		});
+		console.log('EventState.js >>> ', event);
 		try {
 			let res = await HTTP.post('/api/events', event);
 			dispatch({
