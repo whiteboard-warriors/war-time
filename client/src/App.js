@@ -11,7 +11,6 @@ import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
 import Event from './components/pages/Event';
-import Events from './components/pages/Events';
 //Admin Pages
 import Admin from './components/pages/Admin';
 import AddLanguage from './components/pages/Admin/AddLanguage';
@@ -62,11 +61,6 @@ const App = () => {
 											exact
 											path='/'
 											component={Home}
-										/>
-										<Route
-											exact
-											path='/events'
-											component={Events}
 										/>
 										<Route
 											exact

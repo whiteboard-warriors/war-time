@@ -34,9 +34,10 @@ const Signup = (props) => {
 		skillLevel: '',
 		password: '',
 		password2: '',
+		admin: false,
 	});
 
-	const {
+	let {
 		firstName,
 		lastName,
 		email,
@@ -46,14 +47,28 @@ const Signup = (props) => {
 		skillLevel,
 		password,
 		password2,
+		admin,
 	} = user;
 
 	const onChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
 
+	// const handleAdmin = (e) => {
+	// 	const isAdmin,
+	// 	if (e.currentTarget.value ==){
+
+	// 	}
+	// 	setUser({ ...user, admin: isAdmin });
+	// };
+
 	const onSubmit = (e) => {
 		e.preventDefault();
+		if (admin === 'true') {
+			admin = true;
+		} else {
+			admin = false;
+		}
 		register({
 			firstName,
 			lastName,
@@ -63,6 +78,7 @@ const Signup = (props) => {
 			secondaryLanguage,
 			skillLevel,
 			password,
+			admin,
 		});
 	};
 
@@ -306,6 +322,41 @@ const Signup = (props) => {
 												name='skillLevel'
 												id='skillLevelHard'
 												value='hard'
+											/>
+										</Col>
+									</Form.Group>
+								</fieldset>
+							</Col>
+						</Row>
+						<Row>
+							<Col>
+								<fieldset>
+									<Form.Group>
+										<Form.Label>
+											Do you lead a group?
+											<Form.Text className='text-muted'>
+												This will be confirmed an Admin.
+											</Form.Text>
+										</Form.Label>
+
+										<Col>
+											<Form.Check
+												onChange={onChange}
+												type='radio'
+												label='Yes'
+												name='admin'
+												id='adminTrue'
+												value='true'
+												checked={admin === 'true'}
+											/>
+											<Form.Check
+												onChange={onChange}
+												type='radio'
+												label='No'
+												name='admin'
+												id='adminFalse'
+												value='false'
+												checked={admin === 'false'}
 											/>
 										</Col>
 									</Form.Group>

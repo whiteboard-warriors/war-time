@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../models');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
+
 // @route   POST api/auth
 // @desc - Login
 router.post('/login', async function (req, res) {
@@ -53,7 +54,7 @@ router.post('/logout', function (req, res) {
 	res.json({}).redirect('/login');
 });
 
-// @route   POST api/users
+// @route   POST api/auth
 // @desc - Sign up
 router.post(
 	'/',
@@ -84,6 +85,7 @@ router.post(
 			primaryLanguage,
 			secondaryLanguage,
 			skillLevel,
+			admin,
 		} = req.body;
 
 		try {
@@ -102,11 +104,36 @@ router.post(
 				primaryLanguage,
 				secondaryLanguage,
 				skillLevel,
+				admin,
 			});
+			// console.log('routes/auth.js - user to be saved >>> ', user);
 
 			await user.save();
 
-			emailService.sendWelcomeConfirmation(email);
+			const newUser = await db.User.findOne({ email });
+			// console.log('auth.js 128 - newUser >> ', newUser);
+
+			const payload = {
+				id: newUser.id,
+				name: newUser.firstName,
+			};
+			jwt.sign(
+				payload,
+				'secret',
+				{
+					expiresIn: 31556926, // 1 year in seconds
+				},
+				(err, token) => {
+					if (err) throw err;
+					console.log('auth.js 141 token >> ', token);
+					res.json({
+						success: true,
+						token: 'Bearer ' + token,
+					});
+				}
+			);
+
+			// emailService.sendWelcomeConfirmation(email);
 			res.status(200).send('User Saved');
 			// res.redirect(307, 'api/auth/login'); // api login
 		} catch (err) {
