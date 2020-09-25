@@ -1,9 +1,10 @@
-import React from 'react'
-
-// import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button'
-
-import './style.scss'
+import React from 'react';
+import { Link } from 'react-router-dom';
+// Bootstrap
+import Button from 'react-bootstrap/Button';
+// Image and Styles
+import wwLogo from './ww-logo.svg';
+import './style.scss';
 
 /**
  *
@@ -12,65 +13,71 @@ import './style.scss'
 const EventCard = (props) => {
 	const {
 		image,
+		title,
 		location,
 		date,
 		time,
-		signIn,
+		slug,
 		pair,
 		edit,
 		deleteEvent,
-	} = props
+	} = props;
 
 	return (
-		<div className="event-card">
-			<div className="img-container">
-				<img src={image} alt="whiteboard warriors logo" />
+		<div className='event-card'>
+			<div className='img-container'>
+				<img
+					src={image ? image : wwLogo}
+					alt='whiteboard warriors logo'
+				/>
 			</div>
-			<div className="info-container">
-				<div className="info-left">
+			<div className='event-title'>
+				<p className='lead'>{title ? title : 'Title'}</p>
+			</div>
+			<div className='info-container'>
+				<div className='info-left'>
 					<p>Location</p>
 					<h6>{location}</h6>
 					<br />
 					<p>Date</p>
-					<h6>{date}Friday, July 3rd</h6>
+					<h6>{date}</h6>
 				</div>
-				<div className="info-right">
+				<div className='info-right'>
 					<p>Time</p>
-					<h6>{time} 7:00pm</h6>
-					<div className="info-buttons">
+					<h6>{time}</h6>
+					<div className='info-buttons'>
 						{pair && (
-							<Button variant="warning" size="md" onClick={pair}>
+							<Button variant='warning' size='md' onClick={pair}>
 								Pair
 							</Button>
 						)}
 						{edit && (
-							<Button variant="primary" size="md" onClick={edit}>
+							<Button variant='primary' size='md' onClick={edit}>
 								Edit
 							</Button>
 						)}
 						{deleteEvent && (
 							<Button
-								variant="danger"
-								size="md"
+								variant='danger'
+								size='md'
 								onClick={deleteEvent}
 							>
 								Delete
 							</Button>
 						)}
-						{signIn && (
-							<Button
-								variant="warning"
-								size="md"
-								onClick={signIn}
+						{slug && (
+							<Link
+								className='btn btn-warning btn-md'
+								to={`/event/${slug}`}
 							>
-								Signin
-							</Button>
+								Sign In
+							</Link>
 						)}
 					</div>
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default EventCard
+export default EventCard;
