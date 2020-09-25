@@ -17,10 +17,7 @@ const Index = () => {
 				{' '}
 				Home
 			</Link>
-			<Link data-rb-event-key='/events' className='nav-link' to='/events'>
-				{' '}
-				Events
-			</Link>
+
 			{isAuthenticated && (
 				<NavDropdown
 					title={user.firstName ? user.firstName : ''}
