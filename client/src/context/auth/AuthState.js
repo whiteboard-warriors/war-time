@@ -46,6 +46,9 @@ const AuthState = (props) => {
 
 	// Load User
 	const loadUser = async () => {
+		// if (localStorage.token) {
+		// 	setAuthToken(localStorage.token);
+		// }
 		try {
 			const res = await HTTP.get('/api/users');
 
@@ -70,14 +73,14 @@ const AuthState = (props) => {
 		};
 
 		try {
-			const res = await axios.post('/api/users/', formData, config);
+			const res = await axios.post('/api/auth/', formData, config);
 
 			dispatch({
 				type: SIGNUP_SUCCESS,
 				payload: res.data,
 			});
 
-			loadUser();
+			await login(formData);
 		} catch (err) {
 			dispatch({
 				type: SIGNUP_FAIL,
