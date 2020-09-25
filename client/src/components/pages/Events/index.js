@@ -27,8 +27,6 @@ const Events = (props) => {
 		//eslint-disable-next-line
 	}, [props, setAlert, isAuthenticated]);
 
-	console.log(events);
-
 	return (
 		<Fragment>
 			<Container>
