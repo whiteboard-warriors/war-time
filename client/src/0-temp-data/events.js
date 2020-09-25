@@ -245,7 +245,8 @@ const events = [
 				},
 				docLink:
 					'https://docs.google.com/document/d/1bPKYC_rSkfqZdk3vj6Esj_Amp72RVfJ87zhTkWOfPfw/edit',
-				level: 3,
+				level: 'hard',
+				language: 'javascript',
 			},
 			{
 				_id: '5ed0084c971c9227dcc25e45',
@@ -283,7 +284,8 @@ const events = [
 				},
 				docLink:
 					'https://docs.google.com/document/d/1bPKYC_rSkfqZdk3vj6Esj_Amp72RVfJ87zhTkWOfPfw/edit',
-				level: 2,
+				level: 'medium',
+				language: 'python-ruby',
 			},
 			{
 				_id: '5ed0084c971c9227dcc25e46',
@@ -319,7 +321,8 @@ const events = [
 				},
 				docLink:
 					'https://docs.google.com/document/d/1bPKYC_rSkfqZdk3vj6Esj_Amp72RVfJ87zhTkWOfPfw/edit',
-				level: 2,
+				level: 'beginner',
+				language: 'javascript',
 			},
 			{
 				_id: '5ed0583ffaded9311b75c4e8',
@@ -334,7 +337,7 @@ const events = [
 					password:
 						'$2a$10$X9i9fGOC4oIfL1XBNO6K2uef97de6tnTzkaYMiN7DS.XS7TglJN6i',
 					primaryLanguage: 'C++',
-					secondaryLanguage: 'Python',
+					secondaryLanguage: 'python-ruby',
 					__v: 0,
 				},
 				user2: {
@@ -352,7 +355,8 @@ const events = [
 					__v: 0,
 				},
 				docLink: 'tempLink.toBeGeneratedByDocApiCall',
-				level: 1,
+				level: 'easy',
+				language: 'c-cplusplus-java-go',
 			},
 		],
 		__v: 0,

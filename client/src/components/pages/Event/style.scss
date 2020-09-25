@@ -1,0 +1,85 @@
+@import '../../../App.scss';
+
+.container-root {
+	display: flex;
+	flex-direction: column-reverse;
+
+	.pairs-container,
+	.participant-containers {
+		padding: 1rem;
+		background-color: $grey-light;
+		border: 1px solid lighten($color: $grey-dark, $amount: 40%);
+		border-radius: 1rem;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+			0 6px 6px rgba(0, 0, 0, 0.23);
+		margin-bottom: 1rem;
+		hr {
+			margin: 0 0 1rem 0;
+			// width: calc(100% - 2rem);
+		}
+	}
+}
+// Galaxy fold
+@media only screen and (min-width: 240px) {
+	.user-name,
+	.user-language {
+		p {
+			font-size: x-small;
+		}
+	}
+}
+// Galaxy S5
+@media only screen and (min-width: 360px) {
+	.user-name,
+	.user-language {
+		p {
+			font-size: 1rem;
+		}
+	}
+}
+// Surface Duo
+@media only screen and (min-width: 540px) {
+	.container-root {
+		padding: 0 15%;
+	}
+}
+//tablets - profile
+@media only screen and (min-width: 720px) {
+	.container-root {
+		flex-direction: row;
+		padding: 0;
+	}
+	.pairs-container {
+		margin-right: 1rem;
+		width: 50vw;
+	}
+	.participant-containers {
+		width: 50vw;
+	}
+}
+//tablets - landscape
+@media only screen and (min-width: 1024px) {
+	.pairs-container {
+		margin-right: 1rem;
+		width: 63vw;
+		.pair-grid {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-around;
+		}
+	}
+	.participant-containers {
+		width: calc(37vw - 3rem);
+	}
+}
+//large tablets, laptops and greater.
+@media only screen and (min-width: 1366px) {
+	.pairs-container {
+		margin-right: 1rem;
+		width: 73vw;
+	}
+	.participant-containers {
+		width: calc(27vw - 3rem);
+	}
+}

@@ -8,7 +8,12 @@ const Profile = (props) => {
 	const alertContext = useContext(AlertContext);
 	const authContext = useContext(AuthContext);
 	const { setAlert } = alertContext;
-	const { user, updateUserProfile, updateProfileSuccess } = authContext;
+	const {
+		user,
+		updateUserProfile,
+		updateProfileSuccess,
+		clearSuccess,
+	} = authContext;
 
 	const [profile, setProfile] = useState({
 		id: user._id,
@@ -36,8 +41,9 @@ const Profile = (props) => {
 	useEffect(() => {
 		if (updateProfileSuccess) {
 			setAlert('Your profile has been updated.', 'success');
+			clearSuccess();
 		}
-	}, [updateProfileSuccess, setAlert]);
+	}, [updateProfileSuccess, setAlert, clearSuccess]);
 
 	const onChangeProfile = (e) => {
 		setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -72,7 +78,7 @@ const Profile = (props) => {
 						>
 							<Row>
 								<Col xs={12} sm={6}>
-									<Form.Group controlId='formFirstname'>
+									<Form.Group>
 										<Form.Label>First Name</Form.Label>
 										<Form.Control
 											type='text'
@@ -85,7 +91,7 @@ const Profile = (props) => {
 									</Form.Group>
 								</Col>
 								<Col xs={12} sm={6}>
-									<Form.Group controlId='formLastname'>
+									<Form.Group>
 										<Form.Label>Last Name</Form.Label>
 										<Form.Control
 											type='text'
@@ -98,7 +104,7 @@ const Profile = (props) => {
 									</Form.Group>
 								</Col>
 							</Row>
-							<Form.Group controlId='formBasicPassword'>
+							<Form.Group>
 								<Form.Label>Slack Username</Form.Label>
 								<Form.Control
 									type='text'
@@ -129,7 +135,9 @@ const Profile = (props) => {
 														primaryLanguage ===
 														'javascript'
 													}
-													onChange={onChangeProfile}
+													onChange={(event) =>
+														onChangeProfile(event)
+													}
 													disabled={
 														secondaryLanguage ===
 														'javascript'
@@ -145,7 +153,9 @@ const Profile = (props) => {
 														primaryLanguage ===
 														'c-cplusplus-java-go'
 													}
-													onChange={onChangeProfile}
+													onChange={(event) =>
+														onChangeProfile(event)
+													}
 													disabled={
 														secondaryLanguage ===
 														'c-cplusplus-java-go'
@@ -161,7 +171,9 @@ const Profile = (props) => {
 														primaryLanguage ===
 														'python-ruby'
 													}
-													onChange={onChangeProfile}
+													onChange={(event) =>
+														onChangeProfile(event)
+													}
 													disabled={
 														secondaryLanguage ===
 														'python-ruby'
@@ -243,6 +255,7 @@ const Profile = (props) => {
 												onChange={onChangeProfile}
 											>
 												<Form.Check
+													onChange={onChangeProfile}
 													type='radio'
 													label='Beginner (Less than 1-year coding) '
 													name='skillLevel'
@@ -254,6 +267,7 @@ const Profile = (props) => {
 													}
 												/>
 												<Form.Check
+													onChange={onChangeProfile}
 													type='radio'
 													label='Easy (1-2 Years Coding)'
 													name='skillLevel'
@@ -264,6 +278,7 @@ const Profile = (props) => {
 													}
 												/>
 												<Form.Check
+													onChange={onChangeProfile}
 													type='radio'
 													label='Medium (2-5 years coding)'
 													name='skillLevel'
@@ -274,6 +289,7 @@ const Profile = (props) => {
 													}
 												/>
 												<Form.Check
+													onChange={onChangeProfile}
 													type='radio'
 													label='Hard (5+ years)'
 													name='skillLevel'
@@ -297,7 +313,7 @@ const Profile = (props) => {
 						<hr />
 						<h4 className='my-4'>Change Password</h4>
 						<Form className='form-custom-margin'>
-							<Form.Group controlId='formGroupEmail'>
+							<Form.Group>
 								<Form.Control
 									type='password'
 									placeholder='Password'
@@ -316,7 +332,7 @@ const Profile = (props) => {
 						<hr className='my-4' />
 						<h4>Change E-Mail</h4>
 						<Form className='form-custom-margin'>
-							<Form.Group controlId='formGroupEmail'>
+							<Form.Group>
 								<Form.Control
 									type='email'
 									placeholder='Enter email'

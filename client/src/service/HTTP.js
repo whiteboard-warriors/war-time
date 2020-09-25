@@ -1,7 +1,7 @@
 /**
  * Combine HTTP Operations for cohesiveness
  */
-import axios from 'axios'
+import axios from 'axios';
 
 export const get = async (url) => {
 	const config = {
@@ -11,14 +11,14 @@ export const get = async (url) => {
 		},
 		url: url,
 		method: 'get',
-	}
+	};
 	try {
-		const response = await axios(config)
-		return response
+		const response = await axios(config);
+		return response;
 	} catch (err) {
-		throw err
+		throw err;
 	}
-}
+};
 
 /**
  *
@@ -31,11 +31,41 @@ export const post = async (url, body) => {
 			'Content-Type': 'application/json',
 			Authorization: localStorage.getItem('token'),
 		},
-	}
+	};
 	try {
-		const response = await axios.post(url, body, config)
-		return response
+		const response = await axios.post(url, body, config);
+		return response;
 	} catch (err) {
-		throw err
+		throw err;
 	}
-}
+};
+
+export const put = async (url, body) => {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+	};
+	try {
+		const response = await axios.put(url, body, config);
+		return response;
+	} catch (err) {
+		throw err;
+	}
+};
+
+export const remove = async (url) => {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: localStorage.getItem('token'),
+		},
+	};
+	try {
+		const response = await axios.delete(url, config);
+		return response;
+	} catch (err) {
+		throw err;
+	}
+};
