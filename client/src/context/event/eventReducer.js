@@ -12,7 +12,7 @@ import {
 	CREATE_EVENT_ERROR,
 	CLEAR_EVENTS,
 	LOAD_EVENT_SUCCESS,
-} from '../types'
+} from '../types';
 
 export default (state, action) => {
 	switch (action.type) {
@@ -21,19 +21,19 @@ export default (state, action) => {
 				...state,
 				events: action.payload,
 				loading: false,
-			}
+			};
 		case CREATE_EVENT: {
 			return {
 				...state,
 				saving: true,
-			}
+			};
 		}
 		case CREATE_EVENT_SUCCESS:
 			return {
 				...state,
 				saving: false,
 				saveSuccess: true,
-			}
+			};
 		case UPDATE_EVENT:
 			return {
 				...state,
@@ -41,7 +41,7 @@ export default (state, action) => {
 					event._id === action.payload._id ? action.payload : event
 				),
 				loading: false,
-			}
+			};
 		case DELETE_EVENT:
 			return {
 				...state,
@@ -49,7 +49,7 @@ export default (state, action) => {
 					(event) => event._id !== action.payload
 				),
 				loading: false,
-			}
+			};
 		case CLEAR_EVENTS:
 			return {
 				...state,
@@ -57,7 +57,7 @@ export default (state, action) => {
 				filtered: null,
 				error: null,
 				current: null,
-			}
+			};
 		case CLEAR_CREATE_EVENT_FLAGS: {
 			return {
 				...state,
@@ -65,42 +65,44 @@ export default (state, action) => {
 				saveSuccess: false,
 				loading: false,
 				saving: false,
-			}
+			};
 		}
 		case SET_CURRENT:
 			return {
 				...state,
 				current: action.payload,
-			}
+			};
 		case CLEAR_CURRENT:
 			return {
 				...state,
 				current: null,
-			}
+			};
 		case FILTER_EVENTS:
 			return {
 				...state,
 				filtered: state.events.filter((event) => {
-					const regex = new RegExp(`${action.payload}`, 'gi')
-					return event.name.match(regex) || event.email.match(regex)
+					console.log('event >> ', event);
+					console.log('action.payload >> ', action.payload);
+					const regex = new RegExp(`${action.payload}`, 'gi');
+					return event.title.match(regex); // <uncomment and this and remove this memo when events start meeting in person>       || event.location.name.match(regex) || event.location.city.match(regex) || event.location.state(regex);
 				}),
-			}
+			};
 		case CLEAR_FILTER:
 			return {
 				...state,
 				filtered: null,
-			}
+			};
 		case CREATE_EVENT_ERROR:
 			return {
 				...state,
 				error: action.payload,
-			}
+			};
 		case LOAD_EVENT_SUCCESS:
 			return {
 				...state,
 				event: action.payload,
-			}
+			};
 		default:
-			return state
+			return state;
 	}
-}
+};
