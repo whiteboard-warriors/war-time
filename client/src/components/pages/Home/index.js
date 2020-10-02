@@ -2,9 +2,10 @@ import React, { Fragment, useContext, useEffect } from 'react';
 // Moment JS
 import moment from 'moment';
 // Bootstrap
-import Container from 'react-bootstrap/Container';
+import { Container, Row, Col } from 'react-bootstrap';
 // Containers
 import EventCard from '../../EventCard';
+import EventFilter from './EventFilter';
 // Style
 import './style.scss';
 import wwLogo from './ww-logo.svg';
@@ -21,7 +22,7 @@ const Home = (props) => {
 	const alertContext = useContext(AlertContext);
 
 	const { isAuthenticated, user } = authContext;
-	const { getEvents, events } = eventContext;
+	const { getEvents, events, filtered, loading } = eventContext;
 	const { setAlert } = alertContext;
 
 	console.log(events);
@@ -39,39 +40,83 @@ const Home = (props) => {
 		//eslint-disable-next-line
 	}, [props, setAlert, isAuthenticated]);
 
+	if (events !== null && events.length === 0 && !loading) {
+		return (
+			<Container>
+				<div className='text-center my-5'>
+					{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
+				</div>
+				<hr />
+				<div className='text-center my-5'>
+					<h3>
+						No upcoming events yet{' '}
+						<span role='img' aria-label='smiley emoji'>
+							{' '}
+							😃
+						</span>
+					</h3>
+				</div>
+			</Container>
+		);
+	}
+
 	return (
 		<Fragment>
-			<div className='text-center mt-5'>
+			<div className='text-center my-5'>
 				{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
 			</div>
-			<Container className='mt-5 event-card-container'>
-				{events &&
-					events.map((event) => {
-						console.log('events, home page >> ', event);
-						let parsedDate = moment(event.dateTime);
-						let date = parsedDate.utc().format('MMMM Do YYYY');
-						let time = parsedDate.utc().format('h:mm a');
-
-						return (
-							<EventCard
-								key={event._id}
-								title={event.title}
-								image={wwLogo}
-								location={event.onlinePlatform}
-								date={date}
-								time={time}
-								slug={event.slug}
-							/>
-						);
-					})}
+			<Container>
+				<Row>
+					<Col md={{ span: 6, offset: 3 }}>
+						<EventFilter />
+					</Col>
+				</Row>
 			</Container>
-			{/* <Jumbotron>
-				<h1>Welcome!</h1>
-				<p>{isAuthenticated ? authGreeting : landingGreeting}</p>
-				<p>
-					<Button variant='primary'>Events</Button>
-				</p>
-			</Jumbotron> */}
+			<Container className='mt-4 event-card-container'>
+				{events ? (
+					filtered !== null ? (
+						filtered.map((event) => {
+							console.log('events, home page >> ', event);
+							let parsedDate = moment(event.dateTime);
+							let date = parsedDate.utc().format('MMMM Do YYYY');
+							let time = parsedDate.utc().format('h:mm a');
+
+							return (
+								<EventCard
+									key={event._id}
+									title={event.title}
+									image={wwLogo}
+									location={event.onlinePlatform}
+									date={date}
+									time={time}
+									slug={event.slug}
+								/>
+							);
+						})
+					) : (
+						events.map((event) => {
+							console.log('events, home page >> ', event);
+							let parsedDate = moment(event.dateTime);
+							let date = parsedDate.utc().format('MMMM Do YYYY');
+							let time = parsedDate.utc().format('h:mm a');
+
+							return (
+								<EventCard
+									key={event._id}
+									title={event.title}
+									image={wwLogo}
+									location={event.onlinePlatform}
+									date={date}
+									time={time}
+									slug={event.slug}
+								/>
+							);
+						})
+					)
+				) : (
+					<p>loader</p>
+				)}
+			</Container>
 		</Fragment>
 	);
 };
