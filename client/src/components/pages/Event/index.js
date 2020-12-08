@@ -1,31 +1,31 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
-import io from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
+import React, { Fragment, useState, useEffect, useContext } from 'react'
+import io from 'socket.io-client'
+import { useLocation } from 'react-router-dom'
 
-import PairCard from './PairCard';
-import ParticipantCard from './ParticipantCard';
+import PairCard from './PairCard'
+import ParticipantCard from './ParticipantCard'
 
-import Container from 'react-bootstrap/Container';
+import Container from 'react-bootstrap/Container'
 
 // import AlertContext from '../../../context/alert/alertContext';
-import AuthContext from '../../../context/auth/authContext';
-import EventContext from '../../../context/event/eventContext';
+import AuthContext from '../../../context/auth/authContext'
+import EventContext from '../../../context/event/eventContext'
 
-import './style.scss';
+import './style.scss'
 //temp data
-import events from '../../../0-temp-data/events';
+import events from '../../../0-temp-data/events'
+import EventParticipants from '../../EventParticipants'
 
 const Event = (props) => {
 	// const authContext = useContext(AuthContext)
-	const [socket, setSocket] = useState(null);
-	const [socketConnected, setSocketConnected] = useState(false);
-	const [dt, setDt] = useState('');
-	const location = useLocation();
-	const eventContext = useContext(EventContext);
-	const authContext = useContext(AuthContext);
-	const { user } = authContext;
-	const { getEventBySlug, event } = eventContext;
-
+	const [socket, setSocket] = useState(null)
+	const [socketConnected, setSocketConnected] = useState(false)
+	const [dt, setDt] = useState('')
+	const location = useLocation()
+	const eventContext = useContext(EventContext)
+	const authContext = useContext(AuthContext)
+	const { user } = authContext
+	const { getEventBySlug, event } = eventContext
 	// establish socket connection
 	useEffect(() => {
 		setSocket(
@@ -38,19 +38,19 @@ const Event = (props) => {
 						: '')
 			),
 			{ transports: ['websocket'] }
-		);
+		)
 
-		let pathSlug = location.pathname.replace('/event/', '');
+		let pathSlug = location.pathname.replace('/event/', '')
 
-		getEventBySlug(pathSlug);
+		getEventBySlug(pathSlug)
 		// eslint-disable-next-line
-	}, []);
+	}, [])
 
 	/**
 	 *
 	 */
 	useEffect(() => {
-		if (!socket) return;
+		if (!socket) return
 
 		/**
 		 *
@@ -59,56 +59,56 @@ const Event = (props) => {
 		 * @param {*} eventId
 		 */
 		const joinEvent = (socketId, userId, eventId) => {
-			socket.emit('joinEvent', socketId, userId, eventId);
-		};
+			socket.emit('joinEvent', socketId, userId, eventId)
+		}
 
 		/**
 		 *
 		 */
 		socket.on('connect', () => {
-			setSocketConnected(socket.connected);
-		});
+			setSocketConnected(socket.connected)
+		})
 
 		/**
 		 *
 		 */
 		socket.on('disconnect', () => {
-			setSocketConnected(socket.connected);
-		});
+			setSocketConnected(socket.connected)
+		})
 
 		/**
 		 *
 		 */
 		socket.on('getDate', (data) => {
-			setDt(data);
-		});
+			setDt(data)
+		})
 
 		if (event) {
-			console.info('joining event');
-			joinEvent(socket.id, user._id, event._id);
+			console.info('joining event')
+			joinEvent(socket.id, user._id, event._id)
 		}
-	}, [user, socket, event]);
+	}, [user, socket, event])
 
 	// manage socket connection
 	const handleSocketConnection = () => {
-		if (socketConnected) socket.disconnect();
+		if (socketConnected) socket.disconnect()
 		else {
-			socket.connect();
+			socket.connect()
 		}
-	};
+	}
 
-	console.log(events[0]);
+	console.log(events[0])
 
 	return (
 		<Fragment>
 			<Container fluid>
-				<div className='container-root'>
-					<div className='pairs-container'>
-						<div className='text-center pb-3'>
+				<div className="container-root">
+					<div className="pairs-container">
+						<div className="text-center pb-3">
 							<h4>Pairs</h4>
 						</div>
 						<hr />
-						<div className='pair-grid'>
+						<div className="pair-grid">
 							{events[0].matches.map((match, index) => {
 								return (
 									<PairCard
@@ -119,30 +119,14 @@ const Event = (props) => {
 										skillLevel={match.level}
 										docLink={match.docLink}
 									/>
-								);
+								)
 							})}
 						</div>
 					</div>
-					<div className='participant-containers'>
-						<div className='text-center pb-3'>
-							<h4>Participants</h4>
-						</div>
-						<hr />
-						{events[0].attendees.map((attendeeObj, index) => {
-							return (
-								<ParticipantCard
-									key={index}
-									imageLink={`https://mdbootstrap.com/img/Photos/Avatars/avatar-${
-										index + 1
-									}.jpg`}
-									firstName={attendeeObj.attendee.firstName}
-									lastName={attendeeObj.attendee.lastName}
-									primaryLanguage={
-										attendeeObj.attendee.primaryLanguage
-									}
-								/>
-							);
-						})}
+					<div className="participant-containers">
+						<EventParticipants
+							participants={event.attendees}
+						></EventParticipants>
 					</div>
 				</div>
 				<hr />
@@ -152,7 +136,7 @@ const Event = (props) => {
 					{socketConnected ? 'Connected' : 'Disconnected'}
 				</div>
 				<input
-					type='button'
+					type="button"
 					style={{ marginTop: 10 }}
 					value={socketConnected ? 'Disconnect' : 'Connect'}
 					onClick={handleSocketConnection}
@@ -162,7 +146,7 @@ const Event = (props) => {
 				</div>
 			</Container>
 		</Fragment>
-	);
-};
+	)
+}
 
-export default Event;
+export default Event
