@@ -16,6 +16,7 @@ import Admin from './components/pages/Admin';
 import AddLanguage from './components/pages/Admin/AddLanguage';
 import AddLocation from './components/pages/Admin/AddLocation';
 import CreateEvent from './components/pages/Admin/CreateEvent';
+import EditEvent from './components/pages/Admin/EditEvent';
 //Private Route
 // import PrivateRoute from './components/routing/PrivateRoute';
 //Components
@@ -76,6 +77,11 @@ const App = () => {
 											exact
 											path='/admin/create-event'
 											component={CreateEvent}
+										/>
+										<Route
+											exact
+											path='/admin/edit-event/:id'
+											component={EditEvent}
 										/>
 										<Route
 											exact

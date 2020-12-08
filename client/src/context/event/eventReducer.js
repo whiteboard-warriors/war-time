@@ -1,11 +1,15 @@
 import {
 	GET_EVENTS_SUCCESS,
+	GET_EVENTS,
+	GET_EVENT_SUCCESS,
+	GET_EVENT,
 	CREATE_EVENT,
 	CREATE_EVENT_SUCCESS,
 	CLEAR_CREATE_EVENT_FLAGS,
 	DELETE_EVENT,
 	SET_CURRENT,
 	CLEAR_CURRENT,
+	UPDATE_EVENT_SUCCESS,
 	UPDATE_EVENT,
 	FILTER_EVENTS,
 	CLEAR_FILTER,
@@ -22,7 +26,21 @@ export default (state, action) => {
 				events: action.payload,
 				loading: false,
 			};
-		case CREATE_EVENT: {
+		case GET_EVENT_SUCCESS:
+			return {
+				...state,
+				event: action.payload,
+				loading: false,
+			};
+		case GET_EVENTS:
+		case GET_EVENT: {
+			return {
+				...state,
+				loading: true,
+			};
+		}
+		case CREATE_EVENT:
+		case UPDATE_EVENT: {
 			return {
 				...state,
 				saving: true,
@@ -34,7 +52,7 @@ export default (state, action) => {
 				saving: false,
 				saveSuccess: true,
 			};
-		case UPDATE_EVENT:
+		case UPDATE_EVENT_SUCCESS:
 			return {
 				...state,
 				events: state.events.map((event) =>
@@ -49,6 +67,7 @@ export default (state, action) => {
 					(event) => event._id !== action.payload
 				),
 				loading: false,
+				saving: false,
 			};
 		case CLEAR_EVENTS:
 			return {
