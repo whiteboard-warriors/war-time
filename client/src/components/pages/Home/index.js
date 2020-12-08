@@ -1,77 +1,122 @@
-import React, { Fragment, useContext } from 'react';
-
-import Container from 'react-bootstrap/Container';
-// import { Jumbotron, Button } from 'react-bootstrap';
-
+import React, { Fragment, useContext, useEffect } from 'react';
+// Moment JS
+import moment from 'moment';
+// Bootstrap
+import { Container, Row, Col } from 'react-bootstrap';
+// Containers
 import EventCard from '../../EventCard';
-
+import EventFilter from './EventFilter';
+// Style
 import './style.scss';
 import wwLogo from './ww-logo.svg';
-
-import events from '../../../0-temp-data/events';
-
+// Temp data
+// import events from '../../../0-temp-data/events';
+// State
 import AuthContext from '../../../context/auth/authContext';
+import EventContext from '../../../context/event/eventContext';
+import AlertContext from '../../../context/alert/alertContext';
 
-const Home = () => {
+const Home = (props) => {
 	const authContext = useContext(AuthContext);
+	const eventContext = useContext(EventContext);
+	const alertContext = useContext(AlertContext);
+
 	const { isAuthenticated, user } = authContext;
+	const { getEvents, events, filtered, loading } = eventContext;
+	const { setAlert } = alertContext;
 
-	// const authGreeting = (
-	// 	<Fragment>
-	// 		Hi {user.firstName}! Thanks for joining Whiteboard Warriors!!! 👍
-	// 	</Fragment>
-	// );
+	console.log(events);
 
-	// const landingGreeting = (
-	// 	<Fragment>
-	// 		Welcome to War-Time the Whiteboard Warriors Meet-Up App!
-	// 	</Fragment>
-	// );
+	useEffect(() => {
+		if (!isAuthenticated) {
+			setAlert(
+				'Oops, you need to login first before performing this action.!',
+				'danger'
+			);
+			props.history.push('/login');
+		}
 
-	// temp actions
-	const deleteEvent = function () {
-		console.log('event deleted');
-	};
-	const pair = function () {
-		console.log('event paired');
-	};
-	const edit = function () {
-		console.log('event edited');
-	};
-	// const signIn = function () {
-	// 	console.log('used signed in');
-	// };
+		getEvents();
+		//eslint-disable-next-line
+	}, [props, setAlert, isAuthenticated]);
 
-	// console.log('user::: ', user);
+	if (events !== null && events.length === 0 && !loading) {
+		return (
+			<Container>
+				<div className='text-center my-5'>
+					{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
+				</div>
+				<hr />
+				<div className='text-center my-5'>
+					<h3>
+						No upcoming events yet{' '}
+						<span role='img' aria-label='smiley emoji'>
+							{' '}
+							😃
+						</span>
+					</h3>
+				</div>
+			</Container>
+		);
+	}
+
 	return (
 		<Fragment>
-			<div className='text-center mt-5'>
+			<div className='text-center my-5'>
 				{user.firstName && <h4>Welcome, {user.firstName}!</h4>}
 			</div>
-			<Container className='mt-5 event-card-container'>
-				{isAuthenticated &&
-					events.map((item) => {
-						return (
-							<EventCard
-								key={item._id}
-								image={wwLogo}
-								location={item.location}
-								date={item.date}
-								time={item.time}
-								deleteEvent={deleteEvent}
-								pair={pair}
-								edit={edit}
-							/>
-						);
-					})}
+			<Container>
+				<Row>
+					<Col md={{ span: 6, offset: 3 }}>
+						<EventFilter />
+					</Col>
+				</Row>
 			</Container>
-			{/* <Jumbotron>
-				<h1>Welcome!</h1>
-				<p>{isAuthenticated ? authGreeting : landingGreeting}</p>
-				<p>
-					<Button variant='primary'>Events</Button>
-				</p>
-			</Jumbotron> */}
+			<Container className='mt-4 event-card-container'>
+				{events ? (
+					filtered !== null ? (
+						filtered.map((event) => {
+							console.log('events, home page >> ', event);
+							let parsedDate = moment(event.dateTime);
+							let date = parsedDate.utc().format('MMMM Do YYYY');
+							let time = parsedDate.utc().format('h:mm a');
+
+							return (
+								<EventCard
+									key={event._id}
+									title={event.title}
+									image={wwLogo}
+									location={event.onlinePlatform}
+									date={date}
+									time={time}
+									slug={event.slug}
+								/>
+							);
+						})
+					) : (
+						events.map((event) => {
+							console.log('events, home page >> ', event);
+							let parsedDate = moment(event.dateTime);
+							let date = parsedDate.utc().format('MMMM Do YYYY');
+							let time = parsedDate.utc().format('h:mm a');
+
+							return (
+								<EventCard
+									key={event._id}
+									title={event.title}
+									image={wwLogo}
+									location={event.onlinePlatform}
+									date={date}
+									time={time}
+									slug={event.slug}
+								/>
+							);
+						})
+					)
+				) : (
+					<p>loader</p>
+				)}
+			</Container>
 		</Fragment>
 	);
 };

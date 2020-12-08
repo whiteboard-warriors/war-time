@@ -3,7 +3,7 @@
 .pair-card-container {
 	display: flex;
 	flex-direction: column;
-	background-color: white;
+	background-color: $white;
 	border-radius: 3rem;
 	border: 1px solid lighten($color: $secondary, $amount: 15);
 	margin-bottom: 1rem;

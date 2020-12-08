@@ -6,13 +6,22 @@
 	border: 0.5px solid lighten($color: $secondary, $amount: 10);
 	border-radius: 1rem;
 	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	background-color: $white;
 	.img-container {
 		display: flex;
 		justify-content: center;
-		padding: 1.5rem 0;
+		padding: 1rem 0;
 		border-bottom: 1px solid $secondary;
 		img {
-			width: 9rem;
+			width: 7.5rem;
+		}
+	}
+	.event-title {
+		display: flex;
+		justify-content: space-around;
+		border-bottom: 1px solid $secondary;
+		p {
+			font-weight: 500;
 		}
 	}
 	.info-container {
@@ -20,17 +29,19 @@
 		flex-direction: row;
 		.info-left {
 			border-right: 1px solid $secondary;
-			padding: 1.5rem 0.8rem 1.5rem 1rem;
+			padding: 1rem 1rem 1.5rem 1.5rem;
 			h6 {
 				font-weight: 600;
 			}
 		}
 		.info-right {
 			min-width: 45%;
-			padding: 1.5rem 1.5rem 1.5rem 1rem;
+			padding: 1rem 1.5rem 1.5rem 1rem;
 			.info-buttons {
+				margin-top: 1rem;
 				display: flex;
 				flex-direction: column;
+				justify-content: space-around;
 			}
 			h6 {
 				font-weight: 600;

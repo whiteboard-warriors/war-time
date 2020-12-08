@@ -42,6 +42,7 @@ export default (state, action) => {
 			return {
 				...state,
 				token: null,
+				error: action.payload,
 				isAuthenticated: false,
 			};
 		case LOGIN_FAIL:
