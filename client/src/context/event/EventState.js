@@ -174,7 +174,7 @@ const EventState = (props) => {
 			payload: null,
 		});
 		try {
-			const res = await HTTP.put('/api/event/' + event._id, event);
+			const res = await HTTP.put('/api/events/' + event._id, event);
 			dispatch({
 				type: UPDATE_EVENT_SUCCESS,
 				payload: res.data,
