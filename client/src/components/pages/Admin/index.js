@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Container, Button, Form } from 'react-bootstrap';
 
 import EventCard from '../../EventCard';
+import Spinner from '../../Spinner';
 
 import './style.scss';
 // // Images
@@ -181,7 +182,7 @@ const Admin = (props) => {
 						<h3>Events</h3>
 					</div>
 					<div className='mt-3 admin-card-container'>
-						{events &&
+						{events ? (
 							events.map((event) => {
 								let parsedDate = moment(event.dateTime);
 								let date = parsedDate
@@ -199,7 +200,10 @@ const Admin = (props) => {
 										time={time}
 									/>
 								);
-							})}
+							})
+						) : (
+							<Spinner />
+						)}
 					</div>
 				</div>
 			</Container>
