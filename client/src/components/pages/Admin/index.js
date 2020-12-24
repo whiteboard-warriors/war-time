@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // Moment JS
 import moment from 'moment';
@@ -11,31 +11,66 @@ import './style.scss';
 // // Images
 import wwLogo from './ww-logo.svg';
 // State
+import AlertContext from '../../../context/alert/alertContext';
 import AuthContext from '../../../context/auth/authContext';
 import EventContext from '../../../context/event/eventContext';
 //temp data
 import languages from '../../../0-temp-data/languages';
 import locations from '../../../0-temp-data/locations';
 
-const Admin = () => {
+const Admin = (props) => {
+	const alertContext = useContext(AlertContext);
+	const { setAlert, clearErrors } = alertContext;
 	const authContext = useContext(AuthContext);
-	const { user } = authContext;
+	const { user, isAuthenticated } = authContext;
 	const eventContext = useContext(EventContext);
-	const { events } = eventContext;
+	const {
+		events,
+		getEvents,
+		// clearCreateEventFlags,
+		error,
+		// saveSuccess,
+	} = eventContext;
 
-	// temp actions
-	// const deleteEvent = function () {
-	// 	console.log('event deleted');
-	// };
-	// const pair = function () {
-	// 	console.log('event paired');
-	// };
-	// const edit = function () {
-	// 	console.log('event edited');
-	// };
-	// const signIn = function () {
-	// 	console.log('used signed in');
-	// };
+	useEffect(() => {
+		getEvents();
+
+		if (isAuthenticated) {
+			props.history.push('/admin');
+		}
+
+		if (!isAuthenticated) {
+			setAlert('Please login before completing action.', 'danger');
+			props.history.push('/login');
+		}
+
+		if (error === 'You are not authorized to create events.') {
+			setAlert(error, 'danger');
+			props.history.push('/');
+		}
+
+		// if (saveSuccess) {
+		// 	setAlert('Event has been created.', 'success');
+		// 	clearCreateEventFlags();
+		// 	// debugger;
+		// 	props.history.push('/admin');
+		// }
+
+		// if (locationError) {
+		// 	setAlert(locationError, 'danger');
+		// 	clearErrors();
+		// }
+		// eslint-disable-next-line
+	}, [
+		error,
+		// saveSuccess,
+		isAuthenticated,
+		// clearCreateEventFlags,
+		clearErrors,
+		// locationError,
+		setAlert,
+		props.history,
+	]);
 
 	return (
 		<Fragment>
