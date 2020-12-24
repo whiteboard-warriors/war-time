@@ -21,7 +21,8 @@ const EditEvent = (props) => {
 	const { setAlert, clearErrors } = alertContext;
 	const { isAuthenticated } = authContext;
 	const {
-		event,
+		// event,
+		events,
 		updateEvent,
 		getEvent,
 		clearCreateEventFlags,
@@ -48,9 +49,9 @@ const EditEvent = (props) => {
 		}
 
 		if (saveSuccess) {
-			setAlert('Event has been created.', 'success');
+			setAlert('Event has been updated.', 'success');
 			clearCreateEventFlags();
-			debugger;
+			// debugger;
 			props.history.push('/admin');
 		}
 
@@ -69,6 +70,10 @@ const EditEvent = (props) => {
 		setAlert,
 		// props.history,
 	]);
+	let filteredEvent = events.filter(
+		(event) => event._id === props.match.params.id
+	);
+	let event = filteredEvent[0];
 
 	let parsedDate = moment(event && event.dateTime).format('YYYY-MM-DDThh:mm');
 
