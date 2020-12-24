@@ -59,6 +59,7 @@ export default (state, action) => {
 					event._id === action.payload._id ? action.payload : event
 				),
 				loading: false,
+				saveSuccess: true,
 			};
 		case DELETE_EVENT:
 			return {
