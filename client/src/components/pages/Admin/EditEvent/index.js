@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
 // import LocationContext from '../../../../context/location/locationContext';
@@ -168,10 +169,23 @@ const EditEvent = (props) => {
 							/>
 						</Form.Group>
 
-						<div className='text-center my-3'>
-							<Button variant='primary' type='submit' size='lg'>
+						<div className='btn-edit-container'>
+							<Button
+								variant='primary'
+								type='submit'
+								size='lg'
+								className='mr-3'
+							>
 								Edit Event
 							</Button>
+							<Link
+								data-rb-event-key='/admin'
+								className='btn btn-lg btn-danger'
+								to='/admin'
+							>
+								{' '}
+								Cancel
+							</Link>
 						</div>
 					</Form>
 				</Col>
