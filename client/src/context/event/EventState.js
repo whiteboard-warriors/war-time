@@ -6,11 +6,15 @@ import * as HTTP from '../../service/HTTP';
 import AuthContext from '../../context/auth/authContext';
 import {
 	GET_EVENTS_SUCCESS,
+	GET_EVENTS,
+	GET_EVENT_SUCCESS,
+	GET_EVENT,
 	CREATE_EVENT,
 	CREATE_EVENT_SUCCESS,
 	DELETE_EVENT,
 	SET_CURRENT,
 	CLEAR_CURRENT,
+	UPDATE_EVENT_SUCCESS,
 	UPDATE_EVENT,
 	FILTER_EVENTS,
 	CLEAR_EVENTS,
@@ -27,11 +31,12 @@ import {
 
 const EventState = (props) => {
 	const initialState = {
-		events: null,
+		events: [],
 		current: null,
 		filtered: null,
 		error: null,
 		saving: false,
+		loading: true,
 		saveSuccess: false,
 		event: null,
 	};
@@ -44,10 +49,39 @@ const EventState = (props) => {
 	 * Get Events
 	 */
 	const getEvents = async () => {
+		dispatch({
+			type: GET_EVENTS,
+			payload: null,
+		});
 		try {
 			let res = await HTTP.get('/api/events');
 			dispatch({
 				type: GET_EVENTS_SUCCESS,
+				payload: res.data,
+			});
+		} catch (err) {
+			if (err.response.status === 401) {
+				authError();
+			}
+
+			dispatch({
+				type: GET_EVENTS_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
+	/**
+	 * Get Events
+	 */
+	const getEvent = async (id) => {
+		dispatch({
+			type: GET_EVENT,
+			payload: null,
+		});
+		try {
+			let res = await HTTP.get(`/api/events/${id}`);
+			dispatch({
+				type: GET_EVENT_SUCCESS,
 				payload: res.data,
 			});
 		} catch (err) {
@@ -134,21 +168,15 @@ const EventState = (props) => {
 
 	// Update Event
 	const updateEvent = async (event) => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
-
+		console.log('updateEvent > ', event);
+		dispatch({
+			type: UPDATE_EVENT,
+			payload: null,
+		});
 		try {
-			const res = await axios.put(
-				`/api/event/${event._id}`,
-				event,
-				config
-			);
-
+			const res = await HTTP.put('/api/events/' + event._id, event);
 			dispatch({
-				type: UPDATE_EVENT,
+				type: UPDATE_EVENT_SUCCESS,
 				payload: res.data,
 			});
 		} catch (err) {
@@ -203,6 +231,7 @@ const EventState = (props) => {
 				filterEvents,
 				clearFilter,
 				getEvents,
+				getEvent,
 				clearCreateEventFlags,
 				getEventBySlug,
 			}}

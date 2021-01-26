@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
-import spinner from './spinner.gif';
+import './style.scss';
 
 const Spinner = () => (
 	<Fragment>
-		<img
-			src={spinner}
-			alt='Loading...'
-			style={{ width: '200px', margin: 'auto', display: 'block' }}
-		/>
+		<div className='text-center p-5'>
+			<div className='lds-ripple'>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
 	</Fragment>
 );
 

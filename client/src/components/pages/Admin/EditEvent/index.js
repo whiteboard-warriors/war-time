@@ -1,15 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
 // import LocationContext from '../../../../context/location/locationContext';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import EventContext from '../../../../context/event/eventContext';
+
+import moment from 'moment';
+
 import './style.scss';
 /**
  *
  * @param {*} props
  */
-const CreateEvent = (props) => {
+const EditEvent = (props) => {
 	const alertContext = useContext(AlertContext);
 	const eventContext = useContext(EventContext);
 	const authContext = useContext(AuthContext);
@@ -18,18 +22,19 @@ const CreateEvent = (props) => {
 	const { setAlert, clearErrors } = alertContext;
 	const { isAuthenticated } = authContext;
 	const {
-		createEvent,
+		// event,
+		events,
+		updateEvent,
+		getEvent,
 		clearCreateEventFlags,
 		error,
 		saveSuccess,
 	} = eventContext;
+
 	// const { locationError, locations, getLocations } = locationContext;
 	useEffect(() => {
+		getEvent(props.match.params.id);
 		// getLocations();
-
-		if (isAuthenticated) {
-			props.history.push('/admin/create-event');
-		}
 
 		if (!isAuthenticated) {
 			setAlert('Please login before completing action.', 'danger');
@@ -45,7 +50,7 @@ const CreateEvent = (props) => {
 		}
 
 		if (saveSuccess) {
-			setAlert('Event has been created.', 'success');
+			setAlert('Event has been updated.', 'success');
 			clearCreateEventFlags();
 			// debugger;
 			props.history.push('/admin');
@@ -60,29 +65,38 @@ const CreateEvent = (props) => {
 		error,
 		saveSuccess,
 		isAuthenticated,
-		clearCreateEventFlags,
+		// clearCreateEventFlags,
 		clearErrors,
 		// locationError,
 		setAlert,
-		props.history,
+		// props.history,
 	]);
+	let filteredEvent = events.filter(
+		(event) => event._id === props.match.params.id
+	);
+	let event = filteredEvent[0];
 
-	const [event, setEvent] = useState({
-		title: '',
-		dateTime: '',
-		locations: '',
-		onlinePlatform: '',
+	let parsedDate = moment(event && event.dateTime).format('YYYY-MM-DDThh:mm');
+
+	const [currentEvent, setCurrentEvent] = useState({
+		title: event && event.title,
+		dateTime: parsedDate, //use moment to extract date and time.,
+		// locations: location,
+		onlinePlatform: event && event.onlinePlatform,
 	});
 
-	const { title, dateTime, onlinePlatform } = event;
+	// console.log('85 date and time >> ', `${date}, ${time}`);
+
+	const { title, dateTime, onlinePlatform } = currentEvent;
 
 	const onChange = (e) => {
-		setEvent({ ...event, [e.target.name]: e.target.value });
+		setCurrentEvent({ ...currentEvent, [e.target.name]: e.target.value });
 	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		createEvent({
+		updateEvent({
+			_id: props.match.params.id,
 			title,
 			dateTime,
 			onlinePlatform,
@@ -155,10 +169,23 @@ const CreateEvent = (props) => {
 							/>
 						</Form.Group>
 
-						<div className='text-center my-3'>
-							<Button variant='warning' type='submit' size='lg'>
-								Create Event
+						<div className='btn-edit-container'>
+							<Button
+								variant='primary'
+								type='submit'
+								size='lg'
+								className='mr-3'
+							>
+								Edit Event
 							</Button>
+							<Link
+								data-rb-event-key='/admin'
+								className='btn btn-lg btn-danger'
+								to='/admin'
+							>
+								{' '}
+								Cancel
+							</Link>
 						</div>
 					</Form>
 				</Col>
@@ -167,4 +194,4 @@ const CreateEvent = (props) => {
 	);
 };
 
-export default CreateEvent;
+export default EditEvent;

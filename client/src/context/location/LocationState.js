@@ -59,7 +59,6 @@ const LocationState = (props) => {
 				payload: res.data,
 			});
 		} catch (err) {
-			console.log('add location err >>> ', err);
 			dispatch({
 				type: LOCATION_ERROR,
 				payload: err.response.data.msg,

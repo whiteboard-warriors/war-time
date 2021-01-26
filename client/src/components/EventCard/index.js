@@ -18,8 +18,8 @@ const EventCard = (props) => {
 		date,
 		time,
 		slug,
-		pair,
-		edit,
+		pairEvent,
+		eventId,
 		deleteEvent,
 	} = props;
 
@@ -46,15 +46,22 @@ const EventCard = (props) => {
 					<p>Time</p>
 					<h6>{time}</h6>
 					<div className='info-buttons'>
-						{pair && (
-							<Button variant='warning' size='md' onClick={pair}>
+						{pairEvent && (
+							<Button
+								variant='warning'
+								size='md'
+								onClick={pairEvent}
+							>
 								Pair
 							</Button>
 						)}
-						{edit && (
-							<Button variant='primary' size='md' onClick={edit}>
+						{eventId && (
+							<Link
+								className='btn btn-secondary btn-md'
+								to={`/admin/edit-event/${eventId}`}
+							>
 								Edit
-							</Button>
+							</Link>
 						)}
 						{deleteEvent && (
 							<Button
