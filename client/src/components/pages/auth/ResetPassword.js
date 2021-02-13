@@ -45,6 +45,7 @@ const ResetPassword = (props) => {
 		props.history,
 		props.location.search,
 		setAlert,
+		setToken,
 	])
 
 	async function setToken(token) {
