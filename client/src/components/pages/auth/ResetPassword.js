@@ -23,6 +23,7 @@ const ResetPassword = (props) => {
 		let token = qs.parse(props.location.search, {
 			ignoreQueryPrefix: true,
 		}).token
+		console.log('token: ' + token)
 		setUser({
 			...user,
 			token: token,
@@ -47,7 +48,6 @@ const ResetPassword = (props) => {
 		forgotResetSuccess,
 		props.history,
 		props.location.search,
-		user,
 		setAlert,
 	])
 

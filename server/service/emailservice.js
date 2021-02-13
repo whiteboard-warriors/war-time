@@ -29,7 +29,9 @@ const sendPasswordResetEmail = (userEmail, resetToken) => {
 		userEmail,
 		'Password Reset 🔐',
 		'You have requested to reset your Whiteboard Warriors password, please use the following link: \n\n' +
-			'https://wartime.whiteboardwarriors.org/password-reset?token=' +
+			process.env.HOST_PROTOCOL +
+			process.env.HOST_NAME +
+			'/reset-password?token=' +
 			resetToken +
 			'\n\n🔴 If you did not request this change please ignore this email! 🔴',
 		'Whiteboard Warriors <noreply@whiteboardwarriors.org>'
@@ -37,11 +39,11 @@ const sendPasswordResetEmail = (userEmail, resetToken) => {
 }
 
 /**
- * 
- * @param {*} to 
- * @param {*} subject 
- * @param {*} message 
- * @param {*} from 
+ *
+ * @param {*} to
+ * @param {*} subject
+ * @param {*} message
+ * @param {*} from
  */
 const sendEmail = (to, subject, message, from) => {
 	const params = {
