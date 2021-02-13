@@ -29,7 +29,7 @@ const sendPasswordResetEmail = (userEmail, resetToken) => {
 		userEmail,
 		'Password Reset 🔐',
 		'You have requested to reset your Whiteboard Warriors password, please use the following link: \n\n' +
-			process.env.HOST_PROTOCOL +
+			process.env.HTTP_PROTOCOL +
 			process.env.HOST_NAME +
 			'/reset-password?token=' +
 			resetToken +
