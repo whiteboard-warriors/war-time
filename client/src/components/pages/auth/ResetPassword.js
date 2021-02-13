@@ -14,10 +14,13 @@ const ResetPassword = (props) => {
 	const [user, setUser] = useState({
 		password: '',
 		passwordConfirm: '',
+	})
+
+	const [token, setToken] = useState({
 		token: '',
 	})
 
-	const { password, passwordConfirm, token } = user
+	const { password, passwordConfirm } = user
 
 	useEffect(() => {
 		let token = qs.parse(props.location.search, {
@@ -47,13 +50,6 @@ const ResetPassword = (props) => {
 		setAlert,
 		setToken,
 	])
-
-	async function setToken(token) {
-		setUser({
-			...user,
-			token,
-		})
-	}
 
 	const onChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value })
