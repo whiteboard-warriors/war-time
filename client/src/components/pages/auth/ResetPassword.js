@@ -23,11 +23,7 @@ const ResetPassword = (props) => {
 		let token = qs.parse(props.location.search, {
 			ignoreQueryPrefix: true,
 		}).token
-		console.log('token: ' + token)
-		setUser({
-			...user,
-			token: token,
-		})
+		setToken(token)
 
 		if (error === 'INVALID_TOKEN') {
 			setAlert(
@@ -50,6 +46,13 @@ const ResetPassword = (props) => {
 		props.location.search,
 		setAlert,
 	])
+
+	async function setToken(token) {
+		setUser({
+			...user,
+			token,
+		})
+	}
 
 	const onChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value })
