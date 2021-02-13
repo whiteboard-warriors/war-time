@@ -31,7 +31,7 @@ app.use(
 app.use(passport.initialize())
 require('./config/passport')(passport)
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'PRODUCTION') {
 	app.use(express.static('client/build'))
 	app.get('/*', (req, res) => {
 		res.sendFile(process.cwd() + '/client/build/index.html')
