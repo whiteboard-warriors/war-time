@@ -220,6 +220,7 @@ const EventState = (props) => {
 				filtered: state.filtered,
 				error: state.error,
 				saving: state.saving,
+				loading: state.loading,
 				event: state.event,
 				saveSuccess: state.saveSuccess,
 				createEvent,
