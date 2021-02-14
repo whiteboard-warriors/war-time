@@ -4,15 +4,20 @@ import LanguageContext from './languageContext';
 import languageReducer from './languageReducer';
 import {
 	GET_LANGUAGES,
+	GET_LANGUAGES_SUCCESS,
 	ADD_LANGUAGE,
+	ADD_LANGUAGE_SUCCESS,
 	DELETE_LANGUAGE,
 	SET_CURRENT,
 	CLEAR_CURRENT,
 	UPDATE_LANGUAGE,
+	UPDATE_LANGUAGE_SUCCESS,
 	FILTER_LANGUAGES,
 	CLEAR_LANGUAGES,
 	CLEAR_FILTER,
 	LANGUAGE_ERROR,
+	GET_LANGUAGES_SUCCESS,
+	UPDATE_LANGUAGE_SUCCESS,
 } from '../types';
 
 const LanguageState = (props) => {
@@ -21,17 +26,25 @@ const LanguageState = (props) => {
 		current: null,
 		filtered: null,
 		error: null,
+		saving: false,
+		loading: true,
+		saveSuccess: false,
+		language: null,
 	};
 
 	const [state, dispatch] = useReducer(languageReducer, initialState);
 
 	// Get Languages
 	const getLanguages = async () => {
+		dispatch({
+			type: GET_LANGUAGES,
+			payload: null,
+		});
 		try {
 			const res = await axios.get('/api/languages');
 
 			dispatch({
-				type: GET_LANGUAGES,
+				type: GET_LANGUAGES_SUCCESS,
 				payload: res.data,
 			});
 		} catch (err) {
@@ -44,6 +57,10 @@ const LanguageState = (props) => {
 
 	// Add Language ** ADMIN
 	const addLanguage = async (language) => {
+		dispatch({
+			type: ADD_LANGUAGE,
+			payload: null,
+		});
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
@@ -55,7 +72,7 @@ const LanguageState = (props) => {
 			const res = await axios.post('/api/languages', language, config);
 
 			dispatch({
-				type: ADD_LANGUAGE,
+				type: ADD_LANGUAGE_SUCCESS,
 				payload: res.data,
 			});
 		} catch (err) {
@@ -86,6 +103,10 @@ const LanguageState = (props) => {
 
 	// Update Language ** ADMIN
 	const updateLanguage = async (language) => {
+		dispatch({
+			type: UPDATE_LANGUAGE,
+			payload: null,
+		});
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
@@ -100,7 +121,7 @@ const LanguageState = (props) => {
 			);
 
 			dispatch({
-				type: UPDATE_LANGUAGE,
+				type: UPDATE_LANGUAGE_SUCCESS,
 				payload: res.data,
 			});
 		} catch (err) {
@@ -143,6 +164,10 @@ const LanguageState = (props) => {
 				current: state.current,
 				filtered: state.filtered,
 				error: state.languageError,
+				saving: state.saving,
+				loading: state.loading,
+				saveSuccess: state.saveSuccess,
+				language: state.language,
 				addLanguage,
 				deleteLanguage,
 				clearLanguages,
