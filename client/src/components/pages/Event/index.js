@@ -1,30 +1,34 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
-import io from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
+import React, { Fragment, useState, useEffect, useContext } from 'react'
+import { useLocation } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import PairCard from './PairCard';
-import ParticipantCard from './ParticipantCard';
+import io from 'socket.io-client'
 
-import Container from 'react-bootstrap/Container';
+import PairCard from './PairCard'
+import ParticipantCard from './ParticipantCard'
+import Container from 'react-bootstrap/Container'
+import AuthContext from '../../../context/auth/authContext'
+import EventContext from '../../../context/event/eventContext'
 
-// import AlertContext from '../../../context/alert/alertContext';
-import AuthContext from '../../../context/auth/authContext';
-import EventContext from '../../../context/event/eventContext';
-
-import './style.scss';
+import './style.scss'
 //temp data
-import events from '../../../0-temp-data/events';
+import events from '../../../0-temp-data/events'
+
+// when someone joins wait before refreshing participant list
+let participantRefreshTimeout
 
 const Event = (props) => {
 	// const authContext = useContext(AuthContext)
-	const [socket, setSocket] = useState(null);
-	const [socketConnected, setSocketConnected] = useState(false);
-	const [dt, setDt] = useState('');
-	const location = useLocation();
-	const eventContext = useContext(EventContext);
-	const authContext = useContext(AuthContext);
-	const { user } = authContext;
-	const { getEventBySlug, event } = eventContext;
+	const [socket, setSocket] = useState(null)
+	const [socketConnected, setSocketConnected] = useState(false)
+	const [joined, setJoined] = useState(false)
+	const [dt, setDt] = useState('')
+	const location = useLocation()
+	const eventContext = useContext(EventContext)
+	const authContext = useContext(AuthContext)
+	const { user } = authContext
+	const { getEventBySlug, event } = eventContext
 
 	// establish socket connection
 	useEffect(() => {
@@ -38,77 +42,105 @@ const Event = (props) => {
 						: '')
 			),
 			{ transports: ['websocket'] }
-		);
+		)
 
-		let pathSlug = location.pathname.replace('/event/', '');
+		let pathSlug = location.pathname.replace('/event/', '')
 
-		getEventBySlug(pathSlug);
+		getEventBySlug(pathSlug)
+
 		// eslint-disable-next-line
-	}, []);
+	}, [])
+
+	/**
+	 *
+	 */
+	const handleParticipantJoined = (participant) => {
+		let message =
+			participant.firstName +
+			' joined! Welcome ' +
+			participant.firstName +
+			' 👋'
+		toast(message)
+
+		refreshParticipantList()
+	}
+
+	/**
+	 *
+	 */
+	const refreshParticipantList = () => {
+		if (participantRefreshTimeout) clearTimeout(participantRefreshTimeout)
+		setTimeout(() => {}, 500)
+	}
 
 	/**
 	 *
 	 */
 	useEffect(() => {
-		if (!socket) return;
-
-		/**
-		 *
-		 * @param {*} socketId
-		 * @param {*} userId
-		 * @param {*} eventId
-		 */
-		const joinEvent = (socketId, userId, eventId) => {
-			socket.emit('joinEvent', socketId, userId, eventId);
-		};
+		if (!socket) return
 
 		/**
 		 *
 		 */
 		socket.on('connect', () => {
-			setSocketConnected(socket.connected);
-		});
+			setSocketConnected(socket.connected)
+		})
 
 		/**
 		 *
 		 */
 		socket.on('disconnect', () => {
-			setSocketConnected(socket.connected);
-		});
+			setSocketConnected(socket.connected)
+		})
 
-		/**
-		 *
-		 */
-		socket.on('getDate', (data) => {
-			setDt(data);
-		});
+		// make sure not to run this more then once or multiple listeners
+		// will be attached to the same event
+		if (!joined && event && socket.id) {
+			/**
+			 *
+			 * @param {*} socketId
+			 * @param {*} userId
+			 * @param {*} eventId
+			 */
+			const joinEvent = (socketId, userId, eventId) => {
+				socket.emit('joinEvent', socketId, userId, eventId)
+			}
 
-		if (event) {
-			console.info('joining event');
-			joinEvent(socket.id, user._id, event._id);
+			setJoined(true)
+			joinEvent(socket.id, user._id, event._id)
+
+			/**
+			 *
+			 */
+			socket.on('participantJoined', (participant) => {
+				console.info('Joined: ' + JSON.stringify(participant))
+				handleParticipantJoined(participant)
+			})
 		}
-	}, [user, socket, event]);
+	}, [user, socket, event, handleParticipantJoined, joined, setJoined])
 
 	// manage socket connection
 	const handleSocketConnection = () => {
-		if (socketConnected) socket.disconnect();
+		if (socketConnected) socket.disconnect()
 		else {
-			socket.connect();
+			socket.connect()
 		}
-	};
+	}
 
-	console.log(events[0]);
-
+	/**
+	 *
+	 */
 	return (
 		<Fragment>
 			<Container fluid>
-				<div className='container-root'>
-					<div className='pairs-container'>
-						<div className='text-center pb-3'>
+				<ToastContainer />
+				<div className="container-root">
+					<div className="pairs-container">
+						<div className="text-center pb-3">
 							<h4>Pairs</h4>
 						</div>
 						<hr />
-						<div className='pair-grid'>
+						<div className="pair-grid">
 							{events[0].matches.map((match, index) => {
 								return (
 									<PairCard
@@ -119,13 +151,20 @@ const Event = (props) => {
 										skillLevel={match.level}
 										docLink={match.docLink}
 									/>
-								);
+								)
 							})}
 						</div>
 					</div>
-					<div className='participant-containers'>
-						<div className='text-center pb-3'>
-							<h4>Participants</h4>
+					<div className="participant-containers">
+						<div className="text-center pb-3">
+							<h4>
+								Participants{' '}
+								{event ? (
+									<span>{event.attendees.length}</span>
+								) : (
+									<span></span>
+								)}
+							</h4>
 						</div>
 						<hr />
 						{events[0].attendees.map((attendeeObj, index) => {
@@ -141,7 +180,7 @@ const Event = (props) => {
 										attendeeObj.attendee.primaryLanguage
 									}
 								/>
-							);
+							)
 						})}
 					</div>
 				</div>
@@ -152,7 +191,7 @@ const Event = (props) => {
 					{socketConnected ? 'Connected' : 'Disconnected'}
 				</div>
 				<input
-					type='button'
+					type="button"
 					style={{ marginTop: 10 }}
 					value={socketConnected ? 'Disconnect' : 'Connect'}
 					onClick={handleSocketConnection}
@@ -162,7 +201,7 @@ const Event = (props) => {
 				</div>
 			</Container>
 		</Fragment>
-	);
-};
+	)
+}
 
-export default Event;
+export default Event

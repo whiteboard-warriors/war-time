@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-mongoose.set('useCreateIndex', true);
+const mongoose = require('mongoose')
+mongoose.set('useCreateIndex', true)
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const EventSchema = new Schema({
 	createdBy: {
@@ -52,22 +52,22 @@ const EventSchema = new Schema({
 	// 		type: String,
 	// 	},
 	// ],
-	// attendees: [
-	// 	{
-	// 		attendee: {
-	// 			type: mongoose.Schema.Types.ObjectId,
-	// 			ref: 'User',
-	// 		},
-	// 		isMatched: {
-	// 			type: Boolean,
-	// 			default: false,
-	// 		},
-	// 		level: {
-	// 			type: Number,
-	// 			required: 'You must enter problem level',
-	// 		},
-	// 	},
-	// ],
+	attendees: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Attendance',
+
+			// ,
+			// isMatched: {
+			// 	type: Boolean,
+			// 	default: false,
+			// },
+			// level: {
+			// 	type: Number,
+			// 	required: 'You must enter problem level',
+			// },
+		},
+	],
 	// matches: [
 	// 	{
 	// 		user1: {
@@ -98,8 +98,8 @@ const EventSchema = new Schema({
 	// 		},
 	// 	},
 	// ],
-});
+})
 
-const Event = mongoose.model('Event', EventSchema);
+const Event = mongoose.model('Event', EventSchema)
 
-module.exports = Event;
+module.exports = Event

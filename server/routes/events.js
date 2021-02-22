@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-
 const db = require('../models')
+const ObjectId = require('mongoose').Types.ObjectId
 
 // @route   GET /api/events
 // @desc    Retrieves all events
@@ -25,16 +25,49 @@ router.get('/', async (req, res) => {
 // @desc    Retrieves One events
 router.get('/:id', async (req, res) => {
 	try {
-		const event = await db.Event.findOne({
-			_id: req.params.id,
-		})
-			.populate('location')
-			.populate('attendees.attendee')
-			.populate('matches.user1')
-			.populate('matches.user2')
-			.populate('matches.user3')
-			.populate('matches.user4')
-		res.json(event)
+		let wwEvent
+		if (ObjectId.isValid(req.params.id)) {
+			wwEvent = await db.Event.findOne({
+				_id: req.params.id,
+			})
+				.populate('location')
+				.populate({
+					path: 'attendees',
+					// select: '-event',
+					// match: { status: 'CONNECTED' },
+					populate: {
+						path: 'user',
+						select:
+							'_id firstName lastName slackUsername primaryLanguage secondaryLanguage',
+					},
+				})
+				.populate('matches.user1')
+				.populate('matches.user2')
+				.populate('matches.user3')
+				.populate('matches.user4')
+		} else {
+			wwEvent = await db.Event.findOne({
+				slug: req.params.id,
+			})
+				.populate('location')
+
+				.populate({
+					path: 'attendees',
+					// select: '-event',
+					// match: { status: 'CONNECTED' },
+					populate: {
+						path: 'user',
+						select:
+							'_id firstName lastName slackUsername primaryLanguage secondaryLanguage',
+					},
+				})
+				.populate('matches.user1')
+				.populate('matches.user2')
+				.populate('matches.user3')
+				.populate('matches.user4')
+		}
+
+		res.json(wwEvent)
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')
@@ -43,17 +76,17 @@ router.get('/:id', async (req, res) => {
 
 // @route   GET /api/events
 // @desc    Retrieves one event
-router.get('/:slug', async (req, res) => {
-	try {
-		const event = await db.Event.findOne({
-			slug: req.params.slug,
-		})
-		return res.json(event)
-	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server Error')
-	}
-})
+// router.get('/:slug', async (req, res) => {
+// 	try {
+// 		const event = await db.Event.findOne({
+// 			slug: req.params.slug,
+// 		})
+// 		return res.json(event)
+// 	} catch (err) {
+// 		console.error(err.message)
+// 		res.status(500).send('Server Error')
+// 	}
+// })
 
 /**
  * TODO

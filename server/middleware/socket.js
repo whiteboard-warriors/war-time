@@ -1,4 +1,5 @@
 const db = require('../models')
+const { findById } = require('../models/job')
 const attendanceService = require('../service/attendanceservice')
 const socket = (io) => {
 	io.on('connection', (client) => {
@@ -28,6 +29,8 @@ const socket = (io) => {
 						eventId
 				)
 
+				let event = await db.Event.findById(eventId)
+
 				let attendance = await db.Attendance.findOne({
 					user: userId,
 					event: eventId,
@@ -54,7 +57,20 @@ const socket = (io) => {
 						status: 'CONNECTED',
 					})
 					attendance = await attendance.save()
+					event.attendees.push(attendance._id)
+					await event.save()
 				}
+
+				// join the room
+				client.join(eventId)
+
+				const attendeeUser = await db.User.findById(
+					userId,
+					'_id firstName lastName slackUsername primaryLanguage secondaryLanguage'
+				)
+
+				console.log('Sending attendance to: ' + eventId)
+				client.to(eventId).emit('participantJoined', attendeeUser)
 
 				// kick-off pairing process ()
 			} catch (err) {
