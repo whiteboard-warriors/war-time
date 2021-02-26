@@ -16,8 +16,6 @@ import {
 	CLEAR_LANGUAGES,
 	CLEAR_FILTER,
 	LANGUAGE_ERROR,
-	GET_LANGUAGES_SUCCESS,
-	UPDATE_LANGUAGE_SUCCESS,
 } from '../types';
 
 const LanguageState = (props) => {
