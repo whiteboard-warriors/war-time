@@ -1,10 +1,13 @@
 import {
 	GET_LANGUAGES,
+	GET_LANGUAGES_SUCCESS,
 	ADD_LANGUAGE,
+	ADD_LANGUAGE_SUCCESS,
 	DELETE_LANGUAGE,
 	SET_CURRENT,
 	CLEAR_CURRENT,
 	UPDATE_LANGUAGE,
+	UPDATE_LANGUAGE_SUCCESS,
 	FILTER_LANGUAGES,
 	CLEAR_FILTER,
 	LANGUAGE_ERROR,
@@ -13,19 +16,31 @@ import {
 
 export default (state, action) => {
 	switch (action.type) {
+		case GET_LANGUAGES_SUCCESS:
+			return {
+				...state,
+				languages: action.payload,
+				loading: false,
+			};
+		case ADD_LANGUAGE_SUCCESS:
+			return {
+				...state,
+				languages: action.payload,
+				saveSuccess: true,
+				saving: false,
+			};
 		case GET_LANGUAGES:
 			return {
 				...state,
-				languages: action.payload,
-				loading: false,
+				loading: true,
 			};
 		case ADD_LANGUAGE:
+		case UPDATE_LANGUAGE:
 			return {
 				...state,
-				languages: action.payload,
-				loading: false,
+				saving: true,
 			};
-		case UPDATE_LANGUAGE:
+		case UPDATE_LANGUAGE_SUCCESS:
 			return {
 				...state,
 				languages: state.languages.map((location) =>
@@ -33,7 +48,8 @@ export default (state, action) => {
 						? action.payload
 						: location
 				),
-				loading: false,
+				saving: false,
+				saveSuccess: true,
 			};
 		case DELETE_LANGUAGE:
 			return {
