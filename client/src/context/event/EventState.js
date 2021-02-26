@@ -1,5 +1,4 @@
 import React, { useContext, useReducer } from 'react';
-import axios from 'axios';
 import EventContext from './eventContext';
 import eventReducer from './eventReducer';
 import * as HTTP from '../../service/HTTP';
@@ -152,12 +151,12 @@ const EventState = (props) => {
 	// Delete Event
 	const deleteEvent = async (id) => {
 		try {
-			await axios.delete(`/api/events/${id}`);
-
+			await HTTP.remove(`/api/events/admin/${id}`);
 			dispatch({
 				type: DELETE_EVENT,
 				payload: id,
 			});
+			console.log(`event of id #${id} has been deleted.`);
 		} catch (err) {
 			dispatch({
 				type: DELETE_EVENT_ERROR,
