@@ -14,19 +14,19 @@ const ResetPassword = (props) => {
 	const [user, setUser] = useState({
 		password: '',
 		passwordConfirm: '',
+	})
+
+	const [token, setToken] = useState({
 		token: '',
 	})
 
-	const { password, passwordConfirm, token } = user
+	const { password, passwordConfirm } = user
 
 	useEffect(() => {
 		let token = qs.parse(props.location.search, {
 			ignoreQueryPrefix: true,
 		}).token
-		setUser({
-			...user,
-			token: token,
-		})
+		setToken(token)
 
 		if (error === 'INVALID_TOKEN') {
 			setAlert(
@@ -47,8 +47,8 @@ const ResetPassword = (props) => {
 		forgotResetSuccess,
 		props.history,
 		props.location.search,
-		user,
 		setAlert,
+		setToken,
 	])
 
 	const onChange = (e) => {
