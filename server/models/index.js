@@ -1,8 +1,9 @@
 module.exports = {
-	User: require('./user'),
-	Event: require('./event'),
-	Language: require('./language'),
-	Location: require('./location'),
-	Job: require('./job'),
-	Attendance: require('./attendance'),
-}
+    User: require("./user"),
+    Event: require("./event"),
+    Language: require("./language"),
+    Location: require("./location"),
+    Job: require("./job"),
+    JobPosting: require("./jobPosting"),
+    Attendance: require("./attendance"),
+};
