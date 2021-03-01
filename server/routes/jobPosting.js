@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../models");
+const path = require("path");
+
+const multer = require("multer");
 
 // @route   GET /api/jobs/postings
 // @desc    Retrieves all events
@@ -19,15 +22,27 @@ router.get("/", async (req, res) => {
 // @desc    User creates a job posting
 router.post("/", async (req, res) => {
   try {
-    let { title, description, attachment } = req.body;
-    const jobPosting = new db.JobPosting({
-      title,
-      description,
-    });
+    let jobAttachmentHandler = attachmentUploadHandler();
+    jobAttachmentHandler(req, res, (err) => {
+      let { title, description } = req.body;
+      let attachment = req.file;
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        return res.status(400).send(err.message);
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        return res.status(500).send(err);
+      }
 
-    //TODO: Save attachments to Storage Providers
-    await jobPosting.save();
-    res.sendStatus(200);
+      //TODO: Save attachment to Storage Providers
+      // Get the URL bucket of the attachment and save to db
+      const jobPosting = new db.JobPosting({
+        title,
+        description,
+      });
+      // await jobPosting.save();
+      res.sendStatus(200);
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -93,5 +108,36 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+/**
+ * Return specific handler for job attachment uploads
+ */
+const attachmentUploadHandler = () => {
+  const fileFilter = (req, file, cb) => {
+    let filetypes = /txt|pdf|doc|docx/;
+    let mimetype = filetypes.test(file.mimetype);
+    let extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb(
+      new Error(
+        "File upload only supports the following filetypes - " + filetypes
+      )
+    );
+  };
+
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    fileFilter: fileFilter,
+    limits: {
+      fields: 5,
+      fileSize: 5000000, // 5mb size limit
+    },
+  }).single("attachment");
+
+  return upload;
+};
 
 module.exports = router;
