@@ -22,6 +22,26 @@ router.get('/', async (req, res) => {
 });
 
 // @route   GET /api/events
+// @desc    Retrieves One events
+router.get('/:id', async (req, res) => {
+	try {
+		const event = await db.Event.findOne({
+			_id: req.params.id,
+		})
+			.populate('location')
+			.populate('attendees.attendee')
+			.populate('matches.user1')
+			.populate('matches.user2')
+			.populate('matches.user3')
+			.populate('matches.user4');
+		res.json(event);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route   GET /api/events
 // @desc    Retrieves one event
 router.get('/:slug', async (req, res) => {
 	try {
@@ -43,7 +63,6 @@ router.get('/:slug', async (req, res) => {
  */
 router.post('/', async (req, res) => {
 	const { title, dateTime, onlinePlatform } = req.body;
-	console.log('event post req.body >>> ', req.body);
 	try {
 		// check to make sure user making updates has admin rights.
 		let user = await db.User.findOne({ _id: req.user.id });

@@ -25,8 +25,6 @@ const Home = (props) => {
 	const { getEvents, events, filtered, loading } = eventContext;
 	const { setAlert } = alertContext;
 
-	console.log(events);
-
 	useEffect(() => {
 		if (!isAuthenticated) {
 			setAlert(
@@ -49,7 +47,7 @@ const Home = (props) => {
 				<hr />
 				<div className='text-center my-5'>
 					<h3>
-						No upcoming events yet{' '}
+						No upcoming events yet.{' '}
 						<span role='img' aria-label='smiley emoji'>
 							{' '}
 							😃
@@ -76,7 +74,6 @@ const Home = (props) => {
 				{events ? (
 					filtered !== null ? (
 						filtered.map((event) => {
-							console.log('events, home page >> ', event);
 							let parsedDate = moment(event.dateTime);
 							let date = parsedDate.utc().format('MMMM Do YYYY');
 							let time = parsedDate.utc().format('h:mm a');
@@ -95,7 +92,6 @@ const Home = (props) => {
 						})
 					) : (
 						events.map((event) => {
-							console.log('events, home page >> ', event);
 							let parsedDate = moment(event.dateTime);
 							let date = parsedDate.utc().format('MMMM Do YYYY');
 							let time = parsedDate.utc().format('h:mm a');
