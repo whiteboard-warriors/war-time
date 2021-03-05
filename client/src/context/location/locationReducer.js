@@ -9,6 +9,9 @@ import {
 	CLEAR_FILTER,
 	LOCATION_ERROR,
 	CLEAR_LOCATIONS,
+	GET_LOCATIONS_SUCCESS,
+	ADD_LOCATION_SUCCESS,
+	UPDATE_LOCATION_SUCCESS,
 } from '../types';
 
 export default (state, action) => {
@@ -16,16 +19,29 @@ export default (state, action) => {
 		case GET_LOCATIONS:
 			return {
 				...state,
-				locations: action.payload,
-				loading: false,
+				loading: true,
 			};
-		case ADD_LOCATION:
+		case GET_LOCATIONS_SUCCESS:
 			return {
 				...state,
 				locations: action.payload,
 				loading: false,
 			};
+
+		case ADD_LOCATION_SUCCESS:
+			return {
+				...state,
+				locations: action.payload,
+				saving: false,
+				saveSuccess: true,
+			};
+		case ADD_LOCATION:
 		case UPDATE_LOCATION:
+			return {
+				...state,
+				saving: true,
+			};
+		case UPDATE_LOCATION_SUCCESS:
 			return {
 				...state,
 				locations: state.locations.map((location) =>
@@ -33,7 +49,8 @@ export default (state, action) => {
 						? action.payload
 						: location
 				),
-				loading: false,
+				saving: false,
+				saveSuccess: true,
 			};
 		case DELETE_LOCATION:
 			return {

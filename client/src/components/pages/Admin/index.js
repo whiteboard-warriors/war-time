@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // Moment JS
 import moment from 'moment';
@@ -6,19 +6,27 @@ import moment from 'moment';
 import { Container, Button, Form } from 'react-bootstrap';
 
 import EventCard from '../../EventCard';
+import Spinner from '../../Spinner';
 
 import './style.scss';
 // // Images
 import wwLogo from './ww-logo.svg';
 // State
+<<<<<<< HEAD
+=======
+import AlertContext from '../../../context/alert/alertContext';
+>>>>>>> origin/master
 import AuthContext from '../../../context/auth/authContext';
 import EventContext from '../../../context/event/eventContext';
 //temp data
 import languages from '../../../0-temp-data/languages';
 import locations from '../../../0-temp-data/locations';
 
-const Admin = () => {
+const Admin = (props) => {
+	const alertContext = useContext(AlertContext);
+	const { setAlert, clearErrors } = alertContext;
 	const authContext = useContext(AuthContext);
+<<<<<<< HEAD
 	const { user } = authContext;
 	const eventContext = useContext(EventContext);
 	const { events } = eventContext;
@@ -37,6 +45,57 @@ const Admin = () => {
 	// const signIn = function () {
 	// 	console.log('used signed in');
 	// };
+=======
+	const { user, isAuthenticated } = authContext;
+	const eventContext = useContext(EventContext);
+	const {
+		events,
+		getEvents,
+		// clearCreateEventFlags,
+		error,
+		// saveSuccess,
+	} = eventContext;
+
+	useEffect(() => {
+		getEvents();
+
+		if (isAuthenticated) {
+			props.history.push('/admin');
+		}
+
+		if (!isAuthenticated) {
+			setAlert('Please login before completing action.', 'danger');
+			props.history.push('/login');
+		}
+
+		if (error === 'You are not authorized to create events.') {
+			setAlert(error, 'danger');
+			props.history.push('/');
+		}
+
+		// if (saveSuccess) {
+		// 	setAlert('Event has been created.', 'success');
+		// 	clearCreateEventFlags();
+		// 	// debugger;
+		// 	props.history.push('/admin');
+		// }
+
+		// if (locationError) {
+		// 	setAlert(locationError, 'danger');
+		// 	clearErrors();
+		// }
+		// eslint-disable-next-line
+	}, [
+		error,
+		// saveSuccess,
+		isAuthenticated,
+		// clearCreateEventFlags,
+		clearErrors,
+		// locationError,
+		setAlert,
+		props.history,
+	]);
+>>>>>>> origin/master
 
 	return (
 		<Fragment>
@@ -147,7 +206,11 @@ const Admin = () => {
 						<h3>Events</h3>
 					</div>
 					<div className='mt-3 admin-card-container'>
+<<<<<<< HEAD
 						{events &&
+=======
+						{events ? (
+>>>>>>> origin/master
 							events.map((event) => {
 								let parsedDate = moment(event.dateTime);
 								let date = parsedDate
@@ -165,7 +228,10 @@ const Admin = () => {
 										time={time}
 									/>
 								);
-							})}
+							})
+						) : (
+							<Spinner />
+						)}
 					</div>
 				</div>
 			</Container>

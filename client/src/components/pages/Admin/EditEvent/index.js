@@ -1,4 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
+<<<<<<< HEAD
+=======
+import { Link } from 'react-router-dom';
+>>>>>>> origin/master
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
 // import LocationContext from '../../../../context/location/locationContext';
@@ -21,14 +25,22 @@ const EditEvent = (props) => {
 	const { setAlert, clearErrors } = alertContext;
 	const { isAuthenticated } = authContext;
 	const {
+<<<<<<< HEAD
 		event,
+=======
+		// event,
+		events,
+>>>>>>> origin/master
 		updateEvent,
 		getEvent,
 		clearCreateEventFlags,
 		error,
 		saveSuccess,
 	} = eventContext;
+<<<<<<< HEAD
 	console.log('31 event > ', event);
+=======
+>>>>>>> origin/master
 
 	// const { locationError, locations, getLocations } = locationContext;
 	useEffect(() => {
@@ -49,9 +61,15 @@ const EditEvent = (props) => {
 		}
 
 		if (saveSuccess) {
+<<<<<<< HEAD
 			setAlert('Event has been created.', 'success');
 			clearCreateEventFlags();
 			debugger;
+=======
+			setAlert('Event has been updated.', 'success');
+			clearCreateEventFlags();
+			// debugger;
+>>>>>>> origin/master
 			props.history.push('/admin');
 		}
 
@@ -70,12 +88,21 @@ const EditEvent = (props) => {
 		setAlert,
 		// props.history,
 	]);
+<<<<<<< HEAD
 
 	let parsedDate = moment(event && event.dateTime).format('YYYY-MM-DDThh:ss');
 	console.log(parsedDate);
 	// let date = parsedDate.utc().format('MM/DD/YYYY');
 	// let time = parsedDate.utc().format('hh:mm A');
 	// let savedDateTime = `${date}, ${time}`;
+=======
+	let filteredEvent = events.filter(
+		(event) => event._id === props.match.params.id
+	);
+	let event = filteredEvent[0];
+
+	let parsedDate = moment(event && event.dateTime).format('YYYY-MM-DDThh:mm');
+>>>>>>> origin/master
 
 	const [currentEvent, setCurrentEvent] = useState({
 		title: event && event.title,
@@ -95,15 +122,24 @@ const EditEvent = (props) => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		updateEvent({
+<<<<<<< HEAD
+=======
+			_id: props.match.params.id,
+>>>>>>> origin/master
 			title,
 			dateTime,
 			onlinePlatform,
 		});
+<<<<<<< HEAD
 		console.log('Event will be updated');
 	};
 
 	// console.log('locaitons >>> ', locations);
 
+=======
+	};
+
+>>>>>>> origin/master
 	return (
 		<Container>
 			<div className='text-center'>
@@ -170,10 +206,30 @@ const EditEvent = (props) => {
 							/>
 						</Form.Group>
 
+<<<<<<< HEAD
 						<div className='text-center my-3'>
 							<Button variant='primary' type='submit' size='lg'>
 								Edit Event
 							</Button>
+=======
+						<div className='btn-edit-container'>
+							<Button
+								variant='primary'
+								type='submit'
+								size='lg'
+								className='mr-3'
+							>
+								Edit Event
+							</Button>
+							<Link
+								data-rb-event-key='/admin'
+								className='btn btn-lg btn-danger'
+								to='/admin'
+							>
+								{' '}
+								Cancel
+							</Link>
+>>>>>>> origin/master
 						</div>
 					</Form>
 				</Col>
