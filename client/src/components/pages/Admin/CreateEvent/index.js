@@ -45,7 +45,7 @@ const CreateEvent = (props) => {
 		}
 
 		if (saveSuccess) {
-			setAlert('Event has been created.', 'success');
+			setAlert('Your new event has been created.', 'success');
 			clearCreateEventFlags();
 			// debugger;
 			props.history.push('/admin');
