@@ -7,6 +7,7 @@ import {
 	CREATE_EVENT_SUCCESS,
 	CLEAR_CREATE_EVENT_FLAGS,
 	DELETE_EVENT,
+	DELETE_EVENT_SUCCESS,
 	SET_CURRENT,
 	CLEAR_CURRENT,
 	UPDATE_EVENT_SUCCESS,
@@ -64,11 +65,17 @@ export default (state, action) => {
 		case DELETE_EVENT:
 			return {
 				...state,
+				deleting: true,
+				deleteSuccess: false,
+			};
+		case DELETE_EVENT_SUCCESS:
+			return {
+				...state,
 				events: state.events.filter(
 					(event) => event._id !== action.payload
 				),
-				loading: false,
-				saving: false,
+				deleting: false,
+				deleteSuccess: true,
 			};
 		case CLEAR_EVENTS:
 			return {
@@ -85,6 +92,8 @@ export default (state, action) => {
 				saveSuccess: false,
 				loading: false,
 				saving: false,
+				deleting: false,
+				deleteSuccess: false,
 			};
 		}
 		case SET_CURRENT:
