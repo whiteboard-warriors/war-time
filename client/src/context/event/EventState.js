@@ -26,6 +26,7 @@ import {
 	LOAD_EVENT,
 	LOAD_EVENT_SUCCESS,
 	LOAD_EVENT_ERROR,
+	DELETE_EVENT_SUCCESS,
 } from '../types';
 
 const EventState = (props) => {
@@ -34,9 +35,11 @@ const EventState = (props) => {
 		current: null,
 		filtered: null,
 		error: null,
-		saving: false,
 		loading: true,
+		saving: false,
 		saveSuccess: false,
+		deleting: false,
+		deleteSuccess: false,
 		event: null,
 	};
 
@@ -150,10 +153,14 @@ const EventState = (props) => {
 
 	// Delete Event
 	const deleteEvent = async (id) => {
+		dispatch({
+			type: DELETE_EVENT,
+			payload: null,
+		});
 		try {
 			await HTTP.remove(`/api/events/admin/${id}`);
 			dispatch({
-				type: DELETE_EVENT,
+				type: DELETE_EVENT_SUCCESS,
 				payload: id,
 			});
 			console.log(`event of id #${id} has been deleted.`);
@@ -218,10 +225,12 @@ const EventState = (props) => {
 				current: state.current,
 				filtered: state.filtered,
 				error: state.error,
-				saving: state.saving,
-				loading: state.loading,
 				event: state.event,
+				loading: state.loading,
+				saving: state.saving,
 				saveSuccess: state.saveSuccess,
+				deleting: state.deleting,
+				deleteSuccess: state.deleteEvent,
 				createEvent,
 				deleteEvent,
 				clearEvents,
