@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AlertContext from '../../../../context/alert/alertContext';
 import AuthContext from '../../../../context/auth/authContext';
 // import LocationContext from '../../../../context/location/locationContext';
@@ -15,12 +16,13 @@ const CreateEvent = (props) => {
 	const authContext = useContext(AuthContext);
 	// const locationContext = useContext(LocationContext);
 
-	const { setAlert, clearErrors } = alertContext;
+	const { setAlert } = alertContext;
 	const { isAuthenticated } = authContext;
 	const {
 		createEvent,
 		clearCreateEventFlags,
 		error,
+		clearEventError,
 		saveSuccess,
 	} = eventContext;
 	// const { locationError, locations, getLocations } = locationContext;
@@ -38,10 +40,12 @@ const CreateEvent = (props) => {
 
 		if (error === 'You are not authorized to create events.') {
 			setAlert(error, 'danger');
+			clearEventError();
 		}
 
 		if (error != null && error.indexOf('title_1 dup key') !== -1) {
 			setAlert('Event name is not unique, please try again!', 'danger');
+			clearEventError();
 		}
 
 		if (saveSuccess) {
@@ -53,7 +57,7 @@ const CreateEvent = (props) => {
 
 		// if (locationError) {
 		// 	setAlert(locationError, 'danger');
-		// 	clearErrors();
+		// 	clearEventError();
 		// }
 		// eslint-disable-next-line
 	}, [
@@ -61,7 +65,7 @@ const CreateEvent = (props) => {
 		saveSuccess,
 		isAuthenticated,
 		clearCreateEventFlags,
-		clearErrors,
+		clearEventError,
 		// locationError,
 		setAlert,
 		props.history,
@@ -155,10 +159,13 @@ const CreateEvent = (props) => {
 							/>
 						</Form.Group>
 
-						<div className='text-center my-3'>
+						<div className='d-flex my-3 justify-content-around'>
 							<Button variant='warning' type='submit' size='lg'>
 								Create Event
 							</Button>
+							<Link className='btn btn-danger btn-lg' to='/admin'>
+								Cancel
+							</Link>
 						</div>
 					</Form>
 				</Col>
