@@ -218,6 +218,11 @@ const EventState = (props) => {
 		dispatch({ type: CLEAR_FILTER });
 	};
 
+	// Clear Error
+	const clearEventError = () => {
+		dispatch({ type: CREATE_EVENT_ERROR });
+	};
+
 	return (
 		<EventContext.Provider
 			value={{
@@ -243,6 +248,7 @@ const EventState = (props) => {
 				getEvent,
 				clearCreateEventFlags,
 				getEventBySlug,
+				clearEventError,
 			}}
 		>
 			{props.children}
