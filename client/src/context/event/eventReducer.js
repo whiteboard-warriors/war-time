@@ -15,6 +15,7 @@ import {
 	FILTER_EVENTS,
 	CLEAR_FILTER,
 	CREATE_EVENT_ERROR,
+	CLEAR_EVENT_ERROR,
 	CLEAR_EVENTS,
 	LOAD_EVENT_SUCCESS,
 } from '../types';
@@ -125,6 +126,11 @@ export default (state, action) => {
 			return {
 				...state,
 				error: action.payload,
+			};
+		case CLEAR_EVENT_ERROR:
+			return {
+				...state,
+				error: null,
 			};
 		case LOAD_EVENT_SUCCESS:
 			return {
