@@ -24,6 +24,7 @@ export const UPDATE_EVENT_ERROR = 'UPDATE_EVENT_ERROR';
 export const LOAD_EVENT = 'LOAD_EVENT';
 export const LOAD_EVENT_SUCCESS = 'LOAD_EVENT_SUCCESS';
 export const LOAD_EVENT_ERROR = 'LOAD_EVENT_ERROR';
+export const CLEAR_EVENT_ERROR = 'CLEAR_EVENT_ERROR';
 
 // Alerts
 export const SET_ALERT = 'SET_ALERT';
