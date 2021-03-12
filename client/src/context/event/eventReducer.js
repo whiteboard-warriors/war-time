@@ -7,6 +7,7 @@ import {
 	CREATE_EVENT_SUCCESS,
 	CLEAR_CREATE_EVENT_FLAGS,
 	DELETE_EVENT,
+	DELETE_EVENT_SUCCESS,
 	SET_CURRENT,
 	CLEAR_CURRENT,
 	UPDATE_EVENT_SUCCESS,
@@ -14,6 +15,7 @@ import {
 	FILTER_EVENTS,
 	CLEAR_FILTER,
 	CREATE_EVENT_ERROR,
+	CLEAR_EVENT_ERROR,
 	CLEAR_EVENTS,
 	LOAD_EVENT_SUCCESS,
 } from '../types';
@@ -64,11 +66,17 @@ export default (state, action) => {
 		case DELETE_EVENT:
 			return {
 				...state,
+				deleting: true,
+				deleteSuccess: false,
+			};
+		case DELETE_EVENT_SUCCESS:
+			return {
+				...state,
 				events: state.events.filter(
 					(event) => event._id !== action.payload
 				),
-				loading: false,
-				saving: false,
+				deleting: false,
+				deleteSuccess: true,
 			};
 		case CLEAR_EVENTS:
 			return {
@@ -85,6 +93,8 @@ export default (state, action) => {
 				saveSuccess: false,
 				loading: false,
 				saving: false,
+				deleting: false,
+				deleteSuccess: false,
 			};
 		}
 		case SET_CURRENT:
@@ -116,6 +126,11 @@ export default (state, action) => {
 			return {
 				...state,
 				error: action.payload,
+			};
+		case CLEAR_EVENT_ERROR:
+			return {
+				...state,
+				error: null,
 			};
 		case LOAD_EVENT_SUCCESS:
 			return {

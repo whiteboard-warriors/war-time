@@ -28,9 +28,10 @@ const Admin = (props) => {
 	const {
 		events,
 		getEvents,
-		// clearCreateEventFlags,
+		clearCreateEventFlags,
 		error,
 		// saveSuccess,
+		deleteSuccess,
 	} = eventContext;
 
 	useEffect(() => {
@@ -50,6 +51,13 @@ const Admin = (props) => {
 			props.history.push('/');
 		}
 
+		if (deleteSuccess) {
+			setAlert('Your event has been created.', 'danger');
+			clearCreateEventFlags();
+			// debugger;
+			props.history.push('/admin');
+		}
+
 		// if (saveSuccess) {
 		// 	setAlert('Event has been created.', 'success');
 		// 	clearCreateEventFlags();
@@ -67,6 +75,7 @@ const Admin = (props) => {
 		// saveSuccess,
 		isAuthenticated,
 		// clearCreateEventFlags,
+		deleteSuccess,
 		clearErrors,
 		// locationError,
 		setAlert,
