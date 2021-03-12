@@ -50,7 +50,7 @@ const EditEvent = (props) => {
 		}
 
 		if (saveSuccess) {
-			setAlert('Event has been updated.', 'success');
+			setAlert('Your event has been updated.', 'success');
 			clearCreateEventFlags();
 			// debugger;
 			props.history.push('/admin');
@@ -106,7 +106,7 @@ const EditEvent = (props) => {
 	return (
 		<Container>
 			<div className='text-center'>
-				<h3 className='mt-5 mb-3'>Create Event</h3>
+				<h3 className='mt-5 mb-3'>Edit Event</h3>
 			</div>
 			<Row>
 				<Col lg={{ span: 6, offset: 3 }}>
