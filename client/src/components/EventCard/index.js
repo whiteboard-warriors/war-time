@@ -109,6 +109,7 @@ const EventCard = (props) => {
 				action={deleteEvent}
 				title={title}
 				type={'event'}
+				message={'Are you sure you want to delete this event?'}
 			/>
 		</>
 	);

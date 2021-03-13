@@ -1,14 +1,19 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useContext } from 'react';
 import { useSpring, animated } from 'react-spring';
 import './style.scss';
 
 import Button from 'react-bootstrap/Button';
 
+import AlertContext from '../../context/alert/alertContext';
+
 const DeleteModal = (props) => {
+	const alertContext = useContext(AlertContext);
+	const { setAlert } = alertContext;
 	const {
 		id,
 		title = 'Title',
-		type = 'type',
+		type = 'Item Type',
+		message = 'message about what you are deleting. ',
 		action,
 		showModal,
 		setShowModal,
@@ -54,9 +59,7 @@ const DeleteModal = (props) => {
 				>
 					<animated.div style={animation}>
 						<div className='delete-modal'>
-							<p className='lead'>
-								Are you sure you want to delete this {type}?
-							</p>
+							<p className='lead'>{message}</p>
 							<h4>{title}</h4>
 							<div className='text-center'>
 								<Button
@@ -74,7 +77,13 @@ const DeleteModal = (props) => {
 								<Button
 									variant='danger'
 									size='lg'
-									onClick={() => action(id)}
+									onClick={() => {
+										action(id);
+										setAlert(
+											`Your ${type} has been deleted`,
+											'danger'
+										);
+									}}
 								>
 									Delete
 								</Button>
