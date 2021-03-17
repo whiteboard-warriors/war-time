@@ -172,7 +172,6 @@ const EventState = (props) => {
         }
     };
 
-<<<<<<< HEAD
     // Update Event
     const updateEvent = async (event) => {
         console.log("updateEvent > ", event);
@@ -182,28 +181,6 @@ const EventState = (props) => {
         });
         try {
             const res = await HTTP.put(`/api/event/${event._id}`, event);
-=======
-	// Update Event
-	const updateEvent = async (event) => {
-		dispatch({
-			type: UPDATE_EVENT,
-			payload: null,
-		});
-		try {
-			const res = await HTTP.put(`/api/event/${event._id}`, event);
-
-			dispatch({
-				type: UPDATE_EVENT_SUCCESS,
-				payload: res.data,
-			});
-		} catch (err) {
-			dispatch({
-				type: UPDATE_EVENT_ERROR,
-				payload: err.response.msg,
-			});
-		}
-	};
->>>>>>> origin/pablodev
 
             dispatch({
                 type: UPDATE_EVENT_SUCCESS,
