@@ -1,21 +1,21 @@
-const path = require('path')
-require('dotenv').config()
+const path = require('path');
+require('dotenv').config();
 // require('dotenv').config({ path: path.resolve(__dirname, '.env') })
-const express = require('express')
-const session = require('express-session')
-const mongoose = require('mongoose')
-const passport = require('passport')
-const app = express()
+const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const app = express();
 
 const PORT = process.env.PORT || 5005;
 
-console.info('PORT: ' + process.env.PORT)
-console.info('NODE_ENV: ' + process.env.NODE_ENV)
-console.log('MONGO: ' + process.env.MONGODB_URI)
-console.log('AWS_SES_KEY: ' + process.env.AWS_SES_KEY)
-console.log('AWS_SES_SECRET: ' + process.env.AWS_SES_SECRET)
-console.log('PROTOCOL: ' + process.env.HTTP_PROTOCOL)
-console.log('HOST: ' + process.env.HOST_NAME)
+console.info('PORT: ' + process.env.PORT);
+console.info('NODE_ENV: ' + process.env.NODE_ENV);
+console.log('MONGO: ' + process.env.MONGODB_URI);
+console.log('AWS_SES_KEY: ' + process.env.AWS_SES_KEY);
+console.log('AWS_SES_SECRET: ' + process.env.AWS_SES_SECRET);
+console.log('PROTOCOL: ' + process.env.HTTP_PROTOCOL);
+console.log('HOST: ' + process.env.HOST_NAME);
 // Define middleware here
 
 app.use(express.urlencoded({ extended: true }));
@@ -32,10 +32,10 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === 'PRODUCTION') {
-	app.use(express.static('client/build'))
+	app.use(express.static('client/build'));
 	app.get('/', (req, res) => {
-		res.sendFile(process.cwd() + '/client/build/index.html')
-	})
+		res.sendFile(process.cwd() + '/client/build/index.html');
+	});
 }
 
 // Add routes, both API and view
@@ -58,8 +58,8 @@ app.use(
 	'/api/events/pair',
 	passport.authenticate('jwt', { session: false }),
 	require('./routes/eventPairing')
-)
-app.use('/api/auth', require('./routes/auth'))
+);
+app.use('/api/auth', require('./routes/auth'));
 
 app.use(
 	'/api/locations',

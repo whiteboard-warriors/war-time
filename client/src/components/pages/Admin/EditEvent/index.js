@@ -1,178 +1,137 @@
-import React, { useContext, useState, useEffect } from 'react';
-<<<<<<< HEAD
-=======
-import { Link } from 'react-router-dom';
->>>>>>> origin/master
-import AlertContext from '../../../../context/alert/alertContext';
-import AuthContext from '../../../../context/auth/authContext';
+import React, { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import AlertContext from "../../../../context/alert/alertContext";
+import AuthContext from "../../../../context/auth/authContext";
 // import LocationContext from '../../../../context/location/locationContext';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import EventContext from '../../../../context/event/eventContext';
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import EventContext from "../../../../context/event/eventContext";
 
-import moment from 'moment';
+import moment from "moment";
 
-import './style.scss';
+import "./style.scss";
 /**
  *
  * @param {*} props
  */
 const EditEvent = (props) => {
-	const alertContext = useContext(AlertContext);
-	const eventContext = useContext(EventContext);
-	const authContext = useContext(AuthContext);
-	// const locationContext = useContext(LocationContext);
+    const alertContext = useContext(AlertContext);
+    const eventContext = useContext(EventContext);
+    const authContext = useContext(AuthContext);
+    // const locationContext = useContext(LocationContext);
 
-	const { setAlert, clearErrors } = alertContext;
-	const { isAuthenticated } = authContext;
-	const {
-<<<<<<< HEAD
-		event,
-=======
-		// event,
-		events,
->>>>>>> origin/master
-		updateEvent,
-		getEvent,
-		clearCreateEventFlags,
-		error,
-		saveSuccess,
-	} = eventContext;
-<<<<<<< HEAD
-	console.log('31 event > ', event);
-=======
->>>>>>> origin/master
+    const { setAlert, clearErrors } = alertContext;
+    const { isAuthenticated } = authContext;
+    const {
+        // event,
+        events,
+        updateEvent,
+        getEvent,
+        clearCreateEventFlags,
+        error,
+        saveSuccess,
+    } = eventContext;
 
-	// const { locationError, locations, getLocations } = locationContext;
-	useEffect(() => {
-		getEvent(props.match.params.id);
-		// getLocations();
+    // const { locationError, locations, getLocations } = locationContext;
+    useEffect(() => {
+        getEvent(props.match.params.id);
+        // getLocations();
 
-		if (!isAuthenticated) {
-			setAlert('Please login before completing action.', 'danger');
-			props.history.push('/login');
-		}
+        if (!isAuthenticated) {
+            setAlert("Please login before completing action.", "danger");
+            props.history.push("/login");
+        }
 
-		if (error === 'You are not authorized to create events.') {
-			setAlert(error, 'danger');
-		}
+        if (error === "You are not authorized to create events.") {
+            setAlert(error, "danger");
+        }
 
-		if (error != null && error.indexOf('title_1 dup key') !== -1) {
-			setAlert('Event name is not unique, please try again!', 'danger');
-		}
+        if (error != null && error.indexOf("title_1 dup key") !== -1) {
+            setAlert("Event name is not unique, please try again!", "danger");
+        }
 
-		if (saveSuccess) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-			setAlert('Event has been created.', 'success');
-			clearCreateEventFlags();
-			debugger;
-=======
-			setAlert('Event has been updated.', 'success');
-=======
-			setAlert('Your event has been updated.', 'success');
->>>>>>> origin/Pablo
-			clearCreateEventFlags();
-			// debugger;
->>>>>>> origin/master
-			props.history.push('/admin');
-		}
+        if (saveSuccess) {
+            setAlert("Your event has been updated.", "success");
+            clearCreateEventFlags();
+            // debugger;
+            props.history.push("/admin");
+        }
 
-		// if (locationError) {
-		// 	setAlert(locationError, 'danger');
-		// 	clearErrors();
-		// }
-		// eslint-disable-next-line
-	}, [
-		error,
-		saveSuccess,
-		isAuthenticated,
-		// clearCreateEventFlags,
-		clearErrors,
-		// locationError,
-		setAlert,
-		// props.history,
-	]);
-<<<<<<< HEAD
+        // if (locationError) {
+        // 	setAlert(locationError, 'danger');
+        // 	clearErrors();
+        // }
+        // eslint-disable-next-line
+    }, [
+        error,
+        saveSuccess,
+        isAuthenticated,
+        // clearCreateEventFlags,
+        clearErrors,
+        // locationError,
+        setAlert,
+        // props.history,
+    ]);
+    let filteredEvent = events.filter(
+        (event) => event._id === props.match.params.id
+    );
+    let event = filteredEvent[0];
 
-	let parsedDate = moment(event && event.dateTime).format('YYYY-MM-DDThh:ss');
-	console.log(parsedDate);
-	// let date = parsedDate.utc().format('MM/DD/YYYY');
-	// let time = parsedDate.utc().format('hh:mm A');
-	// let savedDateTime = `${date}, ${time}`;
-=======
-	let filteredEvent = events.filter(
-		(event) => event._id === props.match.params.id
-	);
-	let event = filteredEvent[0];
+    let parsedDate = moment(event && event.dateTime).format("YYYY-MM-DDThh:mm");
 
-	let parsedDate = moment(event && event.dateTime).format('YYYY-MM-DDThh:mm');
->>>>>>> origin/master
+    const [currentEvent, setCurrentEvent] = useState({
+        title: event && event.title,
+        dateTime: parsedDate, //use moment to extract date and time.,
+        // locations: location,
+        onlinePlatform: event && event.onlinePlatform,
+    });
 
-	const [currentEvent, setCurrentEvent] = useState({
-		title: event && event.title,
-		dateTime: parsedDate, //use moment to extract date and time.,
-		// locations: location,
-		onlinePlatform: event && event.onlinePlatform,
-	});
+    // console.log('85 date and time >> ', `${date}, ${time}`);
 
-	// console.log('85 date and time >> ', `${date}, ${time}`);
+    const { title, dateTime, onlinePlatform } = currentEvent;
 
-	const { title, dateTime, onlinePlatform } = currentEvent;
+    const onChange = (e) => {
+        setCurrentEvent({ ...currentEvent, [e.target.name]: e.target.value });
+    };
 
-	const onChange = (e) => {
-		setCurrentEvent({ ...currentEvent, [e.target.name]: e.target.value });
-	};
+    const onSubmit = (e) => {
+        e.preventDefault();
+        updateEvent({
+            _id: props.match.params.id,
+            title,
+            dateTime,
+            onlinePlatform,
+        });
+    };
 
-	const onSubmit = (e) => {
-		e.preventDefault();
-		updateEvent({
-<<<<<<< HEAD
-=======
-			_id: props.match.params.id,
->>>>>>> origin/master
-			title,
-			dateTime,
-			onlinePlatform,
-		});
-<<<<<<< HEAD
-		console.log('Event will be updated');
-	};
+    return (
+        <Container>
+            <div className="text-center">
+                <h3 className="mt-5 mb-3">Edit Event</h3>
+            </div>
+            <Row>
+                <Col lg={{ span: 6, offset: 3 }}>
+                    <Form onSubmit={onSubmit} className="form-custom-margin">
+                        <Form.Group controlId="formBasicState">
+                            <Form.Control
+                                type="text"
+                                placeholder="Title"
+                                value={title}
+                                onChange={onChange}
+                                name="title"
+                            ></Form.Control>
+                        </Form.Group>
 
-	// console.log('locaitons >>> ', locations);
+                        <Form.Group>
+                            <Form.Control
+                                type="datetime-local"
+                                placeholder="Start Time"
+                                value={dateTime}
+                                onChange={onChange}
+                                name="dateTime"
+                            ></Form.Control>
+                        </Form.Group>
 
-=======
-	};
-
->>>>>>> origin/master
-	return (
-		<Container>
-			<div className='text-center'>
-				<h3 className='mt-5 mb-3'>Edit Event</h3>
-			</div>
-			<Row>
-				<Col lg={{ span: 6, offset: 3 }}>
-					<Form onSubmit={onSubmit} className='form-custom-margin'>
-						<Form.Group controlId='formBasicState'>
-							<Form.Control
-								type='text'
-								placeholder='Title'
-								value={title}
-								onChange={onChange}
-								name='title'
-							></Form.Control>
-						</Form.Group>
-
-						<Form.Group>
-							<Form.Control
-								type='datetime-local'
-								placeholder='Start Time'
-								value={dateTime}
-								onChange={onChange}
-								name='dateTime'
-							></Form.Control>
-						</Form.Group>
-
-						{/* <Form.Group controlId='formBasicState'>
+                        {/* <Form.Group controlId='formBasicState'>
 							<Form.Control
 								type='text'
 								placeholder='Locations*'
@@ -200,46 +159,39 @@ const EditEvent = (props) => {
 							</Form.Control>
 						</Form.Group> */}
 
-						<Form.Group controlId='formBasicOnlinePlatform'>
-							<Form.Control
-								type='text'
-								placeholder='Online Platform'
-								value={onlinePlatform}
-								onChange={onChange}
-								name='onlinePlatform'
-							/>
-						</Form.Group>
+                        <Form.Group controlId="formBasicOnlinePlatform">
+                            <Form.Control
+                                type="text"
+                                placeholder="Online Platform"
+                                value={onlinePlatform}
+                                onChange={onChange}
+                                name="onlinePlatform"
+                            />
+                        </Form.Group>
 
-<<<<<<< HEAD
-						<div className='text-center my-3'>
-							<Button variant='primary' type='submit' size='lg'>
-								Edit Event
-							</Button>
-=======
-						<div className='btn-edit-container'>
-							<Button
-								variant='primary'
-								type='submit'
-								size='lg'
-								className='mr-3'
-							>
-								Edit Event
-							</Button>
-							<Link
-								data-rb-event-key='/admin'
-								className='btn btn-lg btn-danger'
-								to='/admin'
-							>
-								{' '}
-								Cancel
-							</Link>
->>>>>>> origin/master
-						</div>
-					</Form>
-				</Col>
-			</Row>
-		</Container>
-	);
+                        <div className="btn-edit-container">
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                size="lg"
+                                className="mr-3"
+                            >
+                                Edit Event
+                            </Button>
+                            <Link
+                                data-rb-event-key="/admin"
+                                className="btn btn-lg btn-danger"
+                                to="/admin"
+                            >
+                                {" "}
+                                Cancel
+                            </Link>
+                        </div>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default EditEvent;
